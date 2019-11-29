@@ -1,11 +1,20 @@
 import React from 'react';
-import { View, Text, StatusBar } from 'react-native';
+import {StatusBar, View, Image} from 'react-native';
+import Styles from './style';
+import BgBr from '../../../assets/backgroundBottomRight.svg';
+import BgTL from '../../../assets/backgroundTopLeft.svg';
 
 export default Login = () => {
-    return (
-        <View>
-            <StatusBar backgroundColor="white" barStyle="dark-content" />
-            <Text>AUTH</Text>
-        </View>
-    );
-}
+  return (
+    <View style={Styles.View}>
+      <View style={Styles.ImageLeft}>
+        <BgTL width="100%" height="100%" />
+      </View>
+      <View style={Styles.ImageRight}>
+        <BgBr width="100%" height="100%" />
+      </View>
+      <StatusBar backgroundColor="#EAEAEA" barStyle="dark-content" />
+      <View style={Styles.Card}></View>
+    </View>
+  );
+};
