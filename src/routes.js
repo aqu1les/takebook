@@ -1,10 +1,59 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import Loading from './pages/loading';
 import Login from './pages/auth/login';
+import Home from './pages/app/main';
+import SignUp from './pages/auth/sign-up';
 
+const AuthStack = createStackNavigator({
+    Login: {
+        screen: Login,
+        navigationOptions: ({ navigation }) => ({
+            headerShown: false
+        }),
+    },
+    SignUp: {
+        screen: SignUp,
+        navigationOptions: ({ navigation }) => ({
+            headerTransparent: true
+        }),
+    }
+}, {
+    initialRouteName: "Login",
+    transitionConfig: () => ({
+        transitionSpec: {},
+        screenInterpolator: ({ layout, position, scene }) => {
+            const thisSceneIndex = scene.index
+            const width = layout.initWidth
+
+            const translateX = position.interpolate({
+                inputRange: [thisSceneIndex - 1, thisSceneIndex],
+                outputRange: [width, 0],
+            });
+
+            const opacity = position.interpolate({
+                inputRange: [
+                    thisSceneIndex - 1,
+                    thisSceneIndex - 0.99,
+                    thisSceneIndex,
+                    thisSceneIndex + 0.99,
+                    thisSceneIndex + 1
+                ],
+                outputRange: [0, 1, 1, 0.3, 0]
+            });
+
+            return { opacity, transform: [{ translateX }] };
+        }
+    })
+});
+
+const AppStack = createStackNavigator({ Home }, { initialRouteName: "Home" });
 const Routes = createAppContainer(
     createSwitchNavigator({
-        Auth: Login,
-    }, { initialRouteName: 'Auth' })
+        Loading,
+        App: AppStack,
+        Auth: AuthStack
+    }, { initialRouteName: 'Loading' })
 );
 
 export default Routes;
