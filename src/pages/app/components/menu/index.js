@@ -8,33 +8,33 @@ import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 
 export default SideBar = (props) => {
     const user = useSelector(state => state.auth);
-    const isDrawerOpen = props.navigation.state.isDrawerOpen;
+    const { isDrawerOpen, routeName } = props.navigation.state;
     const menuItens = [
         {
-            id: '58694a0f-3da1-471f-bd96-145571e239d72',
             title: 'Início',
-            icon: 'home'
+            icon: 'home',
+            active: routeName === 'App' ? true : false,
         },
         {
-            id: '58694a0f-3da1-471f-bd96-145571e29d272',
             title: 'Anúncios',
-            icon: 'book'
+            icon: 'book',
+            active: routeName === 'Adv' ? true : false,
         },
         {
-            id: '58694a0f-3da1-471f-bd96-145571e29d712',
             title: 'Mensagens',
-            icon: 'comment-o'
+            icon: 'comment-o',
+            active: routeName === 'Chats' ? true : false,
         },
         {
-            id: '58694a0f-3da1-471f-bd96-145571e29d472',
             title: 'Meus Favoritos',
-            icon: 'heart'
+            icon: 'heart',
+            active: routeName === 'Favorites' ? true : false,
         },
     ];
-    function Item({ title, icon }) {
+    function Item({ title, icon, active }) {
         return (
             <TouchableOpacity style={Styles.ListItem}>
-                <Icon name={icon} size={26} color="#000000" />
+                <Icon name={icon} size={26} color={active ? "#4285f4" : "#000000"} />
                 <Text style={Styles.ItemText}>{title}</Text>
             </TouchableOpacity>
         );
@@ -62,7 +62,7 @@ export default SideBar = (props) => {
             <View style={Styles.NavOptions}>
                 <FlatList
                     data={menuItens}
-                    renderItem={({ item }) => <Item title={item.title} icon={item.icon} />}
+                    renderItem={({ item }) => <Item title={item.title} icon={item.icon} active={item.active} />}
                     keyExtractor={item => item.title}
                 />
             </View>

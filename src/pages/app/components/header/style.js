@@ -8,7 +8,6 @@ export default Styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
-        elevation: 3
     },
     Search: {
         height: '65%',
