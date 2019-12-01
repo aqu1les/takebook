@@ -31,7 +31,7 @@ export default Loading = (props) => {
     }, [dispatch]);
     return (
         <>
-            <StatusBar backgroundColor="#EAEAEA" barStyle="dark-content" />
+            <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
             <View style={Styles.Container}>
                 <View style={Styles.ImageLeft}>
                     <BgTL width="100%" height="100%" />

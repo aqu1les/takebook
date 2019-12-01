@@ -1,9 +1,12 @@
+import { Dimensions } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import Loading from './pages/loading';
 import Login from './pages/auth/login';
 import Home from './pages/app/main';
 import SignUp from './pages/auth/sign-up';
+import SideMenu from './pages/app/components/menu';
 
 const AuthStack = createStackNavigator({
     Login: {
@@ -47,7 +50,13 @@ const AuthStack = createStackNavigator({
     })
 });
 
-const AppStack = createStackNavigator({ Home }, { initialRouteName: "Home" });
+const AppStack = createDrawerNavigator({
+    Home
+}, {
+    initialRouteName: "Home",
+    contentComponent: SideMenu,
+    drawerWidth: Dimensions.get('window').width - 100,
+});
 const Routes = createAppContainer(
     createSwitchNavigator({
         Loading,
