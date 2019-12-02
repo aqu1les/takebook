@@ -30,5 +30,11 @@ export default Styles = StyleSheet.create({
         elevation: 1,
         alignItems: "center",
         justifyContent: "space-between"
+    },
+    ActvIndicator: {
+        display: 'flex',
+        position: 'absolute',
+        bottom: 20,
+        alignSelf: 'center'
     }
 });
