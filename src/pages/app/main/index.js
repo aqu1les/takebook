@@ -1,30 +1,21 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
-import { useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import { useSelector, useDispatch } from "react-redux";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Styles from './style';
 import Header from '../components/header';
 import Advert from '../components/advert';
+import { loadAdvertsAction } from '../../../services/redux/actions/adverts';
 
 export default Main = (props) => {
-    const categories = [
-        { name: 'Destaques', icon: 'star' },
-        { name: 'Terror', icon: 'star' },
-        { name: 'Comédia', icon: 'star' },
-        { name: 'Mistério', icon: 'star' },
-        { name: 'Aventura', icon: 'star' }
-    ];
-    const books = [
-        { name: 'Lorem Ipsum', price: '150', author: 'FELIPE' },
-        { name: 'Lorem Ipsum1', price: '150', author: 'FELIPE' },
-        { name: 'Lorem Ipsum2', price: '150', author: 'FELIPE' },
-        { name: 'Lorem Ipsum3', price: '150', author: 'FELIPE' },
-        { name: 'Lorem Ipsum4', price: '150', author: 'FELIPE' },
-    ];
-    function CategoryItem({ name, icon }) {
+    const dispatch = useDispatch();
+    const [refreshing, setRefreshing] = useState(false);
+    const adverts = useSelector(state => state.adverts.data);
+    const categories = useSelector(state => state.categories.data);
+    function CategoryItem({ name }) {
         return (
             <TouchableOpacity style={Styles.Category}>
-                <Icon name={icon} size={26} color="#000000" />
+                <Icon name="star" size={26} color="#000000" />
                 <Text>{name}</Text>
             </TouchableOpacity>
         );
@@ -36,10 +27,16 @@ export default Main = (props) => {
                     height: '60%',
                     backgroundColor: "#d1d1d1",
                     width: 1,
-                    marginVertical: '15%'
+                    marginVertical: '15%',
+                    marginHorizontal: 5
                 }}
             />
         );
+    }
+    async function refreshAds() {
+        setRefreshing(true);
+        await dispatch(loadAdvertsAction());
+        setRefreshing(false);
     }
     return (
         <View style={Styles.Container}>
@@ -47,7 +44,7 @@ export default Main = (props) => {
             <View style={Styles.Categories}>
                 <FlatList
                     data={categories}
-                    renderItem={({ item }) => <CategoryItem name={item.name} icon={item.icon} />}
+                    renderItem={({ item }) => <CategoryItem name={item.name} />}
                     keyExtractor={item => item.name}
                     horizontal={true}
                     contentContainerStyle={{ justifyContent: 'space-around', width: '100%' }}
@@ -57,9 +54,10 @@ export default Main = (props) => {
             <View style={Styles.Content}>
                 <Text style={Styles.H1}>Mais Recentes</Text>
                 <FlatList
-                    data={books}
-                    renderItem={({ item }) => <Advert name={item.name} price={item.price} author={item.author} />}
-                    keyExtractor={item => item.name}
+                    data={adverts}
+                    renderItem={({ item }) => <Advert item={item} />}
+                    keyExtractor={item => String(item.id)}
+                    refreshControl={<RefreshControl colors={['#fb8c00', '#38C2FF']} refreshing={refreshing} onRefresh={refreshAds} />}
                 />
             </View>
             <TouchableOpacity style={Styles.AddButton}>
