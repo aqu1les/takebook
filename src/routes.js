@@ -5,25 +5,13 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import Loading from './pages/loading';
 import Login from './pages/auth/login';
 import Home from './pages/app/main';
+import AdvertDetails from './pages/app/advert-details';
 import SignUp from './pages/auth/sign-up';
 import SideMenu from './pages/app/components/menu';
 
-const AuthStack = createStackNavigator({
-    Login: {
-        screen: Login,
-        navigationOptions: ({ navigation }) => ({
-            headerShown: false
-        }),
-    },
-    SignUp: {
-        screen: SignUp,
-        navigationOptions: ({ navigation }) => ({
-            headerTransparent: true
-        }),
-    }
-}, {
-    initialRouteName: "Login",
-    transitionConfig: () => ({
+
+function transitionConfig() {
+    return {
         transitionSpec: {},
         screenInterpolator: ({ layout, position, scene }) => {
             const thisSceneIndex = scene.index
@@ -47,20 +35,53 @@ const AuthStack = createStackNavigator({
 
             return { opacity, transform: [{ translateX }] };
         }
-    })
-});
-
-const AppStack = createDrawerNavigator({
-    Home
+    }
+}
+const AuthStack = createStackNavigator({
+    Login: {
+        screen: Login,
+        navigationOptions: () => ({
+            headerShown: false
+        }),
+    },
+    SignUp: {
+        screen: SignUp,
+        navigationOptions: () => ({
+            headerTransparent: true
+        }),
+    }
 }, {
-    initialRouteName: "Home",
+    initialRouteName: 'Login',
+    transitionConfig
+});
+const Main = createStackNavigator({
+    Home: {
+        screen: Home,
+        navigationOptions: () => ({
+            headerShown: false
+        })
+    },
+    AdvertDetails: {
+        screen: AdvertDetails,
+        navigationOptions: () => ({
+            headerTransparent: true
+        })
+    }
+}, {
+    initialRouteName: 'Home',
+    transitionConfig
+});
+const App = createDrawerNavigator({
+    Main
+}, {
+    initialRouteName: 'Main',
     contentComponent: SideMenu,
     drawerWidth: Dimensions.get('window').width - 100,
 });
 const Routes = createAppContainer(
     createSwitchNavigator({
         Loading,
-        App: AppStack,
+        App,
         Auth: AuthStack
     }, { initialRouteName: 'Loading' })
 );

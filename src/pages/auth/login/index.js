@@ -9,6 +9,8 @@ import Password from '../../../assets/icons/password.svg';
 import Logo from '../../../assets/logo.svg';
 import api from '../../../services/api';
 import { setUserAction } from '../../../services/redux/actions/auth';
+import { loadAdvertsAction } from '../../../services/redux/actions/adverts';
+import { loadCategoriesAction } from '../../../services/redux/actions/categories';
 
 
 export default Login = (props) => {
@@ -51,6 +53,8 @@ export default Login = (props) => {
         if (response === 'Senha Inválida!' || response === 'E-mail inválido!') return ToastAndroid.show(response, ToastAndroid.SHORT);
         if (response.data.status === "success") {
             dispatch(setUserAction(response.data.user));
+            dispatch(loadAdvertsAction());
+            dispatch(loadCategoriesAction());
             AsyncStorage.setItem('userToken:TB', response.data.token);
             ToastAndroid.show("Bem vindo ao Takebook !", ToastAndroid.SHORT);
             return props.navigation.navigate('App');

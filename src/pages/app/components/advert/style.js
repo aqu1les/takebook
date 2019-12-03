@@ -24,7 +24,8 @@ export default Styles = StyleSheet.create({
     Infos: {
         width: '55%',
         flexDirection: 'column',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        padding: 10
     },
     FavIcon: {
         position: 'absolute',
@@ -62,6 +63,9 @@ export default Styles = StyleSheet.create({
     Row: {
         flexDirection: 'row'
     },
+    Locale: {
+        fontWeight: 'bold'
+    },
     PriceButton: {
         backgroundColor: '#fb8c00',
         borderRadius: 20,
@@ -75,5 +79,13 @@ export default Styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    CreationTime: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        color: '#c0c0c0',
+        fontSize: 12,
+        fontStyle: 'italic'
     }
 });

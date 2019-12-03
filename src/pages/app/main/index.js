@@ -55,7 +55,7 @@ export default Main = (props) => {
                 <Text style={Styles.H1}>Mais Recentes</Text>
                 <FlatList
                     data={adverts}
-                    renderItem={({ item }) => <Advert item={item} />}
+                    renderItem={({ item }) => <Advert item={item} navigation={props.navigation} />}
                     keyExtractor={item => String(item.id)}
                     refreshControl={<RefreshControl colors={['#fb8c00', '#38C2FF']} refreshing={refreshing} onRefresh={refreshAds} />}
                 />
