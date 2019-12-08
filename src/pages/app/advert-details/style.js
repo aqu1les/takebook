@@ -10,11 +10,12 @@ export default Styles = StyleSheet.create({
         position: 'relative',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#eeeeee'
+        backgroundColor: '#eeeeee',
+        paddingVertical: 10
     },
     BackgroundSvg: {
         position: 'absolute',
-        left: -40,
+        left: -80,
         top: 0,
     },
     FavIcon: {
@@ -32,42 +33,100 @@ export default Styles = StyleSheet.create({
         justifyContent: 'center'
     },
     ImgCover: {
-        width: '95%',
-        height: '95%'
+        borderRadius: 4,
+        width: '90%',
+        height: '90%',
+        margin: 10
     },
     InfoContainer: {
         height: '20%',
         backgroundColor: '#FFFFFF',
+        padding: 15
     },
-    InfoSections: {
-        height: '5%',
-        elevation: 3,
+    Row: {
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        borderTopWidth: 0.5,
-        borderTopColor: '#eaeaea',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    Title: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        color: '#000000'
+    },
+    Author: {
+        fontSize: 18,
+        color: '#9E9E9E'
+    },
+    Price: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#FB8C00',
+        alignSelf: 'flex-end'
+    },
+    Category: {
+        color: '#9E9E9E'
+    },
+    TabHeading: {
         backgroundColor: '#FFFFFF',
     },
-    SectionText: {
-        flexGrow: 33,
-        fontStyle: 'normal',
+    TabHeadingText: {
         color: '#A5A5A5',
-        textAlign: 'center',
-        padding: 10
+        fontSize: 18
     },
     SectionTextActive: {
-        borderBottomColor: '#FB8C00',
-        borderBottomWidth: 1.5,
+        backgroundColor: '#FFFFFF',
         fontWeight: 'bold',
         color: '#000000',
-        flexGrow: 33,
-        textAlign: 'center',
-        padding: 10
+        fontSize: 18
     },
     SectionContent: {
-        height: '30%',
-        backgroundColor: '#ddd',
-        padding: 10
+        height: '100%',
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        textAlign: "justify"
     },
+    SectionContentRow: {
+        height: '100%',
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        textAlign: "justify",
+        flexDirection: 'row'
+    },
+    RowLeftSide: {
+        flex: 0.5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    RowRightSide: {
+        flex: 0.5,
+        borderLeftWidth: 0.5,
+        borderLeftColor: '#00000020',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    ElipseAvatar: {
+        borderWidth: 1,
+        borderColor: '#FF7714',
+        borderRadius: 100,
+        width: '75%',
+        height: '90%',
+        maxHeight: 117,
+        maxWidth: 115,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    MessageButton: {
+        width: '80%',
+        height: 30,
+        elevation: 1,
+        backgroundColor: '#FF7714',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        padding: 5
+    },
+    ButtonText: {
+        color: '#FFFFFF',
+        fontSize: 16
+    }
 });

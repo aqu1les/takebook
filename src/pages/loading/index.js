@@ -14,6 +14,7 @@ import BgTL from '../../assets/background/backgroundTopLeft.svg';
 export default Loading = (props) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         async function checkUser() {
             const response = await api.get('/users/me');
@@ -48,7 +49,9 @@ export default Loading = (props) => {
                 <View style={Styles.ImageRight}>
                     <BgBr width='100%' height='100%' />
                 </View>
-                <Logo />
+                <View>
+                    <Logo />
+                </View>
                 <ActivityIndicator color={'#fb8c00'} style={[{ display: 'none' }, loading && Styles.ActvIndicator]} />
             </View>
         </>

@@ -10,14 +10,11 @@ export default Styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     Search: {
-        height: '65%',
-        elevation: 5,
+        height: '50%',
         backgroundColor: '#FFFFFF',
         borderRadius: 24,
-        width: '75%',
         flexDirection: 'row',
         alignItems: 'center',
-
         paddingHorizontal: 15,
     },
     Input: {

@@ -6,6 +6,7 @@ import pt from 'date-fns/locale/pt';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Styles from './style';
 import defaultBook from '../../../../assets/bookDefault.jpg';
+import { Badge } from 'native-base';
 
 export default Advert = (props) => {
     const { id, title, price, author, categories, condition_id, covers_url, approved_at } = props.item;
@@ -25,12 +26,11 @@ export default Advert = (props) => {
                     ))}
                 </View>
                 <View style={Styles.Details}>
-                    <View style={Styles.Row}>
-                        <Text style={Styles.TextCategory}>Estado:</Text>
+                    <Badge style={Styles.Badge}>
                         <Text style={Styles.Condition}>{condition_id === 1 ? "Novo" : "Usado"}</Text>
-                    </View>
+                    </Badge>
                     <View style={Styles.Row}>
-                        <Text style={Styles.TextCategory}>Local:</Text>
+                        <Text style={Styles.TextCategory}>Local: </Text>
                         <Text style={Styles.Locale}>Recife - PE</Text>
                     </View>
                 </View>

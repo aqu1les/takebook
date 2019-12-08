@@ -101,7 +101,12 @@ export default Login = (props) => {
                 />
             </View>
             <View style={Styles.Options}>
-                <Switch trackColor={{ false: "", true: "#FFBB89" }} thumbColor="#EB6339" value={remind} onValueChange={value => setRemind(value)} />
+                <Switch
+                    trackColor={{ false: "", true: "#FFBB89" }}
+                    thumbColor='#EB6339'
+                    value={remind}
+                    accessibilityLabel="Mantenha-se conectado"
+                    onValueChange={value => setRemind(value)} />
                 <TouchableOpacity>
                     <Text style={Styles.Forgot}>Esqueceu a senha?</Text>
                 </TouchableOpacity>

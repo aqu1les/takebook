@@ -1,3 +1,4 @@
+import React from 'react';
 import { Dimensions } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -8,6 +9,8 @@ import Home from './pages/app/main';
 import AdvertDetails from './pages/app/advert-details';
 import SignUp from './pages/auth/sign-up';
 import SideMenu from './pages/app/components/menu';
+import RoomList from './pages/app/chats/RoomList';
+import Room from './pages/app/chats/RoomList/Room';
 
 
 function transitionConfig() {
@@ -71,12 +74,31 @@ const Main = createStackNavigator({
     initialRouteName: 'Home',
     transitionConfig
 });
+const Chats = createStackNavigator({
+    RoomList: {
+        screen: RoomList,
+        navigationOptions: () => ({
+            headerTransparent: true
+        })
+    },
+    Room: {
+        screen: Room,
+        navigationOptions: () => ({
+            headerTransparent: true
+        })
+    }
+}, {
+    initialRouteName: 'RoomList',
+    transitionConfig
+});
 const App = createDrawerNavigator({
-    Main
+    Main,
+    Chats
 }, {
     initialRouteName: 'Main',
     contentComponent: SideMenu,
     drawerWidth: Dimensions.get('window').width - 100,
+
 });
 const Routes = createAppContainer(
     createSwitchNavigator({

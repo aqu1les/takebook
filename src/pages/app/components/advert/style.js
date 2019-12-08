@@ -47,23 +47,28 @@ export default Styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     TextCategory: {
+        fontSize: 12,
         color: '#A5A5A5',
     },
     Details: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    Badge: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#00cc09'
     },
     Condition: {
         color: '#FFFFFF',
-        backgroundColor: '#00cc09',
-        borderRadius: 6,
-        textAlign: 'center',
-        padding: 1
+        fontSize: 12
     },
     Row: {
         flexDirection: 'row'
     },
     Locale: {
+        fontSize: 12,
         fontWeight: 'bold'
     },
     PriceButton: {
