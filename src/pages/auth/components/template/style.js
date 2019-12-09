@@ -29,6 +29,7 @@ export default Styles = StyleSheet.create({
         borderRadius: 4,
         elevation: 1,
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        minHeight: 450
     }
 });

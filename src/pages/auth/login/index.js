@@ -63,10 +63,8 @@ export default Login = (props) => {
     return (
         <Template>
             <View style={Styles.Header}><Logo width="80%" height="80%" /></View>
-            <View style={[Styles.FormGroup, loginError && Styles.InputError]}>
-                <TouchableOpacity onPress={() => loginInput.current.focus()}>
-                    <User style={Styles.Icon} />
-                </TouchableOpacity>
+            <TouchableOpacity style={[Styles.FormGroup, loginError && Styles.InputError]} onPress={() => loginInput.current.focus()}>
+                <User style={Styles.Icon} />
                 <TextInput
                     ref={loginInput}
                     placeholder="Digite aqui o seu e-mail"
@@ -81,11 +79,9 @@ export default Login = (props) => {
                     returnKeyType={"next"}
                     onSubmitEditing={() => passwordInput.current.focus()}
                 />
-            </View>
-            <View style={[Styles.FormGroup, passwordError && Styles.InputError]}>
-                <TouchableOpacity onPress={() => passwordInput.current.focus()}>
-                    <Password style={Styles.Icon} />
-                </TouchableOpacity>
+            </TouchableOpacity>
+            <TouchableOpacity style={[Styles.FormGroup, passwordError && Styles.InputError]} onPress={() => passwordInput.current.focus()}>
+                <Password style={Styles.Icon} />
                 <TextInput
                     ref={passwordInput}
                     placeholder="Digite aqui a sua senha"
@@ -99,7 +95,7 @@ export default Login = (props) => {
                     secureTextEntry={true}
                     onSubmitEditing={submitForm}
                 />
-            </View>
+            </TouchableOpacity>
             <View style={Styles.Options}>
                 <Switch
                     trackColor={{ false: "", true: "#FFBB89" }}
