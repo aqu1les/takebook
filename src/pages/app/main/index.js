@@ -12,6 +12,7 @@ export default Main = (props) => {
     const [refreshing, setRefreshing] = useState(false);
     const adverts = useSelector(state => state.adverts.data);
     const categories = useSelector(state => state.categories.data);
+    const { authenticated } = useSelector(state => state.auth);
     function CategoryItem({ name }) {
         return (
             <TouchableOpacity style={Styles.Category}>
@@ -53,16 +54,19 @@ export default Main = (props) => {
             </View>
             <View style={Styles.Content}>
                 <Text style={Styles.H1}>Mais Recentes</Text>
-                <FlatList
-                    data={adverts}
-                    renderItem={({ item }) => <Advert item={item} navigation={props.navigation} />}
-                    keyExtractor={item => String(item.id)}
-                    refreshControl={<RefreshControl colors={['#fb8c00', '#38C2FF']} refreshing={refreshing} onRefresh={refreshAds} />}
-                />
+                {
+                    adverts !== null ? <FlatList
+                        data={adverts}
+                        renderItem={({ item }) => <Advert item={item} navigation={props.navigation} />}
+                        keyExtractor={item => String(item.id)}
+                        refreshControl={<RefreshControl colors={['#fb8c00', '#38C2FF']} refreshing={refreshing} onRefresh={refreshAds} />}
+                    /> :
+                        <Text>Nenhum livro foi cadastrado!</Text>
+                }
             </View>
-            <TouchableOpacity style={Styles.AddButton}>
+            {authenticated && <TouchableOpacity style={Styles.AddButton}>
                 <Icon name="plus-circle" size={60} color="#fb8c00" />
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
     );
 }

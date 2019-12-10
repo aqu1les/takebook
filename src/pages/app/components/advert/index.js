@@ -11,7 +11,7 @@ import { Badge } from 'native-base';
 export default Advert = (props) => {
     const { id, title, price, author, categories, condition_id, covers_url, approved_at } = props.item;
     const likes = useSelector(state => state.auth.likes);
-    const fav = likes.find(advert_id => advert_id == id);
+    let fav = likes ? fav = likes.find(advert_id => advert_id == id) : false;
     return (
         <TouchableOpacity style={Styles.Card} activeOpacity={0.8} onPress={() => props.navigation.navigate('AdvertDetails', { advert: props.item })}>
             <View style={Styles.Cover}>

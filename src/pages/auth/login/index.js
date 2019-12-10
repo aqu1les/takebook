@@ -15,6 +15,7 @@ import { loadCategoriesAction } from '../../../services/redux/actions/categories
 
 export default Login = (props) => {
     const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const loginInput = useRef(null);
     const passwordInput = useRef(null);
@@ -48,6 +49,7 @@ export default Login = (props) => {
         if (remind) {
             AsyncStorage.setItem('userLogin', login);
         }
+        setLoading(true);
         const response = await api.post('/admin/auth/login', { email: login, password, remind });
         if (!response) return ToastAndroid.show("Não foi possível contactar o servidor!", ToastAndroid.LONG);
         if (response === 'Senha Inválida!' || response === 'E-mail inválido!') return ToastAndroid.show(response, ToastAndroid.SHORT);
@@ -61,7 +63,7 @@ export default Login = (props) => {
         }
     }
     return (
-        <Template>
+        <Template loading={loading}>
             <View style={Styles.Header}><Logo width="80%" height="80%" /></View>
             <TouchableOpacity style={[Styles.FormGroup, loginError && Styles.InputError]} onPress={() => loginInput.current.focus()}>
                 <User style={Styles.Icon} />

@@ -31,5 +31,11 @@ export default Styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         minHeight: 450
+    },
+    ActvIndicator: {
+        display: 'flex',
+        position: 'absolute',
+        bottom: 20,
+        alignSelf: 'center'
     }
 });

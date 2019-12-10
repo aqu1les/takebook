@@ -30,28 +30,26 @@ export default Header = (props) => {
     }
 
     return (
-        <>
-            <View style={Styles.Header}>
-                <TouchableOpacity onPress={openMenu}>
-                    <MenuIcon style={{ display: !searchFocused ? 'flex' : 'none' }} />
-                </TouchableOpacity>
-                <Animated.View style={[Styles.Search, { flex: widthValue }]} onPress={() => searchInput.current.focus()}>
-                    <Search />
-                    <TextInput
-                        ref={searchInput}
-                        style={Styles.Input}
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        underlineColorAndroid='transparent'
-                        value={searchName}
-                        onChangeText={value => setSearchName(value)}
-                        keyboardType='default'
-                        returnKeyType='search'
-                        onFocus={_widthAnimation}
-                        onBlur={_normalAnimation}
-                    />
-                </Animated.View>
-            </View>
-        </>
+        <View style={[Styles.Header, searchFocused && { justifyContent: 'center' }]}>
+            <TouchableOpacity onPress={openMenu}>
+                <MenuIcon style={{ display: !searchFocused ? 'flex' : 'none' }} />
+            </TouchableOpacity>
+            <Animated.View style={[Styles.Search, { flex: widthValue }]} onPress={() => searchInput.current.focus()}>
+                <Search />
+                <TextInput
+                    ref={searchInput}
+                    style={Styles.Input}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    underlineColorAndroid='transparent'
+                    value={searchName}
+                    onChangeText={value => setSearchName(value)}
+                    keyboardType='default'
+                    returnKeyType='search'
+                    onFocus={_widthAnimation}
+                    onBlur={_normalAnimation}
+                />
+            </Animated.View>
+        </View>
     );
 }

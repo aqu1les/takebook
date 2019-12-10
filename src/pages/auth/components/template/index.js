@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, View, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { StatusBar, View, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import Styles from './style';
 import BgBr from '../../../../assets/background/backgroundBottomRight.svg';
 import BgTL from '../../../../assets/background/backgroundTopLeft.svg';
@@ -18,6 +18,7 @@ export default Template = (props) => {
                 <KeyboardAvoidingView style={Styles.Card} behavior="height" keyboardVerticalOffset={400} enabled>
                     {props.children}
                 </KeyboardAvoidingView>
+                {props.loading && <ActivityIndicator color={'#fb8c00'} style={Styles.ActvIndicator} />}
             </View>
         </>
     );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StatusBar, ToastAndroid, ActivityIndicator } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import { setUserAction } from '../../services/redux/actions/auth';
 import { loadAdvertsAction } from '../../services/redux/actions/adverts';
@@ -14,45 +14,47 @@ import BgTL from '../../assets/background/backgroundTopLeft.svg';
 export default Loading = (props) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    const categories = useSelector(state => state.categories.data);
 
     useEffect(() => {
         async function checkUser() {
-            const response = await api.get('/users/me');
-            setLoading(true);
-            if (!response) {
-                return props.navigation.navigate('Auth');
-            }
-            if (response.data) {
-                dispatch(setUserAction(response.data));
-                dispatch(loadAdvertsAction());
-                dispatch(loadCategoriesAction());
-                ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
-                setTimeout(() => {
-                    setLoading(false);
-                    props.navigation.navigate('App');
-                }, 1000);
+            const token = await getToken();
+            if (token) {
+                const response = await api.get('/users/me');
+                if (response.data) {
+                    dispatch(setUserAction(response.data));
+                }
             }
         }
         async function getToken() {
             const token = await AsyncStorage.getItem('userToken:TB');
-            return token ? await checkUser() : props.navigation.navigate('Auth');
+            return token;
         }
-        getToken();
-    }, [dispatch]);
+        if (categories.length > 0) {
+            ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
+            props.navigation.navigate('App');
+            setLoading(false);
+            return;
+        }
+        dispatch(loadAdvertsAction());
+        dispatch(loadCategoriesAction());
+        checkUser();
+        setLoading(true);
+    }, [dispatch, categories]);
     return (
         <>
-            <StatusBar backgroundColor='#FFFFFF' barStyle='dark-content' />
+            <StatusBar backgroundColor={'#FFFFFF'} barStyle={'dark-content'} />
             <View style={Styles.Container}>
                 <View style={Styles.ImageLeft}>
-                    <BgTL width='100%' height='100%' />
+                    <BgTL width={'100%'} height={'100%'} />
                 </View>
                 <View style={Styles.ImageRight}>
-                    <BgBr width='100%' height='100%' />
+                    <BgBr width={'100%'} height={'100%'} />
                 </View>
                 <View>
                     <Logo />
                 </View>
-                <ActivityIndicator color={'#fb8c00'} style={[{ display: 'none' }, loading && Styles.ActvIndicator]} />
+                {loading && <ActivityIndicator color={'#fb8c00'} style={Styles.ActvIndicator} />}
             </View>
         </>
     )
