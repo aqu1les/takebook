@@ -49,8 +49,8 @@ export default SideBar = (props) => {
     function navigateByRoute(route) {
         props.navigation.navigate(route);
     }
-    function logOut() {
-        AsyncStorage.removeItem('userToken:TB');
+    async function logOut() {
+        await AsyncStorage.removeItem('userToken:TB');
         navigateByRoute('Auth');
     }
     return (

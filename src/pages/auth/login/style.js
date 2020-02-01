@@ -1,18 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export default Styles = StyleSheet.create({
-    Header: {
-        elevation: 4,
-        width: 180,
-        height: 180,
-        backgroundColor: '#EAEAEA',
-        borderRadius: 100,
-        padding: 20,
-        marginTop: -80,
-        marginBottom: 30,
-        alignItems: "center",
-        justifyContent: "center",
-    },
     FormGroup: {
         flexDirection: "row",
         alignItems: "center",
@@ -44,6 +32,7 @@ export default Styles = StyleSheet.create({
         marginBottom: 0,
         borderRadius: 8,
         backgroundColor: "#EB6339",
+        alignItems: 'center'
     },
     ButtonDisabled: {
         backgroundColor: "#dfdfdf",

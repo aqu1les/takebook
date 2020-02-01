@@ -23,7 +23,11 @@ export default Loading = (props) => {
                 const response = await api.get('/users/me');
                 if (response.data) {
                     dispatch(setUserAction(response.data));
+                } else {
+                    props.navigation.navigate('Login');
                 }
+            } else {
+                props.navigation.navigate('Login');
             }
         }
         async function getToken() {
@@ -32,9 +36,8 @@ export default Loading = (props) => {
         }
         if (categories.length > 0) {
             ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
-            props.navigation.navigate('App');
             setLoading(false);
-            return;
+            props.navigation.navigate('App');
         }
         dispatch(loadAdvertsAction());
         dispatch(loadCategoriesAction());

@@ -1,6 +1,18 @@
 import { StyleSheet } from 'react-native';
 
 export default Styles = StyleSheet.create({
+    Header: {
+        elevation: 4,
+        width: 180,
+        height: 180,
+        backgroundColor: '#EAEAEA',
+        borderRadius: 100,
+        padding: 20,
+        marginTop: -80,
+        marginBottom: 0,
+        alignItems: "center",
+        justifyContent: "center",
+    },
     View: {
         backgroundColor: '#EAEAEA',
         width: '100%',
@@ -30,7 +42,7 @@ export default Styles = StyleSheet.create({
         elevation: 1,
         alignItems: "center",
         justifyContent: "space-between",
-        minHeight: 450
+        minHeight: 480
     },
     ActvIndicator: {
         display: 'flex',

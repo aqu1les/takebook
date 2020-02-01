@@ -8,7 +8,7 @@ export default function advertsReducer(state = INITIAL_STATE, action) {
             return { ...action.info, data: [...state.data] };
         case "ADD_ADVERT":
             const adverts = state.data.filter(advert => advert.id !== action.advert.id);
-            return { ...state, data: [...adverts, action.advert] };
+            return { ...state, data: [action.advert, ...adverts] };
         case "CLEAR_ADVERTS":
             return { ...state, data: [] };
         default:

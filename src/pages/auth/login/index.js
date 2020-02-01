@@ -6,7 +6,6 @@ import Styles from './style';
 import Template from '../components/template';
 import User from '../../../assets/icons/user.svg';
 import Password from '../../../assets/icons/password.svg';
-import Logo from '../../../assets/logo.svg';
 import api from '../../../services/api';
 import { setUserAction } from '../../../services/redux/actions/auth';
 import { loadAdvertsAction } from '../../../services/redux/actions/adverts';
@@ -64,7 +63,6 @@ export default Login = (props) => {
     }
     return (
         <Template loading={loading}>
-            <View style={Styles.Header}><Logo width="80%" height="80%" /></View>
             <TouchableOpacity style={[Styles.FormGroup, loginError && Styles.InputError]} onPress={() => loginInput.current.focus()}>
                 <User style={Styles.Icon} />
                 <TextInput

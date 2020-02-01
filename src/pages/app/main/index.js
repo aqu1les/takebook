@@ -1,18 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import { useSelector, useDispatch } from "react-redux";
+import Pusher from 'pusher-js/react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Styles from './style';
 import Header from '../components/header';
 import Advert from '../components/advert';
-import { loadAdvertsAction } from '../../../services/redux/actions/adverts';
+import Plus from '../../../assets/icons/add-book.svg';
+import { loadAdvertsAction, addAdvertAction } from '../../../services/redux/actions/adverts';
 
 export default Main = (props) => {
     const dispatch = useDispatch();
     const [refreshing, setRefreshing] = useState(false);
     const adverts = useSelector(state => state.adverts.data);
-    const categories = useSelector(state => state.categories.data);
-    const { authenticated } = useSelector(state => state.auth);
+    const categories = [{ name: 'Destaques' }, ...useSelector(state => state.categories.data)];
+    const { authenticated, id } = useSelector(state => state.auth);
+    if (!id) return;
+    useEffect(() => {
+        const pusher = new Pusher('06aeebf69251841ae50a', {
+            cluster: 'us2',
+            forceTLS: true
+        });
+
+        const channel = pusher.subscribe(`all-clients`);
+        channel.bind('book-accepted', (event) => {
+            // console.log(book);
+            dispatch(addAdvertAction(event.message));
+        });
+        const privateChannel = pusher.subscribe(`userID${id}`);
+        privateChannel.bind('new-notification', (event) => {
+            console.log(event);
+            // dispatch(addAdvertAction(event.message));
+        });
+
+        return function cleanup() {
+            pusher.unsubscribe(`userID${id}`);
+            pusher.unsubscribe(`all-clients`);
+        }
+    }, []);
+
     function CategoryItem({ name }) {
         return (
             <TouchableOpacity style={Styles.Category}>
@@ -65,7 +91,7 @@ export default Main = (props) => {
                 }
             </View>
             {authenticated && <TouchableOpacity style={Styles.AddButton}>
-                <Icon name="plus-circle" size={60} color="#fb8c00" />
+                <Plus />
             </TouchableOpacity>}
         </View>
     );

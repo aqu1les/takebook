@@ -3,6 +3,7 @@ import { StatusBar, View, KeyboardAvoidingView, ActivityIndicator } from 'react-
 import Styles from './style';
 import BgBr from '../../../../assets/background/backgroundBottomRight.svg';
 import BgTL from '../../../../assets/background/backgroundTopLeft.svg';
+import Logo from '../../../../assets/logo.svg';
 
 export default Template = (props) => {
     return (
@@ -16,6 +17,7 @@ export default Template = (props) => {
                     <BgBr width="100%" height="100%" />
                 </View>
                 <KeyboardAvoidingView style={Styles.Card} behavior="height" keyboardVerticalOffset={400} enabled>
+                    <View style={Styles.Header}><Logo width="80%" height="80%" /></View>
                     {props.children}
                 </KeyboardAvoidingView>
                 {props.loading && <ActivityIndicator color={'#fb8c00'} style={Styles.ActvIndicator} />}

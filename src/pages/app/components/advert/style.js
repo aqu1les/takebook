@@ -8,7 +8,7 @@ export default Styles = StyleSheet.create({
         marginVertical: 8,
         elevation: 2,
         flexDirection: 'row',
-        padding: 10,
+        padding: 5,
         backgroundColor: '#FFFFFF'
     },
     Cover: {
