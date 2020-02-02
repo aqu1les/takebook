@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "492853956980",
+    "firebase_url": "https://takebook-a5627.firebaseio.com",
+    "project_id": "takebook-a5627",
+    "storage_bucket": "takebook-a5627.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492853956980:android:6119b0c78c97339d9b5c21",
+        "android_client_info": {
+          "package_name": "com.takebookapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492853956980-eri2b69v339hu08b9nvfrd7vidrk619g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXeLpeAp_2Xw8U9zbbv-vK6qJfQqbW9-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492853956980-eri2b69v339hu08b9nvfrd7vidrk619g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

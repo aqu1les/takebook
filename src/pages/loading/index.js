@@ -15,14 +15,19 @@ export default Loading = (props) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const categories = useSelector(state => state.categories.data);
+    const user = useSelector(state => state.auth);
 
     useEffect(() => {
         async function checkUser() {
             const token = await getToken();
             if (token) {
                 const response = await api.get('/users/me');
-                if (response.data) {
-                    dispatch(setUserAction(response.data));
+                if (response) {
+                    if (response.data) {
+                        dispatch(setUserAction(response.data));
+                    } else {
+                        props.navigation.navigate('Login');
+                    }
                 } else {
                     props.navigation.navigate('Login');
                 }
@@ -34,7 +39,7 @@ export default Loading = (props) => {
             const token = await AsyncStorage.getItem('userToken:TB');
             return token;
         }
-        if (categories.length > 0) {
+        if (categories.length > 0 && user.id) {
             ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
             setLoading(false);
             props.navigation.navigate('App');

@@ -15,10 +15,10 @@ export function updateAdvertAction(advert) {
 
 export function loadAdvertsAction() {
     return async dispatch => {
-        const response = await api.get("/books");
+        const response = await api.get("/books/approved");
         if (!response || !response.data) return;
         dispatch({ type: "SET_ADVERTS_INFO", info: { ...response.data, data: [] } });
-        response.data.data.map(advert => {
+        response.data.map(advert => {
             return dispatch(addAdvertAction(advert));
         });
     };

@@ -8,6 +8,7 @@ import Header from '../components/header';
 import Advert from '../components/advert';
 import Plus from '../../../assets/icons/add-book.svg';
 import { loadAdvertsAction, addAdvertAction } from '../../../services/redux/actions/adverts';
+import RemotePushController from '../../../services/RemotePushController';
 
 export default Main = (props) => {
     const dispatch = useDispatch();
@@ -15,7 +16,11 @@ export default Main = (props) => {
     const adverts = useSelector(state => state.adverts.data);
     const categories = [{ name: 'Destaques' }, ...useSelector(state => state.categories.data)];
     const { authenticated, id } = useSelector(state => state.auth);
-    if (!id) return;
+    if (!id) return (
+        <View>
+
+        </View>
+    );
     useEffect(() => {
         const pusher = new Pusher('06aeebf69251841ae50a', {
             cluster: 'us2',
@@ -93,6 +98,7 @@ export default Main = (props) => {
             {authenticated && <TouchableOpacity style={Styles.AddButton}>
                 <Plus />
             </TouchableOpacity>}
+            <RemotePushController />
         </View>
     );
 }

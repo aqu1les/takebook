@@ -31,6 +31,7 @@ export default Login = (props) => {
             return login ? setLogin(login) : setLogin("");
         }
         getUserInfo();
+        dispatch(loadCategoriesAction());
     }, []);
 
     function handleLoginChange(value) {
@@ -45,6 +46,7 @@ export default Login = (props) => {
         return props.navigation.navigate("SignUp");
     }
     async function submitForm() {
+        passwordInput.current.blur();
         if (remind) {
             AsyncStorage.setItem('userLogin', login);
         }
@@ -55,7 +57,6 @@ export default Login = (props) => {
         if (response.data.status === "success") {
             dispatch(setUserAction(response.data.user));
             dispatch(loadAdvertsAction());
-            dispatch(loadCategoriesAction());
             AsyncStorage.setItem('userToken:TB', response.data.token);
             ToastAndroid.show("Bem vindo ao Takebook !", ToastAndroid.SHORT);
             return props.navigation.navigate('App');
