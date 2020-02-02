@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { formatDistance } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -10,8 +9,7 @@ import { Badge } from 'native-base';
 
 export default Advert = (props) => {
     const { id, title, price, author, categories, condition_id, covers_url, approved_at } = props.item;
-    const likes = useSelector(state => state.auth.likes);
-    let fav = likes ? fav = likes.find(advert_id => advert_id == id) : false;
+
     return (
         <TouchableOpacity style={Styles.Card} activeOpacity={0.8} onPress={() => props.navigation.navigate('AdvertDetails', { advert: props.item })}>
             <View style={Styles.Cover}>
@@ -37,7 +35,7 @@ export default Advert = (props) => {
                 <View style={Styles.PriceButton}>
                     <Text style={Styles.Price}>R$ {String(price)}</Text>
                 </View>
-                <Icon color="#e64c3c" size={24} name={fav ? "heart" : "heart-o"} style={Styles.FavIcon} />
+                <Icon color="#e64c3c" size={24} name={"heart"} style={Styles.FavIcon} />
                 <Text style={Styles.CreationTime}>{formatDistance(new Date(approved_at), Date.now(), { addSuffix: true, locale: pt })}</Text>
             </View>
         </TouchableOpacity>

@@ -3,17 +3,18 @@ import PushNotification from 'react-native-push-notification';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View } from 'native-base';
 import App from '../app.json';
-import api from './api';
+import api from './ApiService';
 
 const RemotePushController = () => {
     useEffect(() => {
         PushNotification.configure({
             onRegister: async function (token) {
                 const fcmToken = await AsyncStorage.getItem('FCM Token');
-                if (fcmToken === token.token) return;
-                AsyncStorage.setItem('FCM Token', token.token);
-                console.log('TOKEN:', token);
-                api.post('/users/mobile-token', { token: token.token });
+                if (fcmToken !== token.token) {
+                    AsyncStorage.setItem('FCM Token', token.token);
+                    console.log('TOKEN:', token);
+                    api.post('/users/mobile-token', { token: token.token });
+                }
             },
             onNotification: function (notification) {
                 console.log('REMOTE NOTIFICATION ==>', notification);
@@ -33,7 +34,7 @@ const RemotePushController = () => {
                     vibration: 300,
                     playSound: true,
                     soundName: 'default',
-                    actions: '["Yes", "No"]'
+                    actions: '["OK"]'
                 });
             },
             senderID: App.senderID,

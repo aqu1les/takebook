@@ -1,21 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch, ToastAndroid } from 'react-native';
-import { useDispatch } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
 import Styles from './style';
 import Template from '../components/template';
 import User from '../../../assets/icons/user.svg';
 import Password from '../../../assets/icons/password.svg';
-import api from '../../../services/api';
-import { setUserAction } from '../../../services/redux/actions/auth';
-import { loadAdvertsAction } from '../../../services/redux/actions/adverts';
-import { loadCategoriesAction } from '../../../services/redux/actions/categories';
-
+import { getUserEmail, setUserEmail, authenticateUser, storeToken } from '../../../services/UserService';
 
 export default Login = (props) => {
     const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
     const loginInput = useRef(null);
     const passwordInput = useRef(null);
     const [login, setLogin] = useState("");
@@ -27,11 +20,10 @@ export default Login = (props) => {
 
     useEffect(() => {
         async function getUserInfo() {
-            const login = await AsyncStorage.getItem('userLogin');
-            return login ? setLogin(login) : setLogin("");
+            const userEmail = await getUserEmail();
+            return userEmail ? setLogin(userEmail) : setLogin("");
         }
         getUserInfo();
-        dispatch(loadCategoriesAction());
     }, []);
 
     function handleLoginChange(value) {
@@ -46,22 +38,22 @@ export default Login = (props) => {
         return props.navigation.navigate("SignUp");
     }
     async function submitForm() {
+        setLoading(true);
         passwordInput.current.blur();
         if (remind) {
-            AsyncStorage.setItem('userLogin', login);
+            await setUserEmail(login);
         }
-        setLoading(true);
-        const response = await api.post('/admin/auth/login', { email: login, password, remind });
+        const response = await authenticateUser(login, password, remind);
+        setLoading(false);
         if (!response) return ToastAndroid.show("Não foi possível contactar o servidor!", ToastAndroid.LONG);
         if (response === 'Senha Inválida!' || response === 'E-mail inválido!') return ToastAndroid.show(response, ToastAndroid.SHORT);
         if (response.data.status === "success") {
-            dispatch(setUserAction(response.data.user));
-            dispatch(loadAdvertsAction());
-            AsyncStorage.setItem('userToken:TB', response.data.token);
+            await storeToken(response.data.token);
             ToastAndroid.show("Bem vindo ao Takebook !", ToastAndroid.SHORT);
-            return props.navigation.navigate('App');
+            props.navigation.navigate('App');
         }
     }
+
     return (
         <Template loading={loading}>
             <TouchableOpacity style={[Styles.FormGroup, loginError && Styles.InputError]} onPress={() => loginInput.current.focus()}>

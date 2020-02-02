@@ -1,11 +1,5 @@
 import React from 'react';
 import Routes from './routes';
-import { Provider } from 'react-redux';
-import store from './services/redux/store';
 
-const App = () => (
-    <Provider store={store}>
-        <Routes />
-    </Provider>
-);
+const App = () => <Routes />;
 export default App;

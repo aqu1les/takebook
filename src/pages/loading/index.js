@@ -1,54 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { View, StatusBar, ToastAndroid, ActivityIndicator } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
-import { setUserAction } from '../../services/redux/actions/auth';
-import { loadAdvertsAction } from '../../services/redux/actions/adverts';
-import { loadCategoriesAction } from '../../services/redux/actions/categories';
-import api from '../../services/api';
+import { View, StatusBar, ActivityIndicator } from 'react-native';
 import Styles from './style';
 import Logo from '../../assets/logo.svg';
 import BgBr from '../../assets/background/backgroundBottomRight.svg';
 import BgTL from '../../assets/background/backgroundTopLeft.svg';
+import { isTokenValid } from '../../services/UserService';
+import { getCategories } from '../../services/CategoriesService';
+import { getAdverts } from '../../services/AdvertsService';
 
 export default Loading = (props) => {
-    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
-    const categories = useSelector(state => state.categories.data);
-    const user = useSelector(state => state.auth);
 
     useEffect(() => {
-        async function checkUser() {
-            const token = await getToken();
-            if (token) {
-                const response = await api.get('/users/me');
-                if (response) {
-                    if (response.data) {
-                        dispatch(setUserAction(response.data));
-                    } else {
-                        props.navigation.navigate('Login');
-                    }
-                } else {
-                    props.navigation.navigate('Login');
-                }
+        async function checkToken() {
+            const validToken = await isTokenValid();
+            if (validToken) {
+                const categories = await getCategories();
+                const adverts = await getAdverts();
+                if (categories.length > 0 && adverts.length) navigateTo('App');
             } else {
-                props.navigation.navigate('Login');
+                navigateTo('Login');
             }
         }
-        async function getToken() {
-            const token = await AsyncStorage.getItem('userToken:TB');
-            return token;
-        }
-        if (categories.length > 0 && user.id) {
-            ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
-            setLoading(false);
-            props.navigation.navigate('App');
-        }
-        dispatch(loadAdvertsAction());
-        dispatch(loadCategoriesAction());
-        checkUser();
+        checkToken();
         setLoading(true);
-    }, [dispatch, categories]);
+    }, []);
+
+    function navigateTo(route) {
+        props.navigation.navigate(route);
+    }
+
     return (
         <>
             <StatusBar backgroundColor={'#FFFFFF'} barStyle={'dark-content'} />

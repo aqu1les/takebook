@@ -1,16 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StatusBar, Image, TouchableOpacity, Text, FlatList } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useSelector } from "react-redux";
 import Styles from './style';
 import MenuBG from '../../../../assets/background/menubg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import Book from '../../../../assets/open-book.png';
+import { removeToken, getUser } from '../../../../services/UserService';
 
 export default SideBar = (props) => {
-    const user = useSelector(state => state.auth);
     const { isDrawerOpen } = props.navigation.state;
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        async function getUserInfo() {
+            const user = await getUser();
+            console.log(user);
+            setUser(user);
+        }
+        getUserInfo();
+    }, []);
 
     const menuItens = [
         {
@@ -50,13 +58,13 @@ export default SideBar = (props) => {
         props.navigation.navigate(route);
     }
     async function logOut() {
-        await AsyncStorage.removeItem('userToken:TB');
+        await removeToken();
         navigateByRoute('Auth');
     }
     return (
         <View style={Styles.Menu}>
-            <StatusBar backgroundColor={isDrawerOpen && user.authenticated ? "#c98d2d" : "#0092CC"} barStyle="light-content" />
-            {user.authenticated ?
+            <StatusBar backgroundColor={isDrawerOpen && user ? "#c98d2d" : "#0092CC"} barStyle="light-content" />
+            {user ?
                 <>
                     <View style={Styles.UserInfo}>
                         <MenuBG style={Styles.Background} />
@@ -82,7 +90,7 @@ export default SideBar = (props) => {
                                 <Item title={item.title} icon={item.icon} active={item.active} route={item.route} />}
                             keyExtractor={item => item.title}
                         />
-                        <TouchableOpacity onPress={logOut} disabled={!user.authenticated}>
+                        <TouchableOpacity onPress={logOut} disabled={!user}>
                             <Text>SAIR</Text>
                         </TouchableOpacity>
                     </View>
