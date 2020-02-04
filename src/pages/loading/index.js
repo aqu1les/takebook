@@ -8,7 +8,7 @@ import { isTokenValid } from '../../services/UserService';
 import { getCategories } from '../../services/CategoriesService';
 import { getAdverts } from '../../services/AdvertsService';
 
-export default Loading = (props) => {
+export default Loading = props => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ export default Loading = (props) => {
             if (validToken) {
                 const categories = await getCategories();
                 const adverts = await getAdverts();
-                if (categories.length > 0 && adverts.length) navigateTo('App');
+                if (categories.length > 0) navigateTo('App');
             } else {
                 navigateTo('Login');
             }
@@ -43,8 +43,13 @@ export default Loading = (props) => {
                 <View>
                     <Logo />
                 </View>
-                {loading && <ActivityIndicator color={'#fb8c00'} style={Styles.ActvIndicator} />}
+                {loading && (
+                    <ActivityIndicator
+                        color={'#fb8c00'}
+                        style={Styles.ActvIndicator}
+                    />
+                )}
             </View>
         </>
-    )
-}
+    );
+};

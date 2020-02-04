@@ -13,13 +13,12 @@ import SideMenu from './pages/app/components/menu';
 import RoomList from './pages/app/chats/RoomList';
 import Room from './pages/app/chats/RoomList/Room';
 
-
 function transitionConfig() {
     return {
         transitionSpec: {},
         screenInterpolator: ({ layout, position, scene }) => {
-            const thisSceneIndex = scene.index
-            const width = layout.initWidth
+            const thisSceneIndex = scene.index;
+            const width = layout.initWidth;
 
             const translateX = position.interpolate({
                 inputRange: [thisSceneIndex - 1, thisSceneIndex],
@@ -30,88 +29,105 @@ function transitionConfig() {
                 inputRange: [
                     thisSceneIndex - 1,
                     thisSceneIndex,
-                    thisSceneIndex + 1
+                    thisSceneIndex + 1,
                 ],
-                outputRange: ([0, 1, 1])
+                outputRange: [0, 1, 1],
             });
 
             return { opacity, transform: [{ translateX }] };
-        }
-    }
+        },
+    };
 }
-const AuthStack = createStackNavigator({
-    Login: {
-        screen: Login,
-        navigationOptions: () => ({
-            headerShown: false
-        }),
+const AuthStack = createStackNavigator(
+    {
+        Login: {
+            screen: Login,
+            navigationOptions: () => ({
+                headerShown: false,
+            }),
+        },
+        SignUp: {
+            screen: SignUp,
+            navigationOptions: () => ({
+                headerTransparent: true,
+                headerTintColor: '#000',
+                gestureDirection: 'inverted',
+                headerForceInset: true,
+            }),
+        },
     },
-    SignUp: {
-        screen: SignUp,
-        navigationOptions: () => ({
-            headerTransparent: true
-        }),
-    }
-}, {
-    initialRouteName: 'Login',
-    transitionConfig
-});
-const Main = createStackNavigator({
-    Home: {
-        screen: Home,
-        navigationOptions: () => ({
-            headerShown: false
-        })
+    {
+        initialRouteName: 'Login',
+        transitionConfig,
     },
-    AdvertDetails: {
-        screen: AdvertDetails,
-        navigationOptions: () => ({
-            headerTransparent: true
-        })
+);
+const Main = createStackNavigator(
+    {
+        Home: {
+            screen: Home,
+            navigationOptions: () => ({
+                headerShown: false,
+            }),
+        },
+        AdvertDetails: {
+            screen: AdvertDetails,
+            navigationOptions: () => ({
+                headerTransparent: true,
+            }),
+        },
+        NewBook: {
+            screen: NewBook,
+            navigationOptions: () => ({
+                headerTransparent: false,
+                headerTintColor: '#3ac2fe',
+            }),
+        },
     },
-    NewBook: {
-        screen: NewBook,
-        navigationOptions: () => ({
-            headerTransparent: false,
-            headerTintColor: '#3ac2fe'
-        })
-    }
-}, {
-    initialRouteName: 'Home',
-    transitionConfig
-});
-const Chats = createStackNavigator({
-    RoomList: {
-        screen: RoomList,
-        navigationOptions: () => ({
-            headerTransparent: true
-        })
+    {
+        initialRouteName: 'Home',
+        transitionConfig,
     },
-    Room: {
-        screen: Room,
-        navigationOptions: () => ({
-            headerTransparent: true
-        })
-    }
-}, {
-    initialRouteName: 'RoomList',
-    transitionConfig
-});
-const App = createDrawerNavigator({
-    Main,
-    Chats
-}, {
-    initialRouteName: 'Main',
-    contentComponent: SideMenu,
-    drawerWidth: Dimensions.get('window').width - 100,
-
-});
+);
+const Chats = createStackNavigator(
+    {
+        RoomList: {
+            screen: RoomList,
+            navigationOptions: () => ({
+                headerTransparent: true,
+            }),
+        },
+        Room: {
+            screen: Room,
+            navigationOptions: () => ({
+                headerTransparent: true,
+            }),
+        },
+    },
+    {
+        initialRouteName: 'RoomList',
+        transitionConfig,
+    },
+);
+const App = createDrawerNavigator(
+    {
+        Main,
+        Chats,
+    },
+    {
+        initialRouteName: 'Main',
+        contentComponent: SideMenu,
+        drawerWidth: Dimensions.get('window').width - 100,
+    },
+);
 const Routes = createAppContainer(
-    createSwitchNavigator({
-        Loading,
-        App,
-        Auth: AuthStack
-    }, { initialRouteName: 'Loading' })
+    createSwitchNavigator(
+        {
+            Loading,
+            App,
+            Auth: AuthStack,
+        },
+        { initialRouteName: 'Loading' },
+    ),
 );
 
 export default Routes;

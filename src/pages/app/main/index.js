@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, RefreshControl, ActivityIndicator, Image } from 'react-native';
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    FlatList,
+    RefreshControl,
+    ActivityIndicator,
+    Image,
+    SafeAreaView,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
 import Styles from './style';
@@ -10,12 +19,19 @@ import BookModal from '../../../assets/book-modal.svg';
 import CloseIcon from '../../../assets/close.svg';
 import DefaultBook from '../../../assets/bookDefault.jpg';
 import RemotePushController from '../../../services/RemotePushController';
-import { subscribeToChannel, unsubscribeChannel } from '../../../services/Pusher';
+import {
+    subscribeToChannel,
+    unsubscribeChannel,
+} from '../../../services/Pusher';
 import { getCategories } from '../../../services/CategoriesService';
-import { getAdverts, refreshAdverts, storeAdvert } from '../../../services/AdvertsService';
+import {
+    getAdverts,
+    refreshAdverts,
+    storeAdvert,
+} from '../../../services/AdvertsService';
 import { getUser } from '../../../services/UserService';
 
-export default Main = (props) => {
+export default Main = props => {
     const [refreshing, setRefreshing] = useState(false);
     const [loading, setLoading] = useState(true);
     const [showFirstModal, setShowFirstModal] = useState(false);
@@ -40,21 +56,21 @@ export default Main = (props) => {
     useEffect(() => {
         if (user) {
             const globalChannel = subscribeToChannel('all-clients');
-            globalChannel.bind('book-accepted', (event) => {
+            globalChannel.bind('book-accepted', event => {
                 console.log('BOOK ACCEPTED', event);
                 storeAdvert(event.message);
-                setAdverts(adverts => [event.message, ...adverts])
+                setAdverts(adverts => [event.message, ...adverts]);
             });
 
             const privateChannel = subscribeToChannel(`userID${user.id}`);
-            privateChannel.bind('new-notification', (event) => {
+            privateChannel.bind('new-notification', event => {
                 console.log(event);
             });
         }
         return function cleanup() {
             unsubscribeChannel(`userID${user.id}`);
             unsubscribeChannel('all-clients');
-        }
+        };
     }, []);
 
     function CategoryItem({ name }) {
@@ -71,10 +87,10 @@ export default Main = (props) => {
             <View
                 style={{
                     height: '60%',
-                    backgroundColor: "#d1d1d1",
+                    backgroundColor: '#d1d1d1',
                     width: 1,
                     marginVertical: '15%',
-                    marginHorizontal: 5
+                    marginHorizontal: 5,
                 }}
             />
         );
@@ -106,71 +122,127 @@ export default Main = (props) => {
     }
 
     return (
-        <View style={Styles.Container}>
+        <SafeAreaView style={Styles.Container}>
             <Header navigation={props.navigation} />
             {loading ? (
-                <View style={Styles.LoadingContainer}>
+                <SafeAreaView style={Styles.LoadingContainer}>
                     <ActivityIndicator></ActivityIndicator>
-                </View>) :
+                </SafeAreaView>
+            ) : (
                 <>
                     <View style={Styles.Categories}>
                         <FlatList
                             data={categories}
-                            renderItem={({ item }) => <CategoryItem name={item.name} />}
+                            renderItem={({ item }) => (
+                                <CategoryItem name={item.name} />
+                            )}
                             keyExtractor={item => item.name}
                             horizontal={true}
-                            contentContainerStyle={{ justifyContent: 'space-around', width: '100%' }}
+                            contentContainerStyle={{
+                                justifyContent: 'space-around',
+                                width: '100%',
+                            }}
                             ItemSeparatorComponent={renderSeparator}
                         />
                     </View>
                     <View style={Styles.Content}>
                         <Text style={Styles.H1}>Mais Recentes</Text>
-                        {
-                            adverts.length > 0 ? <FlatList
+                        {adverts.length > 0 ? (
+                            <FlatList
                                 data={adverts}
-                                renderItem={({ item }) => <Advert item={item} navigation={props.navigation} />}
+                                renderItem={({ item }) => (
+                                    <Advert
+                                        item={item}
+                                        navigation={props.navigation}
+                                    />
+                                )}
                                 keyExtractor={item => String(item.id)}
-                                refreshControl={<RefreshControl colors={['#fb8c00', '#38C2FF']} refreshing={refreshing} onRefresh={refreshAds} />}
-                            /> :
-                                <Text>Nenhum livro foi cadastrado!</Text>
-                        }
+                                refreshControl={
+                                    <RefreshControl
+                                        colors={['#fb8c00', '#38C2FF']}
+                                        refreshing={refreshing}
+                                        onRefresh={refreshAds}
+                                    />
+                                }
+                            />
+                        ) : (
+                            <Text>Nenhum livro foi cadastrado!</Text>
+                        )}
                     </View>
-                    <TouchableOpacity style={Styles.AddButton} onPress={handleOpenModal}>
+                    <TouchableOpacity
+                        style={Styles.AddButton}
+                        onPress={handleOpenModal}>
                         <Plus />
                     </TouchableOpacity>
-                    <Modal style={Styles.Modal} isVisible={showFirstModal} animationIn='zoomIn' animationOut='slideOutLeft'>
+                    <Modal
+                        style={Styles.Modal}
+                        isVisible={showFirstModal}
+                        animationIn="zoomIn"
+                        animationOut="slideOutLeft">
                         <View style={Styles.ModalCard}>
-                            <TouchableOpacity style={Styles.ModalClose} onPress={handleHideModal}>
+                            <TouchableOpacity
+                                style={Styles.ModalClose}
+                                onPress={handleHideModal}>
                                 <CloseIcon />
                             </TouchableOpacity>
-                            <Text style={Styles.TextHeader}>Você está pronto para anunciar o seu livro?</Text>
+                            <Text style={Styles.TextHeader}>
+                                Você está pronto para anunciar o seu livro?
+                            </Text>
                             <BookModal />
-                            <Text style={Styles.TextP}>É muito simples, são apenas 2 passos!</Text>
-                            <TouchableOpacity style={Styles.ModalButton} onPress={nextModal}>
-                                <Text style={Styles.ModalButtonText}>Vamos lá</Text>
+                            <Text style={Styles.TextP}>
+                                É muito simples, são apenas 2 passos!
+                            </Text>
+                            <TouchableOpacity
+                                style={Styles.ModalButton}
+                                onPress={nextModal}>
+                                <Text style={Styles.ModalButtonText}>
+                                    Vamos lá
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </Modal>
-                    <Modal style={Styles.Modal} isVisible={showSecondModal} animationIn='slideInRight' animationOut='zoomOut' onModalHide={handleHideModal}>
+                    <Modal
+                        style={Styles.Modal}
+                        isVisible={showSecondModal}
+                        animationIn="slideInRight"
+                        animationOut="zoomOut"
+                        onModalHide={handleHideModal}>
                         <View style={[Styles.ModalCard, { height: 490 }]}>
-                            <TouchableOpacity style={Styles.ModalClose} onPress={handleHideModal}>
+                            <TouchableOpacity
+                                style={Styles.ModalClose}
+                                onPress={handleHideModal}>
                                 <CloseIcon />
                             </TouchableOpacity>
                             <Text style={Styles.TextHeader}>Tire fotos!</Text>
                             <View style={Styles.Divider}></View>
                             <Text style={Styles.Texplanation}>
                                 Será necessário a foto da capa e contracapa.
-                                Utilize suas melhores técnicas como fotógrafo para o seu anúncio ficar mais atraente :D
+                                Utilize suas melhores técnicas como fotógrafo
+                                para o seu anúncio ficar mais atraente :D
                             </Text>
-                            <Image source={DefaultBook} style={{ width: 140, height: 210, borderRadius: 8 }} />
-                            <TouchableOpacity style={Styles.Modal2Button} onPress={navigateToForm}>
-                                <Icon name='chevron-right' size={30} color='#FFFFFF' style={{ marginLeft: 5 }} />
+                            <Image
+                                source={DefaultBook}
+                                style={{
+                                    width: 140,
+                                    height: 210,
+                                    borderRadius: 8,
+                                }}
+                            />
+                            <TouchableOpacity
+                                style={Styles.Modal2Button}
+                                onPress={navigateToForm}>
+                                <Icon
+                                    name="chevron-right"
+                                    size={30}
+                                    color="#FFFFFF"
+                                    style={{ marginLeft: 5 }}
+                                />
                             </TouchableOpacity>
                         </View>
                     </Modal>
                 </>
-            }
+            )}
             <RemotePushController />
-        </View>
+        </SafeAreaView>
     );
-}
+};

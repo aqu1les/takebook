@@ -5,12 +5,12 @@ export default Styles = StyleSheet.create({
         marginLeft: 5,
         padding: 5,
         flexGrow: 100,
-        fontSize: 18
+        fontSize: 18,
     },
     FormGroup: {
-        flexDirection: "row",
-        alignItems: "center",
-        width: "85%",
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '85%',
         borderRadius: 8,
         borderBottomWidth: 1,
         borderBottomColor: '#EAEAEA',
@@ -18,24 +18,24 @@ export default Styles = StyleSheet.create({
         padding: 5,
         paddingBottom: -6,
         marginTop: 8,
-        marginBottom: 8
+        marginBottom: 8,
     },
     InputError: {
         borderBottomColor: 'red',
     },
     RegisterButton: {
-        width: 126,
+        width: 140,
         padding: 10,
         elevation: 1,
         marginTop: 30,
         marginBottom: 30,
         borderRadius: 8,
-        backgroundColor: "#EB6339",
-        alignItems: 'center'
+        backgroundColor: '#EB6339',
+        alignItems: 'center',
     },
     RegisterText: {
         fontSize: 28,
-        color: '#FFFFFF'
+        color: '#FFFFFF',
     },
     Modal: {
         alignItems: 'center',
@@ -57,7 +57,7 @@ export default Styles = StyleSheet.create({
     TextH1: {
         fontSize: 24,
         color: '#FFFFFF',
-        fontWeight: "700"
+        fontWeight: '700',
     },
     TextP: {
         fontSize: 16,
@@ -68,13 +68,20 @@ export default Styles = StyleSheet.create({
         width: 140,
         padding: 10,
         elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
         borderRadius: 40,
-        backgroundColor: "#FFFFFF",
-        alignItems: 'center'
+        backgroundColor: '#FFFFFF',
+        alignItems: 'center',
     },
     ButtonText: {
         fontSize: 28,
         textAlign: 'center',
-        color: '#000000'
-    }
+        color: '#000000',
+    },
 });

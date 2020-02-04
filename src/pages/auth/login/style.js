@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 
 export default Styles = StyleSheet.create({
     FormGroup: {
-        flexDirection: "row",
-        alignItems: "center",
-        width: "85%",
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '85%',
         borderRadius: 8,
         borderBottomWidth: 1,
         borderBottomColor: '#EAEAEA',
@@ -12,7 +12,7 @@ export default Styles = StyleSheet.create({
         padding: 5,
         paddingBottom: -6,
         marginTop: 8,
-        marginBottom: 8
+        marginBottom: 8,
     },
     InputError: {
         borderBottomColor: 'red',
@@ -22,7 +22,7 @@ export default Styles = StyleSheet.create({
         marginLeft: 5,
         padding: 5,
         flexGrow: 100,
-        fontSize: 18
+        fontSize: 18,
     },
     Button: {
         width: 126,
@@ -31,38 +31,38 @@ export default Styles = StyleSheet.create({
         marginTop: 30,
         marginBottom: 0,
         borderRadius: 8,
-        backgroundColor: "#EB6339",
-        alignItems: 'center'
+        backgroundColor: '#EB6339',
+        alignItems: 'center',
     },
     ButtonDisabled: {
-        backgroundColor: "#dfdfdf",
+        backgroundColor: '#dfdfdf',
     },
     ButtonText: {
-        textAlign: "center",
+        textAlign: 'center',
         fontSize: 28,
-        color: "#FFFFFF"
+        color: '#FFFFFF',
     },
     Options: {
-        flexDirection: "row",
-        width: "100%",
+        flexDirection: 'row',
+        width: '100%',
         paddingHorizontal: 20,
-        alignContent: "center",
-        justifyContent: "space-between",
+        alignContent: 'center',
+        justifyContent: 'space-between',
     },
     Forgot: {
-        fontStyle: "normal",
+        fontStyle: 'normal',
         lineHeight: 24,
-        fontWeight: "200",
+        fontWeight: '300',
         fontSize: 16,
-        alignContent: "center",
-        color: "#909090"
+        alignContent: 'center',
+        color: '#909090',
     },
     Register: {
-        fontStyle: "normal",
-        fontWeight: "200",
+        fontStyle: 'normal',
+        fontWeight: '300',
         fontSize: 16,
-        alignContent: "center",
-        color: "#909090",
+        alignContent: 'center',
+        color: '#909090',
         marginVertical: 10,
-    }
+    },
 });
