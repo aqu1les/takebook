@@ -10,8 +10,15 @@ export default Styles = StyleSheet.create({
         padding: 20,
         marginTop: -80,
         marginBottom: 0,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
     },
     View: {
         backgroundColor: '#EAEAEA',
@@ -40,14 +47,21 @@ export default Styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 4,
         elevation: 1,
-        alignItems: "center",
-        justifyContent: "space-between",
-        minHeight: 480
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        minHeight: 480,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.0,
     },
     ActvIndicator: {
         display: 'flex',
         position: 'absolute',
         bottom: 20,
-        alignSelf: 'center'
-    }
+        alignSelf: 'center',
+    },
 });
