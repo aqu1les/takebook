@@ -20,9 +20,8 @@ export async function getAdverts() {
 }
 
 export async function refreshAdverts() {
-    const adverts = await loadAdverts();
-    await storeAdverts(adverts);
-    return adverts;
+    await loadAdverts();
+    return await getAdverts();
 }
 
 export async function storeAdvert(advert) {

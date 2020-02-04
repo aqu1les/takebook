@@ -10,8 +10,12 @@ import { Badge } from 'native-base';
 export default Advert = (props) => {
     const { id, title, price, author, categories, condition_id, covers_url, approved_at } = props.item;
 
+    function handleClick() {
+        props.navigation.navigate('AdvertDetails', { advert: props.item });
+    }
+
     return (
-        <TouchableOpacity style={Styles.Card} activeOpacity={0.8} onPress={() => props.navigation.navigate('AdvertDetails', { advert: props.item })}>
+        <TouchableOpacity style={Styles.Card} activeOpacity={0.8} onPress={handleClick}>
             <View style={Styles.Cover}>
                 <Image source={covers_url.length > 0 ? { uri: covers_url[0].url } : defaultBook} style={Styles.ImgCover} />
             </View>

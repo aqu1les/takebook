@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react';
-import { View, Text } from 'react-native';
+import { Text, TouchableOpacity, TextInput, View } from 'react-native';
+import Happy from '../../../assets/happy.svg';
+import Modal from 'react-native-modal';
 import Template from '../components/template';
 import User from '../../../assets/icons/user.svg';
 import Password from '../../../assets/icons/password.svg';
 import Email from '../../../assets/icons/form-email.svg';
 import Styles from './style';
-import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 
-export default SignUp = () => {
+export default SignUp = (props) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,6 +17,7 @@ export default SignUp = () => {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswrodError] = useState(false);
     const [passwordConfirmationError, setPasswordConfirmationError] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const nameField = useRef(null);
     const emailField = useRef(null);
     const passwordField = useRef(null);
@@ -23,6 +25,12 @@ export default SignUp = () => {
 
     function handleSubmit() {
         console.log('submitted');
+        setShowModal(true);
+    }
+
+    function handleModalHide() {
+        // props.navigattion.navigate('App');
+        setShowModal(false);
     }
     return (
         <Template>
@@ -104,6 +112,16 @@ export default SignUp = () => {
             <TouchableOpacity style={Styles.RegisterButton} onPress={handleSubmit}>
                 <Text style={Styles.RegisterText}>Cadastrar</Text>
             </TouchableOpacity>
+            <Modal style={Styles.Modal} isVisible={showModal} animationIn='zoomIn' onModalHide={handleModalHide}>
+                <View style={Styles.ModalCard}>
+                    <Happy />
+                    <Text style={Styles.TextH1}>Cadastro realizado!</Text>
+                    <Text style={Styles.TextP}>Sinta-se à vontade para publicar um livro ou adquirir novos!</Text>
+                    <TouchableOpacity style={Styles.ModalButton} onPress={handleModalHide}>
+                        <Text style={Styles.ButtonText}>Começar</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
         </Template>
     )
 }

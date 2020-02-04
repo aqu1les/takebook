@@ -3,9 +3,9 @@ import { View, Text, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Styles from './style';
-import Background from '../../../assets/background/advertDetailbg.svg';
+import Background from '../../../../assets/background/advertDetailbg.svg';
 import { Tab, Tabs } from 'native-base';
-import DefaultProfile from '../../../assets/icons/defaultProfile.svg';
+import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default AdvertDetails = ({ navigation }) => {

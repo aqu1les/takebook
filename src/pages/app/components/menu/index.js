@@ -14,7 +14,6 @@ export default SideBar = (props) => {
     useEffect(() => {
         async function getUserInfo() {
             const user = await getUser();
-            console.log(user);
             setUser(user);
         }
         getUserInfo();

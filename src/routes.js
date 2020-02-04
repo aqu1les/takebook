@@ -6,7 +6,8 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import Loading from './pages/loading';
 import Login from './pages/auth/login';
 import Home from './pages/app/main';
-import AdvertDetails from './pages/app/advert-details';
+import AdvertDetails from './pages/app/main/advert-details';
+import NewBook from './pages/app/main/new-book';
 import SignUp from './pages/auth/sign-up';
 import SideMenu from './pages/app/components/menu';
 import RoomList from './pages/app/chats/RoomList';
@@ -28,12 +29,10 @@ function transitionConfig() {
             const opacity = position.interpolate({
                 inputRange: [
                     thisSceneIndex - 1,
-                    thisSceneIndex - 0.99,
                     thisSceneIndex,
-                    thisSceneIndex + 0.99,
                     thisSceneIndex + 1
                 ],
-                outputRange: [0, 1, 1, 0.3, 0]
+                outputRange: ([0, 1, 1])
             });
 
             return { opacity, transform: [{ translateX }] };
@@ -68,6 +67,13 @@ const Main = createStackNavigator({
         screen: AdvertDetails,
         navigationOptions: () => ({
             headerTransparent: true
+        })
+    },
+    NewBook: {
+        screen: NewBook,
+        navigationOptions: () => ({
+            headerTransparent: false,
+            headerTintColor: '#3ac2fe'
         })
     }
 }, {

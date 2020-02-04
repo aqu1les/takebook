@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, RefreshControl, ActivityIndicator, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Modal from 'react-native-modal';
 import Styles from './style';
 import Header from '../components/header';
 import Advert from '../components/advert';
 import Plus from '../../../assets/icons/add-book.svg';
+import BookModal from '../../../assets/book-modal.svg';
+import CloseIcon from '../../../assets/close.svg';
+import DefaultBook from '../../../assets/bookDefault.jpg';
 import RemotePushController from '../../../services/RemotePushController';
 import { subscribeToChannel, unsubscribeChannel } from '../../../services/Pusher';
 import { getCategories } from '../../../services/CategoriesService';
@@ -14,6 +18,8 @@ import { getUser } from '../../../services/UserService';
 export default Main = (props) => {
     const [refreshing, setRefreshing] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [showFirstModal, setShowFirstModal] = useState(false);
+    const [showSecondModal, setShowSecondModal] = useState(false);
     const [categories, setCategories] = useState([]);
     const [adverts, setAdverts] = useState([]);
     const [user, setUser] = useState({});
@@ -77,6 +83,26 @@ export default Main = (props) => {
     async function refreshAds() {
         setRefreshing(true);
         setAdverts(await refreshAdverts());
+        setRefreshing(false);
+    }
+
+    function handleHideModal() {
+        setShowFirstModal(false);
+        setShowSecondModal(false);
+    }
+
+    function handleOpenModal() {
+        setShowFirstModal(true);
+    }
+
+    function nextModal() {
+        setShowFirstModal(false);
+        setShowSecondModal(true);
+    }
+
+    function navigateToForm() {
+        props.navigation.navigate('NewBook');
+        handleHideModal();
     }
 
     return (
@@ -109,9 +135,39 @@ export default Main = (props) => {
                                 <Text>Nenhum livro foi cadastrado!</Text>
                         }
                     </View>
-                    <TouchableOpacity style={Styles.AddButton}>
+                    <TouchableOpacity style={Styles.AddButton} onPress={handleOpenModal}>
                         <Plus />
                     </TouchableOpacity>
+                    <Modal style={Styles.Modal} isVisible={showFirstModal} animationIn='zoomIn' animationOut='slideOutLeft'>
+                        <View style={Styles.ModalCard}>
+                            <TouchableOpacity style={Styles.ModalClose} onPress={handleHideModal}>
+                                <CloseIcon />
+                            </TouchableOpacity>
+                            <Text style={Styles.TextHeader}>Você está pronto para anunciar o seu livro?</Text>
+                            <BookModal />
+                            <Text style={Styles.TextP}>É muito simples, são apenas 2 passos!</Text>
+                            <TouchableOpacity style={Styles.ModalButton} onPress={nextModal}>
+                                <Text style={Styles.ModalButtonText}>Vamos lá</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
+                    <Modal style={Styles.Modal} isVisible={showSecondModal} animationIn='slideInRight' animationOut='zoomOut' onModalHide={handleHideModal}>
+                        <View style={[Styles.ModalCard, { height: 490 }]}>
+                            <TouchableOpacity style={Styles.ModalClose} onPress={handleHideModal}>
+                                <CloseIcon />
+                            </TouchableOpacity>
+                            <Text style={Styles.TextHeader}>Tire fotos!</Text>
+                            <View style={Styles.Divider}></View>
+                            <Text style={Styles.Texplanation}>
+                                Será necessário a foto da capa e contracapa.
+                                Utilize suas melhores técnicas como fotógrafo para o seu anúncio ficar mais atraente :D
+                            </Text>
+                            <Image source={DefaultBook} style={{ width: 140, height: 210, borderRadius: 8 }} />
+                            <TouchableOpacity style={Styles.Modal2Button} onPress={navigateToForm}>
+                                <Icon name='chevron-right' size={30} color='#FFFFFF' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
                 </>
             }
             <RemotePushController />
