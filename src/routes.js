@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -66,7 +66,13 @@ const Main = createStackNavigator(
         Home: {
             screen: Home,
             navigationOptions: () => ({
-                headerShown: false,
+                headerShown: Platform.OS === 'ios' ? true : false,
+                headerTintColor: '#FFF',
+                headerStyle: {
+                    height: 0,
+                    backgroundColor: '#3ac2fe',
+                    borderWidth: 0,
+                },
             }),
         },
         AdvertDetails: {
@@ -80,9 +86,9 @@ const Main = createStackNavigator(
             navigationOptions: () => ({
                 headerTransparent: false,
                 headerStyle: {
-                    backgroundColor: '#3ac2fe'
+                    backgroundColor: '#3ac2fe',
                 },
-                headerTintColor: '#FFF'
+                headerTintColor: '#FFF',
             }),
         },
     },

@@ -7,14 +7,21 @@ export default Styles = StyleSheet.create({
         borderRadius: 8,
         marginVertical: 8,
         elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
         flexDirection: 'row',
         padding: 5,
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
     },
     Cover: {
         width: '45%',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     ImgCover: {
         width: '90%',
@@ -25,17 +32,17 @@ export default Styles = StyleSheet.create({
         width: '55%',
         flexDirection: 'column',
         justifyContent: 'space-around',
-        padding: 10
+        padding: 10,
     },
     FavIcon: {
         position: 'absolute',
         top: 5,
-        right: 5
+        right: 5,
     },
     Title: {
         fontSize: 28,
         fontWeight: 'bold',
-        marginTop: 20
+        marginTop: 20,
     },
     Author: {
         color: '#A5A5A5',
@@ -44,7 +51,7 @@ export default Styles = StyleSheet.create({
     },
     Categories: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     TextCategory: {
         fontSize: 12,
@@ -53,23 +60,23 @@ export default Styles = StyleSheet.create({
     Details: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     Badge: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#00cc09'
+        backgroundColor: '#00cc09',
     },
     Condition: {
         color: '#FFFFFF',
-        fontSize: 12
+        fontSize: 12,
     },
     Row: {
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     Locale: {
         fontSize: 12,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     PriceButton: {
         backgroundColor: '#fb8c00',
@@ -77,13 +84,13 @@ export default Styles = StyleSheet.create({
         width: '60%',
         height: 40,
         justifyContent: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     Price: {
         color: '#FFFFFF',
         textAlign: 'center',
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     CreationTime: {
         position: 'absolute',
@@ -91,6 +98,6 @@ export default Styles = StyleSheet.create({
         right: 0,
         color: '#c0c0c0',
         fontSize: 12,
-        fontStyle: 'italic'
-    }
+        fontStyle: 'italic',
+    },
 });

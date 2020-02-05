@@ -5,21 +5,28 @@ export default Styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f2f1f3'
+        backgroundColor: '#f2f1f3',
     },
     Card: {
         width: '90%',
         height: '90%',
         backgroundColor: '#F9F9F9',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.0,
         elevation: 1,
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        borderRadius: 8
+        borderRadius: 8,
     },
     HeadingText: {
         color: '#000000',
         fontWeight: '600',
-        fontSize: 24
+        fontSize: 24,
     },
     CoverContainer: {
         flexDirection: 'row',
@@ -34,7 +41,7 @@ export default Styles = StyleSheet.create({
         borderRadius: 12,
         borderWidth: 1,
         borderColor: '#000000',
-        marginHorizontal: 5
+        marginHorizontal: 5,
     },
     BackCover: {
         width: 140,
@@ -42,13 +49,13 @@ export default Styles = StyleSheet.create({
         borderRadius: 12,
         borderWidth: 1,
         borderColor: '#000000',
-        marginHorizontal: 5
+        marginHorizontal: 5,
     },
     ImageHolder: {
         borderWidth: 1,
         borderStyle: 'dashed',
         borderColor: '#000000',
-        backgroundColor: '#F1F1F1'
+        backgroundColor: '#F1F1F1',
     },
     NextPageButton: {
         width: 140,
@@ -57,10 +64,17 @@ export default Styles = StyleSheet.create({
         height: 45,
         backgroundColor: '#FB8C00',
         borderRadius: 12,
-        elevation: 2
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
     },
     NextPageText: {
         color: '#FFFFFF',
         fontSize: 24,
-    }
+    },
 });

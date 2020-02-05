@@ -3,13 +3,20 @@ import { StyleSheet } from 'react-native';
 export default Styles = StyleSheet.create({
     Container: {
         flex: 1,
-        backgroundColor: '#eeeeee'
+        backgroundColor: '#eeeeee',
     },
     Categories: {
         height: 55,
         width: '100%',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
         elevation: 2,
-        backgroundColor: '#eeeeee'
+        backgroundColor: '#eeeeee',
     },
     Category: {
         height: '100%',
@@ -25,9 +32,16 @@ export default Styles = StyleSheet.create({
     },
     H1: {
         fontSize: 20,
-        color: '#a5a5a5'
+        color: '#a5a5a5',
     },
     AddButton: {
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
         elevation: 5,
         position: 'absolute',
         right: 20,
@@ -37,21 +51,21 @@ export default Styles = StyleSheet.create({
         width: 52,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fb8c00'
+        backgroundColor: '#fb8c00',
     },
     LoadingContainer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     Modal: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     ModalClose: {
         position: 'absolute',
         top: 15,
-        right: 15
+        right: 15,
     },
     ModalCard: {
         height: 450,
@@ -63,17 +77,17 @@ export default Styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 15,
         justifyContent: 'space-evenly',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     TextHeader: {
         fontSize: 28,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     TextP: {
         fontSize: 22,
         marginHorizontal: 30,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     ModalButton: {
         backgroundColor: '#fb8c00',
@@ -82,30 +96,44 @@ export default Styles = StyleSheet.create({
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 5
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     ModalButtonText: {
         color: '#FFFFFF',
-        fontSize: 22
+        fontSize: 22,
     },
     Divider: {
         height: 1,
         width: '90%',
         borderWidth: 1,
-        borderColor: '#ebebe4'
+        borderColor: '#ebebe4',
     },
     Texplanation: {
         marginHorizontal: 20,
         textAlign: 'justify',
-        fontSize: 16
+        fontSize: 16,
     },
     Modal2Button: {
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
         elevation: 5,
         borderRadius: 100,
         height: 50,
         width: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fb8c00'
-    }
+        backgroundColor: '#fb8c00',
+    },
 });

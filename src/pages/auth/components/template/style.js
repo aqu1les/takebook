@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 export default Styles = StyleSheet.create({
     Header: {
-        elevation: 4,
         width: 180,
         height: 180,
         backgroundColor: '#EAEAEA',
@@ -19,6 +18,7 @@ export default Styles = StyleSheet.create({
         },
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
+        elevation: 4,
     },
     View: {
         backgroundColor: '#EAEAEA',
@@ -46,10 +46,6 @@ export default Styles = StyleSheet.create({
         height: '65%',
         backgroundColor: '#FFFFFF',
         borderRadius: 4,
-        elevation: 1,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        minHeight: 480,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -57,6 +53,10 @@ export default Styles = StyleSheet.create({
         },
         shadowOpacity: 0.18,
         shadowRadius: 1.0,
+        elevation: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        minHeight: 480,
     },
     ActvIndicator: {
         display: 'flex',
