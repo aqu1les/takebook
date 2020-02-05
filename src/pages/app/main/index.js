@@ -129,119 +129,119 @@ export default Main = props => {
                     <ActivityIndicator></ActivityIndicator>
                 </SafeAreaView>
             ) : (
-                <>
-                    <View style={Styles.Categories}>
-                        <FlatList
-                            data={categories}
-                            renderItem={({ item }) => (
-                                <CategoryItem name={item.name} />
-                            )}
-                            keyExtractor={item => item.name}
-                            horizontal={true}
-                            contentContainerStyle={{
-                                justifyContent: 'space-around',
-                                width: '100%',
-                            }}
-                            ItemSeparatorComponent={renderSeparator}
-                        />
-                    </View>
-                    <View style={Styles.Content}>
-                        <Text style={Styles.H1}>Mais Recentes</Text>
-                        {adverts.length > 0 ? (
+                    <>
+                        <View style={Styles.Categories}>
                             <FlatList
-                                data={adverts}
+                                data={categories}
                                 renderItem={({ item }) => (
-                                    <Advert
-                                        item={item}
-                                        navigation={props.navigation}
-                                    />
+                                    <CategoryItem name={item.name} />
                                 )}
-                                keyExtractor={item => String(item.id)}
-                                refreshControl={
-                                    <RefreshControl
-                                        colors={['#fb8c00', '#38C2FF']}
-                                        refreshing={refreshing}
-                                        onRefresh={refreshAds}
-                                    />
-                                }
-                            />
-                        ) : (
-                            <Text>Nenhum livro foi cadastrado!</Text>
-                        )}
-                    </View>
-                    <TouchableOpacity
-                        style={Styles.AddButton}
-                        onPress={handleOpenModal}>
-                        <Plus />
-                    </TouchableOpacity>
-                    <Modal
-                        style={Styles.Modal}
-                        isVisible={showFirstModal}
-                        animationIn="zoomIn"
-                        animationOut="slideOutLeft">
-                        <View style={Styles.ModalCard}>
-                            <TouchableOpacity
-                                style={Styles.ModalClose}
-                                onPress={handleHideModal}>
-                                <CloseIcon />
-                            </TouchableOpacity>
-                            <Text style={Styles.TextHeader}>
-                                Você está pronto para anunciar o seu livro?
-                            </Text>
-                            <BookModal />
-                            <Text style={Styles.TextP}>
-                                É muito simples, são apenas 2 passos!
-                            </Text>
-                            <TouchableOpacity
-                                style={Styles.ModalButton}
-                                onPress={nextModal}>
-                                <Text style={Styles.ModalButtonText}>
-                                    Vamos lá
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </Modal>
-                    <Modal
-                        style={Styles.Modal}
-                        isVisible={showSecondModal}
-                        animationIn="slideInRight"
-                        animationOut="zoomOut"
-                        onModalHide={handleHideModal}>
-                        <View style={[Styles.ModalCard, { height: 490 }]}>
-                            <TouchableOpacity
-                                style={Styles.ModalClose}
-                                onPress={handleHideModal}>
-                                <CloseIcon />
-                            </TouchableOpacity>
-                            <Text style={Styles.TextHeader}>Tire fotos!</Text>
-                            <View style={Styles.Divider}></View>
-                            <Text style={Styles.Texplanation}>
-                                Será necessário a foto da capa e contracapa.
-                                Utilize suas melhores técnicas como fotógrafo
-                                para o seu anúncio ficar mais atraente :D
-                            </Text>
-                            <Image
-                                source={DefaultBook}
-                                style={{
-                                    width: 140,
-                                    height: 210,
-                                    borderRadius: 8,
+                                keyExtractor={item => item.name}
+                                horizontal={true}
+                                contentContainerStyle={{
+                                    justifyContent: 'space-around',
+                                    width: '100%',
                                 }}
+                                ItemSeparatorComponent={renderSeparator}
                             />
-                            <TouchableOpacity
-                                style={Styles.Modal2Button}
-                                onPress={navigateToForm}>
-                                <Icon
-                                    name="chevron-right"
-                                    size={30}
-                                    color="#FFFFFF"
-                                    style={{ marginLeft: 5 }}
-                                />
-                            </TouchableOpacity>
                         </View>
-                    </Modal>
-                </>
-            )}
+                        <View style={Styles.Content}>
+                            <Text style={Styles.H1}>Mais Recentes</Text>
+                            {adverts.length > 0 ? (
+                                <FlatList
+                                    data={adverts}
+                                    renderItem={({ item }) => (
+                                        <Advert
+                                            item={item}
+                                            navigation={props.navigation}
+                                        />
+                                    )}
+                                    keyExtractor={item => String(item.id)}
+                                    refreshControl={
+                                        <RefreshControl
+                                            colors={['#fb8c00', '#38C2FF']}
+                                            refreshing={refreshing}
+                                            onRefresh={refreshAds}
+                                        />
+                                    }
+                                />
+                            ) : (
+                                    <Text>Nenhum livro foi cadastrado!</Text>
+                                )}
+                        </View>
+                        <TouchableOpacity
+                            style={Styles.AddButton}
+                            onPress={navigateToForm}>
+                            <Plus />
+                        </TouchableOpacity>
+                        <Modal
+                            style={Styles.Modal}
+                            isVisible={showFirstModal}
+                            animationIn="zoomIn"
+                            animationOut="slideOutLeft">
+                            <View style={Styles.ModalCard}>
+                                <TouchableOpacity
+                                    style={Styles.ModalClose}
+                                    onPress={handleHideModal}>
+                                    <CloseIcon />
+                                </TouchableOpacity>
+                                <Text style={Styles.TextHeader}>
+                                    Você está pronto para anunciar o seu livro?
+                            </Text>
+                                <BookModal />
+                                <Text style={Styles.TextP}>
+                                    É muito simples, são apenas 2 passos!
+                            </Text>
+                                <TouchableOpacity
+                                    style={Styles.ModalButton}
+                                    onPress={nextModal}>
+                                    <Text style={Styles.ModalButtonText}>
+                                        Vamos lá
+                                </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </Modal>
+                        <Modal
+                            style={Styles.Modal}
+                            isVisible={showSecondModal}
+                            animationIn="slideInRight"
+                            animationOut="zoomOut"
+                            onModalHide={handleHideModal}>
+                            <View style={[Styles.ModalCard, { height: 490 }]}>
+                                <TouchableOpacity
+                                    style={Styles.ModalClose}
+                                    onPress={handleHideModal}>
+                                    <CloseIcon />
+                                </TouchableOpacity>
+                                <Text style={Styles.TextHeader}>Tire fotos!</Text>
+                                <View style={Styles.Divider}></View>
+                                <Text style={Styles.Texplanation}>
+                                    Será necessário a foto da capa e contracapa.
+                                    Utilize suas melhores técnicas como fotógrafo
+                                    para o seu anúncio ficar mais atraente :D
+                            </Text>
+                                <Image
+                                    source={DefaultBook}
+                                    style={{
+                                        width: 140,
+                                        height: 210,
+                                        borderRadius: 8,
+                                    }}
+                                />
+                                <TouchableOpacity
+                                    style={Styles.Modal2Button}
+                                    onPress={navigateToForm}>
+                                    <Icon
+                                        name="chevron-right"
+                                        size={30}
+                                        color="#FFFFFF"
+                                        style={{ marginLeft: 5 }}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </Modal>
+                    </>
+                )}
             <RemotePushController />
         </SafeAreaView>
     );

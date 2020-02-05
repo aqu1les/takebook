@@ -79,7 +79,10 @@ const Main = createStackNavigator(
             screen: NewBook,
             navigationOptions: () => ({
                 headerTransparent: false,
-                headerTintColor: '#3ac2fe',
+                headerStyle: {
+                    backgroundColor: '#3ac2fe'
+                },
+                headerTintColor: '#FFF'
             }),
         },
     },

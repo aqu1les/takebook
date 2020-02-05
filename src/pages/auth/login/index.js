@@ -57,6 +57,11 @@ export default Login = props => {
     async function submitForm() {
         setLoading(true);
         passwordInput.current.blur();
+        if (!login || !password || invalid) {
+            if (!login) setLoginError(true);
+            else if (!password) setPasswordError(true);
+            return setLoading(false);
+        }
         if (remind) {
             await setUserEmail(login);
         }
