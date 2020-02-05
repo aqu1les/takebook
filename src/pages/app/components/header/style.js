@@ -1,13 +1,15 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default Styles = StyleSheet.create({
     Header: {
         backgroundColor: '#38C2FF',
         width: '100%',
-        height: 75,
+        height: 90,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
+        paddingTop: Platform.OS === 'ios' ? 30 : 0,
+        paddingBottom: 2,
     },
     Search: {
         height: '50%',
@@ -20,6 +22,7 @@ export default Styles = StyleSheet.create({
     Input: {
         width: '95%',
         height: '100%',
-        fontSize: 16
-    }
+        fontSize: 16,
+        padding: 8,
+    },
 });

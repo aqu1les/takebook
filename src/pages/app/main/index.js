@@ -123,7 +123,7 @@ export default Main = props => {
 
     return (
         <SafeAreaView style={Styles.Container}>
-            <Header navigation={props.navigation} />
+            {/* <Header navigation={props.navigation} /> */}
             {loading ? (
                 <SafeAreaView style={Styles.LoadingContainer}>
                     <ActivityIndicator></ActivityIndicator>

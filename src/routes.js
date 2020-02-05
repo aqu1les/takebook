@@ -12,6 +12,7 @@ import SignUp from './pages/auth/sign-up';
 import SideMenu from './pages/app/components/menu';
 import RoomList from './pages/app/chats/RoomList';
 import Room from './pages/app/chats/RoomList/Room';
+import Header from './pages/app/components/header';
 
 function transitionConfig() {
     return {
@@ -67,12 +68,8 @@ const Main = createStackNavigator(
             screen: Home,
             navigationOptions: () => ({
                 headerShown: Platform.OS === 'ios' ? true : false,
-                headerTintColor: '#FFF',
-                headerStyle: {
-                    height: 0,
-                    backgroundColor: '#3ac2fe',
-                    borderWidth: 0,
-                },
+                // headerTintColor: '#FFF',
+                header: props => <Header {...props} />,
             }),
         },
         AdvertDetails: {
