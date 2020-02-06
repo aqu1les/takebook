@@ -7,10 +7,9 @@ export default Styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#f2f1f3',
     },
-    Card: {
-        width: '90%',
-        height: '90%',
+    CardScrollView: {
         backgroundColor: '#F9F9F9',
+        borderRadius: 8,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -19,9 +18,22 @@ export default Styles = StyleSheet.create({
         shadowOpacity: 0.18,
         shadowRadius: 1.0,
         elevation: 1,
-        justifyContent: 'space-evenly',
+        width: '90%',
+        minHeight: '85%',
+        height: '85%',
+        maxHeight: '85%',
+    },
+    CardContainer: {
         alignItems: 'center',
-        borderRadius: 8,
+        justifyContent: 'space-between',
+        minHeight: 1800,
+        padding: 15
+    },
+    PageOne: {
+        minHeight: 600,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
     },
     HeadingText: {
         color: '#000000',
@@ -30,13 +42,12 @@ export default Styles = StyleSheet.create({
     },
     CoverContainer: {
         flexDirection: 'row',
-        height: 300,
-        width: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
+        height: '100%',
     },
     Cover: {
-        width: 180,
+        width: 140,
         height: '100%',
         borderRadius: 12,
         borderWidth: 1,
@@ -57,24 +68,61 @@ export default Styles = StyleSheet.create({
         borderColor: '#000000',
         backgroundColor: '#F1F1F1',
     },
-    NextPageButton: {
-        width: 140,
+    NextSectionButton: {
+        width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
         height: 45,
-        backgroundColor: '#FB8C00',
-        borderRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 2,
+        marginTop: 10
     },
-    NextPageText: {
-        color: '#FFFFFF',
-        fontSize: 24,
+    PreviousSectionButton: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 45,
+        marginBottom: 5
+    },
+    PageTwo: {
+        minHeight: 580,
+        width: '100%',
+        alignItems: 'center'
+    },
+    FormGroup: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '85%',
+        borderRadius: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: '#EAEAEA',
+        height: 50,
+        padding: 5,
+        paddingBottom: -6,
+        marginTop: 5,
+        marginBottom: 5,
+    },
+    FormGroupColumn: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: 54,
+        padding: 5,
+        marginTop: 8,
+        marginBottom: 8,
+    },
+    CEPField: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: 80,
+        borderBottomWidth: 1,
+        borderBottomColor: '#EAEAEA',
+        height: 54,
+        padding: 5,
+        paddingBottom: -6,
+        marginTop: 8,
+        marginBottom: 8,
+    },
+    PageThree: {
+        minHeight: 580,
+        width: '100%',
+        alignItems: 'center'
     },
 });

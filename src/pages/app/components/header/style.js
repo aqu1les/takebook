@@ -4,7 +4,7 @@ export default Styles = StyleSheet.create({
     Header: {
         backgroundColor: '#38C2FF',
         width: '100%',
-        height: 90,
+        height: Platform.OS === 'ios' ? 90 : 60,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
@@ -12,7 +12,7 @@ export default Styles = StyleSheet.create({
         paddingBottom: 2,
     },
     Search: {
-        height: '50%',
+        height: '60%',
         backgroundColor: '#FFFFFF',
         borderRadius: 24,
         flexDirection: 'row',

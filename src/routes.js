@@ -67,8 +67,6 @@ const Main = createStackNavigator(
         Home: {
             screen: Home,
             navigationOptions: () => ({
-                headerShown: Platform.OS === 'ios' ? true : false,
-                // headerTintColor: '#FFF',
                 header: props => <Header {...props} />,
             }),
         },

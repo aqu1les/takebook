@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { API_URL } from 'react-native-dotenv';
 
 const api = axios.create({
-    baseURL: API_URL,
+    baseURL: API_URL || 'http://10.0.0.8:8000',
 });
 
 api.interceptors.request.use(async config => {
