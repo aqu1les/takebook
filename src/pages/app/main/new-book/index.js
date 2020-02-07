@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Style from './style';
 import { getCategories } from '../../../../services/CategoriesService';
+import { getInfoByCEP } from '../../../../services/IBGEService';
 
 export default NewBook = props => {
     const [cover, setCover] = useState(null);
@@ -15,6 +16,10 @@ export default NewBook = props => {
     const [bookStatus, setBookStatus] = useState(1);
     const [categories, setCategories] = useState([]);
     const [bookCategories, setBookCategories] = useState([]);
+    const [cep, setCep] = useState('');
+    const [neighborhood, setNeighborhood] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
     const scrollView = useRef(null);
 
     useEffect(() => {
@@ -25,26 +30,11 @@ export default NewBook = props => {
         loadCategories();
     }, []);
 
-    const previewCover = useMemo(
-        () => (cover ? 'data:image/jpeg;base64,' + cover.data : null),
-        [cover],
-    );
-    const previewCover2 = useMemo(
-        () => (cover2 ? 'data:image/jpeg;base64,' + cover2.data : null),
-        [cover2],
-    );
-    const previewCover3 = useMemo(
-        () => (cover3 ? 'data:image/jpeg;base64,' + cover3.data : null),
-        [cover3],
-    );
-    const previewCover4 = useMemo(
-        () => (cover4 ? 'data:image/jpeg;base64,' + cover4.data : null),
-        [cover4],
-    );
-    const previewCover5 = useMemo(
-        () => (cover5 ? 'data:image/jpeg;base64,' + cover5.data : null),
-        [cover5],
-    );
+    const previewCover = useMemo(() => (cover ? 'data:image/jpeg;base64,' + cover.data : null), [cover]);
+    const previewCover2 = useMemo(() => (cover2 ? 'data:image/jpeg;base64,' + cover2.data : null), [cover2]);
+    const previewCover3 = useMemo(() => (cover3 ? 'data:image/jpeg;base64,' + cover3.data : null), [cover3]);
+    const previewCover4 = useMemo(() => (cover4 ? 'data:image/jpeg;base64,' + cover4.data : null), [cover4]);
+    const previewCover5 = useMemo(() => (cover5 ? 'data:image/jpeg;base64,' + cover5.data : null), [cover5]);
 
     function handleCoverPicker(index) {
         ImagePicker.showImagePicker({ title: 'Camera' }, response => {
@@ -100,6 +90,22 @@ export default NewBook = props => {
             setBookCategories(bookCategories.filter(cat => cat.id !== category.id));
         }
         console.log(bookCategories)
+    }
+
+    async function handleCepChange(value) {
+        if (value.length === 5) {
+            setCep(value + '-');
+        } else if (value.length < 5) {
+            setCep(value.replace('-', ''));
+        } else {
+            setCep(value);
+            if (value.length === 9) {
+                const addressInfo = await getInfoByCEP(value);
+                setCity(addressInfo.localidade);
+                setState(addressInfo.uf);
+                setNeighborhood(addressInfo.bairro);
+            }
+        }
     }
 
     return (
@@ -207,36 +213,24 @@ export default NewBook = props => {
                         <Icon name='chevron-up' size={32} color='#a5a5a5' />
                     </TouchableOpacity>
                     <Text>Onde seu livro está?</Text>
-                    <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around' }}>
-                        <TouchableOpacity style={Style.FormGroupColumn}>
-                            <Text>Estado</Text>
-                            <Picker selectedValue={bookStatus} onValueChange={value => setBookStatus(value)} style={{ height: 50, width: 100 }}>
-                                <Picker.Item label='Novo' value='1' />
-                                <Picker.Item label='Usado' value='2' />
-                            </Picker>
+                    <View style={Style.Row}>
+                        <TouchableOpacity style={Style.FormGroup}>
+                            <TextInput placeholder='CEP' value={cep} onChangeText={handleCepChange} maxLength={9} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={Style.FormGroupColumn}>
-                            <Text>Cidade</Text>
-                            <Picker selectedValue={bookStatus} onValueChange={value => setBookStatus(value)} style={{ height: 50, width: 100 }}>
-                                <Picker.Item label='Novo' value='1' />
-                                <Picker.Item label='Usado' value='2' />
-                            </Picker>
+                        <TouchableOpacity style={Style.FormGroup}>
+                            <TextInput placeholder='Bairro' value={neighborhood} editable={false} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around' }}>
-                        <TouchableOpacity style={Style.FormGroupColumn}>
-                            <Text>Bairro</Text>
-                            <Picker selectedValue={bookStatus} onValueChange={value => setBookStatus(value)} style={{ height: 50, width: 100 }}>
-                                <Picker.Item label='Novo' value='1' />
-                                <Picker.Item label='Usado' value='2' />
-                            </Picker>
+                    <View style={Style.Row}>
+                        <TouchableOpacity style={Style.FormGroup}>
+                            <TextInput placeholder='Cidade' value={city} editable={false} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={Style.CEPField}>
-                            <TextInput placeholder='CEP' />
+                        <TouchableOpacity style={Style.FormGroup}>
+                            <TextInput placeholder='Estado' value={state} editable={false} />
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={Style.PostBook}>
-                        <Text>Publicar</Text>
+                    <TouchableOpacity style={Style.PostBookButton}>
+                        <Text style={Style.PostBookText}>Publicar</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

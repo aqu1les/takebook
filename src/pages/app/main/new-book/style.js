@@ -90,7 +90,7 @@ export default Styles = StyleSheet.create({
     FormGroup: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '85%',
+        width: '45%',
         borderRadius: 8,
         borderBottomWidth: 1,
         borderBottomColor: '#EAEAEA',
@@ -100,6 +100,11 @@ export default Styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 5,
     },
+    Row: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-around'
+    },
     FormGroupColumn: {
         flexDirection: 'column',
         alignItems: 'center',
@@ -108,21 +113,22 @@ export default Styles = StyleSheet.create({
         marginTop: 8,
         marginBottom: 8,
     },
-    CEPField: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: 80,
-        borderBottomWidth: 1,
-        borderBottomColor: '#EAEAEA',
-        height: 54,
-        padding: 5,
-        paddingBottom: -6,
-        marginTop: 8,
-        marginBottom: 8,
-    },
     PageThree: {
         minHeight: 580,
         width: '100%',
         alignItems: 'center'
     },
+    PostBookButton: {
+        width: 120,
+        height: 45,
+        backgroundColor: '#ff8c00',
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 1,
+        borderRadius: 10
+    },
+    PostBookText: {
+        fontSize: 20,
+        color: '#FFFFFF',
+    }
 });

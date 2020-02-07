@@ -2,11 +2,11 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import { API_URL } from 'react-native-dotenv';
 
-const api = axios.create({
+const ApiService = axios.create({
     baseURL: API_URL || 'http://10.0.0.8:8000',
 });
 
-api.interceptors.request.use(async config => {
+ApiService.interceptors.request.use(async config => {
     const token = await AsyncStorage.getItem('userToken:TB');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -14,7 +14,7 @@ api.interceptors.request.use(async config => {
     return config;
 });
 
-api.interceptors.response.use(
+ApiService.interceptors.response.use(
     response => response,
     err => {
         if (err.response) {
@@ -34,4 +34,4 @@ api.interceptors.response.use(
     },
 );
 
-export default api;
+export default ApiService;
