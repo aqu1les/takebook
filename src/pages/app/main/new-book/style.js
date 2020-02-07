@@ -15,8 +15,8 @@ export default Styles = StyleSheet.create({
             width: 0,
             height: 1,
         },
-        shadowOpacity: 0.18,
-        shadowRadius: 1.0,
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
         elevation: 1,
         width: '90%',
         minHeight: '85%',
@@ -26,14 +26,18 @@ export default Styles = StyleSheet.create({
     CardContainer: {
         alignItems: 'center',
         justifyContent: 'space-between',
-        minHeight: 1800,
-        padding: 15
+        minHeight: '300%',
+        height: '300%',
+        maxHeight: '300%',
+        padding: 15,
     },
     PageOne: {
-        minHeight: 600,
+        height: '33.333%',
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        position: 'relative',
+        paddingVertical: 30,
     },
     HeadingText: {
         color: '#000000',
@@ -69,28 +73,48 @@ export default Styles = StyleSheet.create({
         backgroundColor: '#F1F1F1',
     },
     NextSectionButton: {
+        position: 'absolute',
+        bottom: 5,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
         height: 45,
-        marginTop: 10
+        marginTop: 10,
     },
     PreviousSectionButton: {
+        position: 'absolute',
+        top: 5,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
         height: 45,
-        marginBottom: 5
+        marginBottom: 5,
     },
     PageTwo: {
-        minHeight: 580,
+        height: '33.333%',
         width: '100%',
-        alignItems: 'center'
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        position: 'relative',
+        paddingVertical: 30,
     },
     FormGroup: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '45%',
+        width: '90%',
+        borderRadius: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: '#EAEAEA',
+        height: 50,
+        padding: 5,
+        paddingBottom: -6,
+        marginTop: 5,
+        marginBottom: 5,
+    },
+    FormGroupRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '50%',
         borderRadius: 8,
         borderBottomWidth: 1,
         borderBottomColor: '#EAEAEA',
@@ -103,7 +127,7 @@ export default Styles = StyleSheet.create({
     Row: {
         flexDirection: 'row',
         width: '100%',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
     },
     FormGroupColumn: {
         flexDirection: 'column',
@@ -114,9 +138,12 @@ export default Styles = StyleSheet.create({
         marginBottom: 8,
     },
     PageThree: {
-        minHeight: 580,
+        position: 'relative',
+        height: '33.333%',
         width: '100%',
-        alignItems: 'center'
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        paddingVertical: 30,
     },
     PostBookButton: {
         width: 120,
@@ -125,10 +152,17 @@ export default Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         elevation: 1,
-        borderRadius: 10
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.0,
+        borderRadius: 10,
     },
     PostBookText: {
         fontSize: 20,
         color: '#FFFFFF',
-    }
+    },
 });
