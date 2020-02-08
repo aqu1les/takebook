@@ -7,6 +7,7 @@ export default Styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#f2f1f3',
     },
+    TextCenter: { textAlign: 'center' },
     CardScrollView: {
         backgroundColor: '#F9F9F9',
         borderRadius: 8,
@@ -25,19 +26,36 @@ export default Styles = StyleSheet.create({
     },
     CardContainer: {
         alignItems: 'center',
-        justifyContent: 'space-between',
         minHeight: '300%',
         height: '300%',
         maxHeight: '300%',
-        padding: 15,
     },
     PageOne: {
-        height: '33.333%',
+        height: '33.3333%',
         width: '100%',
         alignItems: 'center',
         justifyContent: 'space-evenly',
         position: 'relative',
         paddingVertical: 30,
+        padding: 20
+    },
+    PageTwo: {
+        height: '33.3333%',
+        width: '100%',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        position: 'relative',
+        paddingVertical: 30,
+        padding: 20
+    },
+    PageThree: {
+        height: '33.3333%',
+        width: '100%',
+        position: 'relative',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        paddingVertical: 30,
+        padding: 20
     },
     HeadingText: {
         color: '#000000',
@@ -90,14 +108,6 @@ export default Styles = StyleSheet.create({
         height: 45,
         marginBottom: 5,
     },
-    PageTwo: {
-        height: '33.333%',
-        width: '100%',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        position: 'relative',
-        paddingVertical: 30,
-    },
     FormGroup: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -136,14 +146,6 @@ export default Styles = StyleSheet.create({
         padding: 5,
         marginTop: 8,
         marginBottom: 8,
-    },
-    PageThree: {
-        position: 'relative',
-        height: '33.333%',
-        width: '100%',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        paddingVertical: 30,
     },
     PostBookButton: {
         width: 120,

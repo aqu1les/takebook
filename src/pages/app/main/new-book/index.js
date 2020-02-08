@@ -1,17 +1,12 @@
 import React, { useMemo, useState, useRef, useEffect } from 'react';
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    Image,
-    TextInput,
-    Picker,
-} from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Picker, Platform } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import { RNPhotoEditor } from 'react-native-photo-editor';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Style from './style';
 import CheckBox from './check-box';
+import Cover from './cover';
 import { getCategories } from '../../../../services/CategoriesService';
 import { getInfoByCEP } from '../../../../services/IBGEService';
 
@@ -28,10 +23,10 @@ export default NewBook = props => {
     const [neighborhood, setNeighborhood] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
-    const scrollView = useRef(null);
-    const pageOne = useRef(null);
-    const pageTwo = useRef(null);
-    const pageThree = useRef(null);
+    const scrollView = useRef();
+    const pageOne = useRef();
+    const pageTwo = useRef();
+    const pageThree = useRef();
 
     useEffect(() => {
         async function loadCategories() {
@@ -42,23 +37,23 @@ export default NewBook = props => {
     }, []);
 
     const previewCover = useMemo(
-        () => (cover ? 'data:image/jpeg;base64,' + cover.data : null),
+        () => (cover ? cover.path : null),
         [cover],
     );
     const previewCover2 = useMemo(
-        () => (cover2 ? 'data:image/jpeg;base64,' + cover2.data : null),
+        () => (cover2 ? cover2.path : null),
         [cover2],
     );
     const previewCover3 = useMemo(
-        () => (cover3 ? 'data:image/jpeg;base64,' + cover3.data : null),
+        () => (cover3 ? cover3.path : null),
         [cover3],
     );
     const previewCover4 = useMemo(
-        () => (cover4 ? 'data:image/jpeg;base64,' + cover4.data : null),
+        () => (cover4 ? cover4.path : null),
         [cover4],
     );
     const previewCover5 = useMemo(
-        () => (cover5 ? 'data:image/jpeg;base64,' + cover5.data : null),
+        () => (cover5 ? cover5.path : null),
         [cover5],
     );
 
@@ -97,24 +92,125 @@ export default NewBook = props => {
         });
     }
 
+    function handleEditImage(index) {
+        switch (index) {
+            case 1:
+                RNPhotoEditor.Edit({
+                    path: cover.path,
+                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
+                    onDone: (path) => {
+                        setCover({ ...cover, path });
+                    },
+                    onCancel: () => { return; }
+                });
+                break;
+            case 2:
+                RNPhotoEditor.Edit({
+                    path: cover2.path,
+                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
+                    onDone: (path) => {
+                        setCover2({ ...cover2, path });
+                    },
+                    onCancel: () => { return; }
+                });
+                break;
+            case 3:
+                RNPhotoEditor.Edit({
+                    path: cover3.path,
+                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
+                    onDone: (path) => {
+                        setCover3({ ...cover3, path });
+                    },
+                    onCancel: () => { return; }
+                });
+                break;
+            case 4:
+                RNPhotoEditor.Edit({
+                    path: cover4.path,
+                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
+                    onDone: (path) => {
+                        setCover4({ ...cover4, path });
+                    },
+                    onCancel: () => { return; }
+                });
+                break;
+            case 5:
+                RNPhotoEditor.Edit({
+                    path: cover5.path,
+                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
+                    onDone: (path) => {
+                        setCover5({ ...cover5, path });
+                    },
+                    onCancel: () => { return; },
+                });
+                break;
+            default:
+                break;
+        }
+    }
+
+    function handleRemoveImage(index) {
+        switch (index) {
+            case 1:
+                setCover(null);
+                break;
+            case 2:
+                setCover2(null);
+                break;
+            case 3:
+                setCover3(null);
+                break;
+            case 4:
+                setCover4(null);
+                break;
+            case 5:
+                setCover5(null);
+                break;
+            default:
+                break;
+        }
+    }
+
     function goToSecondSection() {
-        pageTwo.current.measure((x, y, width, height) => {
-            scrollView.current.scrollTo({
-                x: 0,
-                y: y,
-                animated: true,
+        if (Platform.OS === 'android') {
+            pageOne.current.measure((x, y, width, height, pageX, pageY) => {
+                scrollView.current.scrollTo({
+                    x: 0,
+                    y: height,
+                    animated: true,
+                });
             });
-        });
+
+        } else {
+            pageTwo.current.measure((x, y, width, height) => {
+                scrollView.current.scrollTo({
+                    x: 0,
+                    y: y,
+                    animated: true,
+                });
+            });
+        }
     }
 
     function goToThirdSection() {
-        pageThree.current.measure((x, y, width, height) => {
-            scrollView.current.scrollTo({
-                x: 0,
-                y: y,
-                animated: true,
+        if (Platform.OS === 'android') {
+            pageTwo.current.measureInWindow((x, y, width, height) => {
+                scrollView.current.scrollTo({
+                    x: 0,
+                    y: height * 2,
+                    animated: true,
+                });
             });
-        });
+        } else {
+            pageThree.current.measure((x, y, width, height) => {
+                scrollView.current.scrollTo({
+                    x: 0,
+                    y: y,
+                    animated: true,
+                });
+            });
+        }
+
     }
 
     function goToTop() {
@@ -156,7 +252,7 @@ export default NewBook = props => {
                 scrollEnabled={false}
                 nestedScrollEnabled={true}
                 showsVerticalScrollIndicator={false}>
-                <View style={Style.PageOne} ref={pageOne}>
+                <View style={Style.PageOne} ref={pageOne} onLayout={() => { }}>
                     <Text style={Style.HeadingText}>Selecione as fotos</Text>
                     <ScrollView
                         horizontal={true}
@@ -164,62 +260,41 @@ export default NewBook = props => {
                         contentContainerStyle={Style.CoverContainer}
                         alwaysBounceHorizontal={true}
                         showsHorizontalScrollIndicator={false}>
-                        {cover ? (
-                            <Image
-                                source={{ uri: previewCover }}
-                                style={Style.Cover}
-                            />
-                        ) : (
-                            <View
-                                style={[Style.Cover, Style.ImageHolder]}
-                                onTouchEnd={() => handleCoverPicker(1)}></View>
-                        )}
-                        {cover2 ? (
-                            <Image
-                                source={{ uri: previewCover2 }}
-                                style={Style.Cover}
-                            />
-                        ) : (
-                            <View
-                                style={[Style.Cover, Style.ImageHolder]}
-                                onTouchEnd={() => handleCoverPicker(2)}></View>
-                        )}
-                        {cover3 ? (
-                            <Image
-                                source={{ uri: previewCover3 }}
-                                style={Style.Cover}
-                            />
-                        ) : (
-                            <View
-                                style={[Style.Cover, Style.ImageHolder]}
-                                onTouchEnd={() => handleCoverPicker(3)}></View>
-                        )}
-                        {cover4 ? (
-                            <Image
-                                source={{ uri: previewCover4 }}
-                                style={Style.Cover}
-                            />
-                        ) : (
-                            <View
-                                style={[Style.Cover, Style.ImageHolder]}
-                                onTouchEnd={() => handleCoverPicker(4)}></View>
-                        )}
-                        {cover5 ? (
-                            <Image
-                                source={{ uri: previewCover5 }}
-                                style={Style.Cover}
-                            />
-                        ) : (
-                            <View
-                                style={[Style.Cover, Style.ImageHolder]}
-                                onTouchEnd={() => handleCoverPicker(5)}></View>
-                        )}
+                        <Cover
+                            previewCover={previewCover}
+                            handleCoverPicker={() => handleCoverPicker(1)}
+                            handleEditImage={() => handleEditImage(1)}
+                            handleRemoveImage={() => handleRemoveImage(1)}
+                        />
+                        <Cover
+                            previewCover={previewCover2}
+                            handleCoverPicker={() => handleCoverPicker(2)}
+                            handleEditImage={() => handleEditImage(2)}
+                            handleRemoveImage={() => handleRemoveImage(2)}
+                        />
+                        <Cover
+                            previewCover={previewCover3}
+                            handleCoverPicker={() => handleCoverPicker(3)}
+                            handleEditImage={() => handleEditImage(3)}
+                            handleRemoveImage={() => handleRemoveImage(3)}
+                        />
+                        <Cover
+                            previewCover={previewCover4}
+                            handleCoverPicker={() => handleCoverPicker(4)}
+                            handleEditImage={() => handleEditImage(4)}
+                            handleRemoveImage={() => handleRemoveImage(4)}
+                        />
+                        <Cover
+                            previewCover={previewCover5}
+                            handleCoverPicker={() => handleCoverPicker(5)}
+                            handleEditImage={() => handleEditImage(5)}
+                            handleRemoveImage={() => handleRemoveImage(5)}
+                        />
                     </ScrollView>
-                    <Text style={{ textAlign: 'center' }}>
-                        Clique nos campos para adicionar a capa e a contra capa
-                        respectivamente
+                    <Text style={Style.TextCenter}>
+                        Clique nos campos para as adicionar fotos desejadas
                     </Text>
-                    <Text style={{ textAlign: 'center' }}>
+                    <Text style={Style.TextCenter}>
                         * Arraste para esquerda caso queira adicionar mais fotos
                         para o seu anúncio
                     </Text>
@@ -229,7 +304,7 @@ export default NewBook = props => {
                         <Icon name="chevron-down" size={32} color="#a5a5a5" />
                     </TouchableOpacity>
                 </View>
-                <View style={Style.PageTwo} ref={pageTwo}>
+                <View style={Style.PageTwo} ref={pageTwo} onLayout={() => { }}>
                     <TouchableOpacity
                         style={Style.PreviousSectionButton}
                         onPress={goToTop}>
@@ -244,7 +319,7 @@ export default NewBook = props => {
                         Me fale sobre seu livro...
                     </Text>
                     <Text style={{ textAlign: 'center', fontSize: 16 }}>
-                        Lembre-se!
+                        Lembre-se:
                     </Text>
                     <Text
                         style={{
@@ -264,14 +339,13 @@ export default NewBook = props => {
                     <View
                         style={{
                             flexDirection: 'row',
-                            width: '100%',
-                            justifyContent: 'space-around',
+                            height: 54
                         }}>
                         <View
                             style={{
                                 flexDirection: 'column',
                                 width: '50%',
-                                height: 54,
+                                height: '100%',
                             }}>
                             <Text>Qual o estado do livro?</Text>
                             <Picker
@@ -289,38 +363,42 @@ export default NewBook = props => {
                                 <Picker.Item label="Usado" value="2" />
                             </Picker>
                         </View>
-                        <View style={{ flexDirection: 'column' }}>
-                            <Text>Em quais categorias ele se encaixa?</Text>
-                            <View style={{ flexDirection: 'row' }}>
-                                {categories.map(category => (
-                                    <CheckBox
-                                        key={category.id}
-                                        value={
-                                            bookCategories.findIndex(
-                                                c => c.id === category.id,
-                                            ) !== -1
-                                                ? true
-                                                : false
-                                        }
-                                        handleCheckBox={handleCheckBox}
-                                        category={category}
-                                    />
-                                ))}
-                            </View>
-                        </View>
-                        <TouchableOpacity style={Style.FormGroupColumn}>
+                        <TouchableOpacity style={{
+                            flexDirection: 'column',
+                            height: '100%',
+                            paddingHorizontal: 5,
+                            justifyContent: 'space-between',
+                        }}>
                             <Text>Quanto quer por ele?</Text>
                             <TextInput placeholder="R$ 928" />
                         </TouchableOpacity>
                     </View>
-
                     <TouchableOpacity
                         style={Style.NextSectionButton}
                         onPress={goToThirdSection}>
                         <Icon name="chevron-down" size={32} color="#a5a5a5" />
                     </TouchableOpacity>
                 </View>
-                <View style={Style.PageThree} ref={pageThree}>
+                <View style={Style.PageThree} ref={pageThree} onLayout={() => { }}>
+                    <View style={{ flexDirection: 'column' }}>
+                        <Text style={{ textAlign: 'center' }}>Em quais categorias ele se encaixa?</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            {categories.map(category => (
+                                <CheckBox
+                                    key={category.id}
+                                    value={
+                                        bookCategories.findIndex(
+                                            c => c.id === category.id,
+                                        ) !== -1
+                                            ? true
+                                            : false
+                                    }
+                                    handleCheckBox={handleCheckBox}
+                                    category={category}
+                                />
+                            ))}
+                        </View>
+                    </View>
                     <TouchableOpacity
                         style={Style.PreviousSectionButton}
                         onPress={goToSecondSection}>

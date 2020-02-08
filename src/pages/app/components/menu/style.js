@@ -72,4 +72,12 @@ export default Styles = StyleSheet.create({
         marginHorizontal: 10,
         fontSize: 16,
     },
+    SignOutButton: {
+        flexDirection: 'row',
+        height: 50,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: 10
+    }
 });

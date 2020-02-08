@@ -8,7 +8,7 @@ import {
     FlatList,
     SafeAreaView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from './style';
 import MenuBG from '../../../../assets/background/menubg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
@@ -30,25 +30,31 @@ export default SideBar = props => {
     const menuItens = [
         {
             title: 'Início',
-            icon: 'home',
+            icon: 'home-outline',
             active: props.activeItemKey === 'Main' ? true : false,
             route: 'Main',
         },
         {
-            title: 'Anúncios',
-            icon: 'book',
+            title: 'Perfil',
+            icon: 'clipboard-account-outline',
+            active: props.activeItemKey === 'Profile' ? true : false,
+            route: 'App',
+        },
+        {
+            title: 'Meus Anúncios',
+            icon: 'book-open-page-variant',
             active: props.activeItemKey === 'Adv' ? true : false,
             route: 'App',
         },
         {
             title: 'Mensagens',
-            icon: 'comment-o',
+            icon: 'forum-outline',
             active: props.activeItemKey === 'Chats' ? true : false,
             route: 'Chats',
         },
         {
             title: 'Meus Favoritos',
-            icon: 'heart',
+            icon: 'heart-outline',
             active: props.activeItemKey === 'Favorites' ? true : false,
             route: 'App',
         },
@@ -88,8 +94,8 @@ export default SideBar = props => {
                             {user.avatar_url ? (
                                 <Image source={{ uri: user.avatar_url }} />
                             ) : (
-                                <DefaultProfile height="100%" width="100%" />
-                            )}
+                                    <DefaultProfile height="100%" width="100%" />
+                                )}
                         </View>
                         <View style={Styles.LeftSide}>
                             <Text
@@ -120,24 +126,25 @@ export default SideBar = props => {
                             )}
                             keyExtractor={item => item.title}
                         />
-                        <TouchableOpacity onPress={logOut} disabled={!user}>
-                            <Text>SAIR</Text>
+                        <TouchableOpacity onPress={logOut} disabled={!user} style={Styles.ListItem}>
+                            <Icon name='logout' size={26} />
+                            <Text style={Styles.ItemText}>Desconectar-se</Text>
                         </TouchableOpacity>
                     </View>
                 </>
             ) : (
-                <View
-                    style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flex: 1,
-                    }}>
-                    <TouchableOpacity onPress={() => navigateByRoute('Auth')}>
-                        <Image source={Book} />
-                        <Text>Clique aqui para fazer login</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+                    <View
+                        style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flex: 1,
+                        }}>
+                        <TouchableOpacity onPress={() => navigateByRoute('Auth')}>
+                            <Image source={Book} />
+                            <Text>Clique aqui para fazer login</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
         </SafeAreaView>
     );
 };

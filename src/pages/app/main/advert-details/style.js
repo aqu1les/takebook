@@ -18,7 +18,7 @@ export default Styles = StyleSheet.create({
         left: -80,
         top: 0,
     },
-    FavIcon: {
+    IconButton: {
         position: 'absolute',
         top: 10,
         right: 10,
@@ -49,6 +49,7 @@ export default Styles = StyleSheet.create({
         height: '20%',
         backgroundColor: '#FFFFFF',
         padding: 15,
+        justifyContent: 'space-between'
     },
     Row: {
         flexDirection: 'row',
@@ -56,22 +57,24 @@ export default Styles = StyleSheet.create({
         alignItems: 'center',
     },
     Title: {
-        fontSize: 26,
+        fontSize: 36,
         fontWeight: 'bold',
         color: '#000000',
     },
     Author: {
-        fontSize: 18,
+        fontSize: 20,
         color: '#9E9E9E',
     },
     Price: {
-        fontSize: 22,
+        fontSize: 28,
         fontWeight: 'bold',
         color: '#FB8C00',
         alignSelf: 'flex-end',
     },
     Category: {
         color: '#9E9E9E',
+        marginTop: 10,
+        marginHorizontal: 5
     },
     TabHeading: {
         backgroundColor: '#FFFFFF',
@@ -109,7 +112,8 @@ export default Styles = StyleSheet.create({
         borderLeftWidth: 0.5,
         borderLeftColor: '#00000020',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
+        marginVertical: 40
     },
     ElipseAvatar: {
         borderWidth: 1,

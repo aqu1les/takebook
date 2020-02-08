@@ -9,10 +9,10 @@ import {
     Image,
     SafeAreaView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import Styles from './style';
-import Advert from '../components/advert';
+import Advert from './advert';
 import Plus from '../../../assets/icons/add-book.svg';
 import BookModal from '../../../assets/book-modal.svg';
 import CloseIcon from '../../../assets/close.svg';
@@ -44,7 +44,8 @@ export default Main = (props) => {
         async function loadData() {
             const responseCat = await getCategories();
             const responseAd = await getAdverts();
-            setUser(await getUser());
+            const responseUser = await getUser();
+            setUser(responseUser);
             setCategories([{ name: 'Destaques' }, ...responseCat]);
             setAdverts(responseAd);
             setLoading(false);
@@ -73,9 +74,27 @@ export default Main = (props) => {
     }, []);
 
     function CategoryItem({ name }) {
+        let icon;
+        switch (name) {
+            case 'Destaques':
+                icon = 'star-outline';
+                break;
+            case 'Terror':
+                icon = 'drama-masks';
+                break;
+            case 'Comédia':
+                icon = 'emoticon-happy-outline';
+                break;
+            case 'Mistério':
+                icon = 'magnify';
+                break;
+            case 'Aventura':
+                icon = 'run';
+                break;
+        }
         return (
             <TouchableOpacity style={Styles.Category}>
-                <Icon name="star" size={26} color="#000000" />
+                <Icon name={icon} size={26} color="#000000" />
                 <Text>{name}</Text>
             </TouchableOpacity>
         );
@@ -122,7 +141,6 @@ export default Main = (props) => {
 
     return (
         <SafeAreaView style={Styles.Container}>
-            {/* <Header navigation={props.navigation} /> */}
             {loading ? (
                 <SafeAreaView style={Styles.LoadingContainer}>
                     <ActivityIndicator></ActivityIndicator>
@@ -153,6 +171,8 @@ export default Main = (props) => {
                                         <Advert
                                             item={item}
                                             navigation={props.navigation}
+                                            owner={item.user}
+                                            user={user}
                                         />
                                     )}
                                     keyExtractor={item => String(item.id)}

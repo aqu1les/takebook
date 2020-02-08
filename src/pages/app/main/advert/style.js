@@ -65,7 +65,6 @@ export default Styles = StyleSheet.create({
     Badge: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#00cc09',
     },
     Condition: {
         color: '#FFFFFF',
