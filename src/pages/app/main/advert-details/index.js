@@ -4,7 +4,7 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Tab, Tabs } from 'native-base';
 import Styles from './style';
-import LikeButton from '../../components/LikeButton';
+import LikeButton from '../../components/like-button';
 import Background from '../../../../assets/background/advertDetailbg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import { likeBook, unlikeBook } from '../../../../services/LikeService';

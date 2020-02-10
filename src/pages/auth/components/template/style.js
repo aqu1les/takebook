@@ -6,7 +6,6 @@ export default Styles = StyleSheet.create({
         height: 180,
         backgroundColor: '#EAEAEA',
         borderRadius: 100,
-        padding: 20,
         marginTop: -80,
         marginBottom: 0,
         alignItems: 'center',
@@ -57,6 +56,7 @@ export default Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         minHeight: 480,
+        paddingBottom: 5
     },
     ActvIndicator: {
         display: 'flex',

@@ -4,11 +4,10 @@ import ImagePicker from 'react-native-image-picker';
 import { RNPhotoEditor } from 'react-native-photo-editor';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Style from './style';
+import Styles from './style';
 import CheckBox from './check-box';
 import Cover from './cover';
 import { getCategories } from '../../../../services/CategoriesService';
-import { getInfoByCEP } from '../../../../services/IBGEService';
 
 export default NewBook = props => {
     const [cover, setCover] = useState(null);
@@ -19,10 +18,6 @@ export default NewBook = props => {
     const [bookStatus, setBookStatus] = useState(1);
     const [categories, setCategories] = useState([]);
     const [bookCategories, setBookCategories] = useState([]);
-    const [cep, setCep] = useState('');
-    const [neighborhood, setNeighborhood] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
     const scrollView = useRef();
     const pageOne = useRef();
     const pageTwo = useRef();
@@ -227,37 +222,21 @@ export default NewBook = props => {
         }
     }
 
-    async function handleCepChange(value) {
-        if (value.length === 5) {
-            setCep(value + '-');
-        } else if (value.length < 5) {
-            setCep(value.replace('-', ''));
-        } else {
-            setCep(value);
-            if (value.length === 9) {
-                const addressInfo = await getInfoByCEP(value);
-                setCity(addressInfo.localidade);
-                setState(addressInfo.uf);
-                setNeighborhood(addressInfo.bairro);
-            }
-        }
-    }
-
     return (
-        <View style={Style.Container}>
+        <View style={Styles.Container}>
             <ScrollView
                 ref={scrollView}
-                style={Style.CardScrollView}
-                contentContainerStyle={Style.CardContainer}
+                style={Styles.CardScrollView}
+                contentContainerStyle={Styles.CardContainer}
                 scrollEnabled={false}
                 nestedScrollEnabled={true}
                 showsVerticalScrollIndicator={false}>
-                <View style={Style.PageOne} ref={pageOne} onLayout={() => { }}>
-                    <Text style={Style.HeadingText}>Selecione as fotos</Text>
+                <View style={Styles.PageOne} ref={pageOne} onLayout={() => { }}>
+                    <Text style={Styles.HeadingText}>Selecione as fotos</Text>
                     <ScrollView
                         horizontal={true}
                         style={{ height: 230, maxHeight: 230 }}
-                        contentContainerStyle={Style.CoverContainer}
+                        contentContainerStyle={Styles.CoverContainer}
                         alwaysBounceHorizontal={true}
                         showsHorizontalScrollIndicator={false}>
                         <Cover
@@ -291,22 +270,22 @@ export default NewBook = props => {
                             handleRemoveImage={() => handleRemoveImage(5)}
                         />
                     </ScrollView>
-                    <Text style={Style.TextCenter}>
+                    <Text style={Styles.TextCenter}>
                         Clique nos campos para as adicionar fotos desejadas
                     </Text>
-                    <Text style={Style.TextCenter}>
+                    <Text style={Styles.TextCenter}>
                         * Arraste para esquerda caso queira adicionar mais fotos
                         para o seu anúncio
                     </Text>
                     <TouchableOpacity
-                        style={Style.NextSectionButton}
+                        style={Styles.NextSectionButton}
                         onPress={goToSecondSection}>
                         <Icon name="chevron-down" size={32} color="#a5a5a5" />
                     </TouchableOpacity>
                 </View>
-                <View style={Style.PageTwo} ref={pageTwo} onLayout={() => { }}>
+                <View style={Styles.PageTwo} ref={pageTwo} onLayout={() => { }}>
                     <TouchableOpacity
-                        style={Style.PreviousSectionButton}
+                        style={Styles.PreviousSectionButton}
                         onPress={goToTop}>
                         <Icon name="chevron-up" size={32} color="#a5a5a5" />
                     </TouchableOpacity>
@@ -330,10 +309,10 @@ export default NewBook = props => {
                         Um livro bem descrito é mais facilmente encontrado numa
                         pesquisa.
                     </Text>
-                    <TouchableOpacity style={Style.FormGroup}>
+                    <TouchableOpacity style={Styles.FormGroup}>
                         <TextInput placeholder="Qual o título do livro?" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={Style.FormGroup}>
+                    <TouchableOpacity style={Styles.FormGroup}>
                         <TextInput placeholder="E o autor?" />
                     </TouchableOpacity>
                     <View
@@ -374,12 +353,12 @@ export default NewBook = props => {
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
-                        style={Style.NextSectionButton}
+                        style={Styles.NextSectionButton}
                         onPress={goToThirdSection}>
                         <Icon name="chevron-down" size={32} color="#a5a5a5" />
                     </TouchableOpacity>
                 </View>
-                <View style={Style.PageThree} ref={pageThree} onLayout={() => { }}>
+                <View style={Styles.PageThree} ref={pageThree} onLayout={() => { }}>
                     <View style={{ flexDirection: 'column' }}>
                         <Text style={{ textAlign: 'center' }}>Em quais categorias ele se encaixa?</Text>
                         <View style={{ flexDirection: 'row' }}>
@@ -400,46 +379,14 @@ export default NewBook = props => {
                         </View>
                     </View>
                     <TouchableOpacity
-                        style={Style.PreviousSectionButton}
+                        style={Styles.PreviousSectionButton}
                         onPress={goToSecondSection}>
                         <Icon name="chevron-up" size={32} color="#a5a5a5" />
                     </TouchableOpacity>
                     <Text>Onde seu livro está?</Text>
-                    <View style={Style.Row}>
-                        <TouchableOpacity style={Style.FormGroupRow}>
-                            <TextInput
-                                placeholder="CEP"
-                                value={cep}
-                                onChangeText={handleCepChange}
-                                maxLength={9}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={Style.FormGroupRow}>
-                            <TextInput
-                                placeholder="Bairro"
-                                value={neighborhood}
-                                editable={false}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={Style.Row}>
-                        <TouchableOpacity style={Style.FormGroupRow}>
-                            <TextInput
-                                placeholder="Cidade"
-                                value={city}
-                                editable={false}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={Style.FormGroupRow}>
-                            <TextInput
-                                placeholder="Estado"
-                                value={state}
-                                editable={false}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity style={Style.PostBookButton}>
-                        <Text style={Style.PostBookText}>Publicar</Text>
+
+                    <TouchableOpacity style={Styles.PostBookButton}>
+                        <Text style={Styles.PostBookText}>Publicar</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

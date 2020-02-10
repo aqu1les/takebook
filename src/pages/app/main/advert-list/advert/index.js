@@ -6,7 +6,7 @@ import { Badge } from 'native-base';
 import Styles from './style';
 import defaultBook from '../../../../../assets/bookDefault.jpg';
 import { likeBook, unlikeBook } from '../../../../../services/LikeService';
-import LikeButton from '../../../components/LikeButton';
+import LikeButton from '../../../components/like-button';
 
 export default Advert = ({ item, navigation, owner, user, liked: BLiked }) => {
     const { id, title, price, author, categories, condition_id, covers_url, approved_at } = item;

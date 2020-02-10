@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-    StatusBar,
-    View,
-    KeyboardAvoidingView,
-    ActivityIndicator,
-    SafeAreaView,
-} from 'react-native';
+import { StatusBar, View, KeyboardAvoidingView, ActivityIndicator, SafeAreaView, Image } from 'react-native';
 import Styles from './style';
 import BgBr from '../../../../assets/background/backgroundBottomRight.svg';
 import BgTL from '../../../../assets/background/backgroundTopLeft.svg';
 import Logo from '../../../../assets/logo.svg';
-
 export default Template = props => {
     return (
         <>
@@ -27,8 +20,8 @@ export default Template = props => {
                     behavior="height"
                     keyboardVerticalOffset={400}
                     enabled>
-                    <View style={Styles.Header}>
-                        <Logo width="80%" height="80%" />
+                    <View style={[Styles.Header, { padding: props.newHeader ? 0 : 20 }]}>
+                        {props.newHeader ? props.newHeader : <Logo width="80%" height="80%" />}
                     </View>
                     {props.children}
                 </KeyboardAvoidingView>
