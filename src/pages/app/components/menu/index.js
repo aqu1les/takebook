@@ -25,7 +25,7 @@ export default SideBar = props => {
             setUser(user);
         }
         getUserInfo();
-    }, []);
+    }, [isDrawerOpen]);
 
     const menuItens = [
         {

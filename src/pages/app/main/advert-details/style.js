@@ -90,7 +90,11 @@ export default Styles = StyleSheet.create({
         fontSize: 18,
     },
     SectionContent: {
-        height: '100%',
+        alignSelf: 'center',
+        margin: 10,
+        width: '60%',
+        elevation: 3,
+        height: '90%',
         backgroundColor: '#FFFFFF',
         padding: 10,
         textAlign: 'justify',
@@ -112,8 +116,7 @@ export default Styles = StyleSheet.create({
         borderLeftWidth: 0.5,
         borderLeftColor: '#00000020',
         alignItems: 'center',
-        justifyContent: 'space-around',
-        marginVertical: 40
+        justifyContent: 'space-evenly',
     },
     ElipseAvatar: {
         borderWidth: 1,

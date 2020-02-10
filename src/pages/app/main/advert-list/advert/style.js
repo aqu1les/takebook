@@ -36,8 +36,8 @@ export default Styles = StyleSheet.create({
     },
     FavIcon: {
         position: 'absolute',
-        top: 5,
-        right: 5,
+        top: 7,
+        right: 7,
     },
     Title: {
         fontSize: 28,
@@ -84,6 +84,7 @@ export default Styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         alignSelf: 'center',
+        marginBottom: 8
     },
     Price: {
         color: '#FFFFFF',

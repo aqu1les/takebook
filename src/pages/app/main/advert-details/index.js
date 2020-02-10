@@ -4,25 +4,36 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Tab, Tabs } from 'native-base';
 import Styles from './style';
+import LikeButton from '../../components/LikeButton';
 import Background from '../../../../assets/background/advertDetailbg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
+import { likeBook, unlikeBook } from '../../../../services/LikeService';
 
 export default AdvertDetails = ({ navigation }) => {
     const advert = navigation.getParam('advert');
     const user = navigation.getParam('logged_user');
+    const [liked, setLiked] = useState(navigation.getParam('liked'));
 
 
     function contactSeller() {
         navigation.navigate({ routeName: 'Room', params: { user: advert.user } });
     }
 
+    async function handleLike() {
+        if (liked) {
+            await unlikeBook(advert.id);
+            setLiked(false);
+        } else {
+            await likeBook(advert.id);
+            setLiked(true);
+        }
+    }
+
     return (
         <View style={Styles.Page}>
             <View style={Styles.CoverContainer}>
                 <Background width={'90%'} height={'90%'} style={Styles.BackgroundSvg} />
-                <TouchableOpacity style={Styles.IconButton} onPress={() => console.log('like book', advert.id)}>
-                    <Icon name={user.likes.find(like => like.id === item.id) ? 'heart' : 'heart-o'} size={24} color='#e64c3c' />
-                </TouchableOpacity>
+                <LikeButton liked={liked} style={Styles.IconButton} onPress={handleLike} />
                 <Swiper containerStyle={Styles.ImgCoverContainer} activeDotColor='#FB8C00'>
                     {advert.covers_url.map(cover => (
                         <Image source={{ uri: cover.url }} key={cover.url + cover.id} style={Styles.ImgCover} />
@@ -92,5 +103,5 @@ export default AdvertDetails = ({ navigation }) => {
                 </Tab>
             </Tabs>
         </View>
-    )
+    );
 }

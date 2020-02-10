@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { formatDistance } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Styles from './style';
-import defaultBook from '../../../../assets/bookDefault.jpg';
 import { Badge } from 'native-base';
+import Styles from './style';
+import defaultBook from '../../../../../assets/bookDefault.jpg';
+import { likeBook, unlikeBook } from '../../../../../services/LikeService';
+import LikeButton from '../../../components/LikeButton';
 
-export default Advert = ({ item, navigation, owner, user }) => {
+export default Advert = ({ item, navigation, owner, user, liked: BLiked }) => {
     const { id, title, price, author, categories, condition_id, covers_url, approved_at } = item;
-    const liked = user.likes.find(like => like.id === id) ? true : false;
+    const [liked, setLiked] = useState(BLiked);
+    const animation = useRef();
     let condition;
     let badgeColor;
+
     switch (condition_id) {
         case 1:
             condition = "Novo";
@@ -30,7 +33,17 @@ export default Advert = ({ item, navigation, owner, user }) => {
     }
 
     function handleClick() {
-        navigation.navigate('AdvertDetails', { advert: item, logged_user: user });
+        navigation.navigate('AdvertDetails', { advert: item, liked, logged_user: user });
+    }
+
+    async function handleLike() {
+        if (liked) {
+            await unlikeBook(id);
+            setLiked(false);
+        } else {
+            await likeBook(id);
+            setLiked(true);
+        }
     }
 
     return (
@@ -58,7 +71,7 @@ export default Advert = ({ item, navigation, owner, user }) => {
                 <View style={Styles.PriceButton}>
                     <Text style={Styles.Price}>R$ {String(price)}</Text>
                 </View>
-                <Icon color="#e64c3c" size={24} name={liked ? "heart" : "heart-o"} style={Styles.FavIcon} />
+                <LikeButton refProp={animation} liked={liked} style={{ position: 'absolute', top: 0, right: 0 }} onPress={handleLike} />
                 <Text style={Styles.CreationTime}>{formatDistance(new Date(approved_at), Date.now(), { addSuffix: true, locale: pt })}</Text>
             </View>
         </TouchableOpacity>
