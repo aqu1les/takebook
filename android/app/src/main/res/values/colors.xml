@@ -1,3 +1,6 @@
 <resources>
- <color name="white">#FFF</color>
+    <color name="white">#FFF</color>
+    <color name="colorPrimary">#f58636</color>
+    <color name="colorPrimaryDark">#38c2ff</color>
+    <color name="colorAccent">#FFFFFF</color>
 </resources>

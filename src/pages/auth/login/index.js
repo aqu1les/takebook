@@ -18,16 +18,15 @@ export default function Login(props) {
     const [passwordError, setPasswordError] = useState(false);
     const [remind, setRemind] = useState(true);
     const invalid =
-        loginError || passwordError || login.length == '' || password == '';
+        loginError || passwordError || login == '' || password == '';
 
 
     useEffect(() => {
         async function getUserInfo() {
-
             const userEmail = await getUserEmail();
             return userEmail ? setLogin(userEmail) : setLogin('');
         }
-        if (redirectEmail) {
+        if (redirectEmail !== '') {
             setLogin(redirectEmail);
         } else {
             getUserInfo();
