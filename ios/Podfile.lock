@@ -19,6 +19,11 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - iOSPhotoEditor (0.5)
+  - lottie-ios (3.1.3)
+  - lottie-react-native (3.3.2):
+    - lottie-ios (~> 3.1.3)
+    - React
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
     - FBLazyVector (= 0.61.5)
@@ -182,8 +187,13 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
+  - react-native-checkbox (0.2.2):
+    - React
   - react-native-geolocation (2.0.2):
     - React
+  - react-native-image-editor (2.2.0):
+    - React
+    - React-RCTImage
   - react-native-image-picker (2.2.1):
     - React
   - react-native-netinfo (5.3.3):
@@ -231,15 +241,9 @@ PODS:
     - React
   - RNGestureHandler (1.5.3):
     - React
-  - RNImageCropPicker (0.28.0):
-    - React-Core
-    - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.28.0)
-    - RSKImageCropper
-  - RNImageCropPicker/QBImagePickerController (0.28.0):
-    - React-Core
-    - React-RCTImage
-    - RSKImageCropper
+  - RNPhotoEditor (1.0.5):
+    - iOSPhotoEditor
+    - React
   - RNReanimated (1.7.0):
     - React
   - RNScreens (1.0.0-alpha.23):
@@ -248,7 +252,6 @@ PODS:
     - React
   - RNVectorIcons (6.6.0):
     - React
-  - RSKImageCropper (2.2.3)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -257,6 +260,9 @@ DEPENDENCIES:
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - iOSPhotoEditor (from `https://github.com/prscX/photo-editor`, branch `master`)
+  - lottie-ios (from `../node_modules/lottie-ios`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -268,7 +274,9 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - "react-native-checkbox (from `../node_modules/@react-native-community/checkbox`)"
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
+  - "react-native-image-editor (from `../node_modules/@react-native-community/image-editor`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -286,7 +294,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNPhotoEditor (from `../node_modules/react-native-photo-editor/ios`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -296,7 +304,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
-    - RSKImageCropper
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -309,6 +316,13 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  iOSPhotoEditor:
+    :branch: master
+    :git: https://github.com/prscX/photo-editor
+  lottie-ios:
+    :path: "../node_modules/lottie-ios"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -327,8 +341,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-checkbox:
+    :path: "../node_modules/@react-native-community/checkbox"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
+  react-native-image-editor:
+    :path: "../node_modules/@react-native-community/image-editor"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-netinfo:
@@ -361,8 +379,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/push-notification-ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
-  RNImageCropPicker:
-    :path: "../node_modules/react-native-image-crop-picker"
+  RNPhotoEditor:
+    :path: "../node_modules/react-native-photo-editor/ios"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -374,6 +392,11 @@ EXTERNAL SOURCES:
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
+CHECKOUT OPTIONS:
+  iOSPhotoEditor:
+    :commit: 4924e9ec984d25d03644e58aa148282642171de9
+    :git: https://github.com/prscX/photo-editor
+
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
@@ -381,6 +404,9 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  iOSPhotoEditor: 0f36d2c064d2999b7f4cd20c9db679581d24f7bf
+  lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
+  lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
@@ -390,7 +416,9 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
+  react-native-checkbox: 65b785eee74e13917bba0d890194056c5ee9a0e1
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
+  react-native-image-editor: 2a796811bc48babcf2f1594b15d6bfe6968e7e63
   react-native-image-picker: 23b053a5ac85fec5d95a6a2e3487c306682c12eb
   react-native-netinfo: 8884d510fe67349940b4399c01db3e3591c922aa
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
@@ -407,14 +435,13 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
   RNCPushNotificationIOS: 4a5c5d92ce51227f8c3409b0b7542382c0b5f008
   RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
-  RNImageCropPicker: cf129d17e042ce3e96fb9ada967c28f21f977c82
+  RNPhotoEditor: 5787204359ec0c2e3badf272c80fe40130fdf99d
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
-  RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 8dc6b53cdc4005ff8a1cea15fd9b87d2a678a58d
+PODFILE CHECKSUM: 7db9aff39bdd53af9eb483b8dcc9f4443e04c97f
 
 COCOAPODS: 1.8.4

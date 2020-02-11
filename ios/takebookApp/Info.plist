@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Application needs permission to write photos...</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>iOS 10 needs permission to write photos...</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Take photos of your book&apos;s cover</string>
 	<key>NSPhotoLibraryUsageDescription</key>
