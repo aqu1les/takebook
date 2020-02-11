@@ -55,3 +55,7 @@ export async function authenticateUser(email, password, remind) {
     const response = await ApiService.post('/auth/login', { email, password, remind });
     return response;
 }
+
+export async function registerUser(body) {
+    return await ApiService.post(`users`, body);
+}

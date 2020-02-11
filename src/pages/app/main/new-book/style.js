@@ -49,6 +49,7 @@ export default Styles = StyleSheet.create({
         padding: 20
     },
     PageThree: {
+        minHeight: 480,
         height: '33.3333%',
         width: '100%',
         position: 'relative',

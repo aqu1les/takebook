@@ -92,4 +92,34 @@ export default Styles = StyleSheet.create({
         width: '85%',
         justifyContent: 'space-around',
     },
+    AvatarHolder: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 100,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    AvatarImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 100,
+        opacity: 0.6
+    },
+    CameraIcon: {
+        height: 40,
+        width: 40
+    },
+    HeaderClickable: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 100,
+        position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    ContentContainerStyle: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
 });

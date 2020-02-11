@@ -1,6 +1,8 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import { RNPhotoEditor } from 'react-native-photo-editor';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Styles from './style';
 import Template from '../components/template';
 import User from '../../../assets/icons/user.svg';
@@ -10,9 +12,10 @@ import CameraPlus from '../../../assets/icons/camera-plus-outline.svg';
 import SuccessFeedback from '../../core/success-feedback';
 import FailedFeedback from '../../core/failed-feedback';
 import { getInfoByCEP } from '../../../services/IBGEService';
+import { registerUser, storeUser } from '../../../services/UserService';
+import { createFormData } from '../../../services/FormDataService';
 
-
-export default SignUp = (props) => {
+export default function SignUp(props) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,7 +24,8 @@ export default SignUp = (props) => {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswrodError] = useState(false);
     const [passwordConfirmationError, setPasswordConfirmationError] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showFailModal, setShowFailModal] = useState(false);
     const [cep, setCep] = useState('');
     const [street, setStreet] = useState('');
     const [neighborhood, setNeighborhood] = useState('');
@@ -38,9 +42,27 @@ export default SignUp = (props) => {
         [avatar]
     );
 
-    function handleSubmit() {
-        console.log('submitted');
-        setShowModal(true);
+    async function handleSubmit() {
+        const reqBody = {
+            first_name: name.split(' ')[0],
+            last_name: name.split(' ')[1] || ' ',
+            email,
+            password,
+            address_street: street,
+            address_neighborhood: neighborhood,
+            address_city: city,
+            address_state: state,
+            address_zip_code: cep
+        };
+        const data = createFormData(avatar, 'avatar_file', reqBody);
+
+        const response = await registerUser(data);
+        if (response.data) {
+            setShowSuccessModal(true);
+            storeUser(response.data);
+        } else {
+            setShowFailModal(true);
+        }
     }
 
     function handleModalHide() {
@@ -64,6 +86,7 @@ export default SignUp = (props) => {
             }
         }
     }
+
     function handleAvatarPicker() {
         ImagePicker.showImagePicker({ title: 'Camera' }, image => {
             if (image.didCancel) {
@@ -80,14 +103,38 @@ export default SignUp = (props) => {
             }
         });
     }
-    const newHeader =
-        <TouchableOpacity onPress={handleAvatarPicker} style={{ height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center', borderRadius: 100 }}>
-            {avatarPreview ? <Image source={{ uri: `file://${avatarPreview}` }} style={{ width: '100%', height: '100%', borderRadius: 100 }} /> : <CameraPlus style={{ height: 40, width: 40 }} />}
+
+    function handleEditImage() {
+        RNPhotoEditor.Edit({
+            path: avatar.path,
+            hiddenControls: ['draw', 'share', 'sticker', 'text'],
+            onDone: (path) => {
+                setAvatar({ ...avatar, path });
+            },
+            onCancel: () => { return; }
+        });
+    }
+
+    function navigateToLogin() {
+        props.navigation.navigate('Login', { email });
+    }
+
+    const newHeader = avatarPreview ?
+        <TouchableOpacity style={Styles.HeaderClickable}
+            onPress={handleEditImage}
+        >
+            <Image source={{ uri: `file://${avatarPreview}` }}
+                style={Styles.AvatarImage}
+            />
+            <FontAwesome name='edit' color='#000' size={24} style={{ position: 'absolute', alignSelf: 'center' }} />
+        </TouchableOpacity> :
+        <TouchableOpacity style={Styles.AvatarHolder} onPress={handleAvatarPicker}>
+            <CameraPlus style={Styles.CameraIcon} />
         </TouchableOpacity>;
 
     return (
         <Template newHeader={newHeader}>
-            <ScrollView contentContainerStyle={{ width: '100%', alignItems: 'center', justifyContent: 'center' }} showsVerticalScrollIndicator={false}>
+            <ScrollView contentContainerStyle={Styles.ContentContainerStyle} showsVerticalScrollIndicator={false}>
                 <TouchableOpacity style={[Styles.FormGroup, nameError && Styles.InputError]} onPress={() => nameField.current.focus()}>
                     <User style={Styles.Icon} />
                     <TextInput
@@ -228,14 +275,14 @@ export default SignUp = (props) => {
                     <Text style={Styles.RegisterText}>Cadastrar</Text>
                 </TouchableOpacity>
             </ScrollView>
-            <SuccessFeedback isVisible={showModal} handleModalHide={handleModalHide}>
+            <SuccessFeedback isVisible={showSuccessModal} handleModalHide={handleModalHide}>
                 <Text style={Styles.TextH1}>Cadastro realizado!</Text>
                 <Text style={Styles.TextP}>Sinta-se à vontade para publicar um livro ou adquirir novos!</Text>
-                <TouchableOpacity style={Styles.ModalButton} onPress={handleModalHide}>
+                <TouchableOpacity style={Styles.ModalButton} onPress={navigateToLogin}>
                     <Text style={Styles.ButtonText}>Começar</Text>
                 </TouchableOpacity>
             </SuccessFeedback>
-            {/* <FailedFeedback isVisible={showModal} handleModalHide={handleModalHide} /> */}
+            <FailedFeedback isVisible={showFailModal} handleModalHide={handleModalHide} />
         </Template>
     )
 }

@@ -15,7 +15,7 @@ import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import Book from '../../../../assets/open-book.png';
 import { removeToken, getUser } from '../../../../services/UserService';
 
-export default SideBar = props => {
+export default function SideBar(props) {
     const { isDrawerOpen } = props.navigation.state;
     const [user, setUser] = useState({});
 
@@ -84,7 +84,7 @@ export default SideBar = props => {
         <SafeAreaView style={Styles.Menu}>
             <StatusBar
                 backgroundColor={isDrawerOpen && user ? '#c98d2d' : '#0092CC'}
-                barStyle="light-content"
+                barStyle='light-content'
             />
             {user ? (
                 <>
@@ -92,9 +92,9 @@ export default SideBar = props => {
                         <MenuBG style={Styles.Background} />
                         <View style={Styles.UserAvatar}>
                             {user.avatar_url ? (
-                                <Image source={{ uri: user.avatar_url }} />
+                                <Image source={{ uri: user.avatar_url }} style={{ height: '90%', width: '90%', borderRadius: 100 }} />
                             ) : (
-                                    <DefaultProfile height="100%" width="100%" />
+                                    <DefaultProfile height='100%' width='100%' />
                                 )}
                         </View>
                         <View style={Styles.LeftSide}>
@@ -103,7 +103,7 @@ export default SideBar = props => {
                                     Styles.Name
                                 }>{`${user.first_name} ${user.last_name}`}</Text>
                             <View style={Styles.RateSession}>
-                                <Icon name="star" size={20} color="#fedf43" />
+                                <Icon name='star' size={20} color='#fedf43' />
                                 <Text style={Styles.Rate}>4,8</Text>
                             </View>
                             <TouchableOpacity>

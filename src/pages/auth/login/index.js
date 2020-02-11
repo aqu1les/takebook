@@ -1,24 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    Switch,
-    ToastAndroid,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Switch, ToastAndroid } from 'react-native';
 import Styles from './style';
 import Template from '../components/template';
 import User from '../../../assets/icons/user.svg';
 import Password from '../../../assets/icons/password.svg';
-import {
-    getUserEmail,
-    setUserEmail,
-    authenticateUser,
-    storeToken,
-} from '../../../services/UserService';
+import { getUserEmail, setUserEmail, authenticateUser, storeToken } from '../../../services/UserService';
 
-export default Login = props => {
+export default function Login(props) {
+    const redirectEmail = props.navigation.getParam('email');
     const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const [loading, setLoading] = useState(false);
     const loginInput = useRef(null);
@@ -31,13 +20,19 @@ export default Login = props => {
     const invalid =
         loginError || passwordError || login.length == '' || password == '';
 
+
     useEffect(() => {
         async function getUserInfo() {
+
             const userEmail = await getUserEmail();
             return userEmail ? setLogin(userEmail) : setLogin('');
         }
-        getUserInfo();
-    }, []);
+        if (redirectEmail) {
+            setLogin(redirectEmail);
+        } else {
+            getUserInfo();
+        }
+    });
 
     function handleLoginChange(value) {
         setLogin(value);
@@ -118,7 +113,7 @@ export default Login = props => {
                     onChangeText={handlePasswordChange}
                     secureTextEntry={true}
                     onSubmitEditing={submitForm}
-                    onEndEditing={() => passwordInput.current.blur()}
+                    blurOnSubmit={true}
                 />
             </TouchableOpacity>
             <View style={Styles.Options}>

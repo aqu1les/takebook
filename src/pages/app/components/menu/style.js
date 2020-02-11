@@ -31,6 +31,8 @@ export default Styles = StyleSheet.create({
         },
         shadowOpacity: 0.34,
         shadowRadius: 6.27,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     LeftSide: {
         width: '50%',
