@@ -4,10 +4,10 @@ import ImagePicker from 'react-native-image-picker';
 import { RNPhotoEditor } from 'react-native-photo-editor';
 import { ScrollView } from 'react-native-gesture-handler';
 import Styles from './style';
-import { getCategories } from '../../../../services/CategoriesService';
 import PageOne from './page-one';
 import PageTwo from './page-two';
 import PageThree from './page-three';
+import CategoryStore from '../../../../stores/CategoryStore';
 
 export default NewBook = props => {
     const [cover, setCover] = useState(null);
@@ -25,16 +25,13 @@ export default NewBook = props => {
     const pageThree = useRef();
 
     useEffect(() => {
-        async function loadCategories() {
-            const response = await getCategories();
-            setCategories(response);
+        const unsubscribeCategories = CategoryStore.subscribe(state => {
+            setCategories(state.categories);
+        });
+
+        return () => {
+            unsubscribeCategories();
         }
-        async function loadConditions() {
-            const response = await getCategories();
-            setCategories(response);
-        }
-        loadCategories();
-        loadConditions();
     }, []);
 
     const previewCover = useMemo(

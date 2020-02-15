@@ -8,7 +8,7 @@ export default Styles = StyleSheet.create({
     UserInfo: {
         width: '100%',
         height: 175,
-        backgroundColor: '#fb8c0d',
+        backgroundColor: '#f58636',
         alignItems: 'center',
         justifyContent: 'space-around',
         flexDirection: 'row',
@@ -61,18 +61,23 @@ export default Styles = StyleSheet.create({
     },
     NavOptions: {
         flexGrow: 100,
-        padding: 10,
+        paddingVertical: 10
     },
     ListItem: {
+        padding: 12,
         flexDirection: 'row',
-        marginVertical: 10,
         alignItems: 'center',
         marginHorizontal: 5,
-        paddingHorizontal: 5,
+        paddingHorizontal: 10,
+    },
+    ListItemActive: {
+        backgroundColor: '#fcdbc3',
+        borderRadius: 20
     },
     ItemText: {
         marginHorizontal: 10,
         fontSize: 16,
+        color: '#000'
     },
     SignOutButton: {
         flexDirection: 'row',

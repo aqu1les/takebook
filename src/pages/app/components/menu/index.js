@@ -13,19 +13,22 @@ import Styles from './style';
 import MenuBG from '../../../../assets/background/menubg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import Book from '../../../../assets/open-book.png';
-import { removeToken, getUser } from '../../../../services/UserService';
+import UserStore from '../../../../stores/UserStore';
 
 export default function SideBar(props) {
     const { isDrawerOpen } = props.navigation.state;
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        async function getUserInfo() {
-            const user = await getUser();
-            setUser(user);
+        const unsubscribeUser = UserStore.subscribe(state => {
+            setUser(state);
+        });
+        UserStore.loadUserInfo();
+
+        return () => {
+            unsubscribeUser();
         }
-        getUserInfo();
-    }, [isDrawerOpen]);
+    }, []);
 
     const menuItens = [
         {
@@ -62,14 +65,14 @@ export default function SideBar(props) {
     function Item({ title, icon, active, route }) {
         return (
             <TouchableOpacity
-                style={Styles.ListItem}
+                style={[Styles.ListItem, active ? Styles.ListItemActive : {}]}
                 onPress={e => navigateByRoute(route)}>
                 <Icon
                     name={icon}
                     size={26}
-                    color={active ? '#4285f4' : '#000000'}
+                    color={active ? '#f06922' : '#000000'}
                 />
-                <Text style={Styles.ItemText}>{title}</Text>
+                <Text style={[Styles.ItemText, active ? { fontWeight: 'bold' } : {}]}>{title}</Text>
             </TouchableOpacity>
         );
     }
@@ -77,7 +80,7 @@ export default function SideBar(props) {
         props.navigation.navigate(route);
     }
     async function logOut() {
-        await removeToken();
+        UserStore.logout();
         navigateByRoute('Auth');
     }
     return (
@@ -86,7 +89,7 @@ export default function SideBar(props) {
                 backgroundColor={isDrawerOpen && user ? '#c98d2d' : '#0092CC'}
                 barStyle='light-content'
             />
-            {user ? (
+            {user.authenticated ? (
                 <>
                     <View style={Styles.UserInfo}>
                         <MenuBG style={Styles.Background} />
@@ -101,7 +104,7 @@ export default function SideBar(props) {
                             <Text
                                 style={
                                     Styles.Name
-                                }>{`${user.first_name} ${user.last_name}`}</Text>
+                                }>{`${user.firstName} ${user.lastName}`}</Text>
                             <View style={Styles.RateSession}>
                                 <Icon name='star' size={20} color='#fedf43' />
                                 <Text style={Styles.Rate}>4,8</Text>
@@ -126,8 +129,8 @@ export default function SideBar(props) {
                             )}
                             keyExtractor={item => item.title}
                         />
-                        <TouchableOpacity onPress={logOut} disabled={!user} style={Styles.ListItem}>
-                            <Icon name='logout' size={26} />
+                        <TouchableOpacity onPress={logOut} disabled={!user.authenticated} style={Styles.ListItem}>
+                            <Icon name='logout' size={26} color='#000' />
                             <Text style={Styles.ItemText}>Desconectar-se</Text>
                         </TouchableOpacity>
                     </View>

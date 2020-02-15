@@ -1,12 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import ApiService from './ApiService';
 
-export async function storeUser(user_info) {
-    await AsyncStorage.setItem('TB:user_info', JSON.stringify(user_info));
-}
-
 export async function getUser() {
-    return JSON.parse(await AsyncStorage.getItem('TB:user_info'));
+    return ApiService.get('/users/me');
 }
 
 export async function isTokenValid() {
@@ -15,7 +11,6 @@ export async function isTokenValid() {
         const response = await ApiService.get('/users/me');
         if (response) {
             if (response.data) {
-                await storeUser(response.data);
                 return true;
             } else {
                 return false;
@@ -51,9 +46,8 @@ export async function setUserEmail(email) {
     return;
 }
 
-export async function authenticateUser(email, password, remind) {
-    const response = await ApiService.post('/auth/login', { email, password, remind });
-    return response;
+export function authenticateUser(email, password, remind) {
+    return ApiService.post('/auth/login', { email, password, remind });
 }
 
 export async function registerUser(body) {

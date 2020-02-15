@@ -7,52 +7,55 @@ import Loading from '../components/loading';
 import Plus from '../../../assets/icons/add-book.svg';
 import RemotePushController from '../../../services/RemotePushController';
 import { subscribeToChannel, unsubscribeChannel } from '../../../services/Pusher';
-import { getCategories } from '../../../services/CategoriesService';
-import { getAdverts, storeAdvert } from '../../../services/AdvertsService';
-import { getUser } from '../../../services/UserService';
-import { getUserLikes } from '../../../services/LikeService';
 import FirstModal from './onboard-modals/first-modal';
 import SecondModal from './onboard-modals/second-modal';
+import AdvertStore from '../../../stores/AdvertStore';
+import UserStore from '../../../stores/UserStore';
+import CategoryStore from '../../../stores/CategoryStore';
 
 export default Main = (props) => {
     const [loading, setLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
     const [showFirstModal, setShowFirstModal] = useState(false);
     const [showSecondModal, setShowSecondModal] = useState(false);
     const [categories, setCategories] = useState([]);
     const [adverts, setAdverts] = useState([]);
     const [likes, setLikes] = useState([]);
     const [user, setUser] = useState({});
-    const [refreshLikes, setRefreshLikes] = useState(false);
-    const [refreshAdverts, setRefreshAdverts] = useState(false);
+    const [hasMore, setHasMore] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
-        async function loadData() {
-            const responseCat = await getCategories();
-            const responseAd = await getAdverts();
-            const responseUser = await getUser();
-            setUser(responseUser);
-            setCategories([{ name: 'Destaques' }, ...responseCat]);
-            setAdverts(responseAd);
-            setLoading(false);
-        }
-        loadData();
-    }, [refreshAdverts]);
+        const unsubscribeCategory = CategoryStore.subscribe(state => {
+            setCategories([{ name: 'Destaques' }, ...state.categories]);
+        });
+        const unsubscribeAdverts = AdvertStore.subscribe(state => {
+            setLoading(state.loading);
+            setLoadingMore(state.loadingMore);
+            setAdverts(state.adverts);
+            setHasMore(state.nextPageUrl ? true : false);
+        });
 
-    useEffect(() => {
-        async function loadLikes() {
-            const responseLikes = await getUserLikes();
-            setLikes(responseLikes);
-        }
-        loadLikes();
-    }, [refreshLikes]);
+        const unsubscribeUser = UserStore.subscribe(state => {
+            setUser(state);
+            setLikes(state.likes);
+        });
+
+        UserStore.loadUserInfo();
+        AdvertStore.loadAdverts();
+
+        return () => {
+            unsubscribeAdverts();
+            unsubscribeUser();
+            unsubscribeCategory();
+        };
+
+    }, []);
 
     useEffect(() => {
         if (user) {
             const globalChannel = subscribeToChannel('all-clients');
             globalChannel.bind('book-accepted', event => {
-                storeAdvert(event.message);
-                setAdverts(adverts => [event.message, ...adverts]);
+                AdvertStore.advertAccepted(event.message);
             });
 
             const privateChannel = subscribeToChannel(`userID${user.id}`);
@@ -85,12 +88,31 @@ export default Main = (props) => {
         handleHideModal();
     }
 
+    function refreshAdverts() {
+        AdvertStore.loadAdverts();
+        UserStore.loadLikes();
+    }
+
+    function handleEndReached() {
+        if (hasMore) {
+            console.log('tem mais e vai carregar mais');
+            AdvertStore.loadNextPage();
+        }
+    }
+
     return (
         <SafeAreaView style={Styles.Container}>
             {loading ? <Loading /> :
                 <>
                     <CategoryList categories={categories} />
-                    <AdvertList adverts={adverts} navigation={props.navigation} user={user} likes={likes} setRefreshLikes={setRefreshLikes} refreshAdverts={setRefreshAdverts} />
+                    <AdvertList
+                        adverts={adverts}
+                        navigation={props.navigation}
+                        user={user} likes={likes}
+                        refreshAdverts={refreshAdverts}
+                        onEndReached={handleEndReached}
+                        loadingMore={loadingMore}
+                    />
                     <TouchableOpacity
                         style={Styles.AddButton}
                         onPress={handleOpenModal}>

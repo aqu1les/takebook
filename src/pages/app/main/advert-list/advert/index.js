@@ -5,12 +5,11 @@ import pt from 'date-fns/locale/pt';
 import { Badge } from 'native-base';
 import Styles from './style';
 import defaultBook from '../../../../../assets/bookDefault.jpg';
-import { likeBook, unlikeBook } from '../../../../../services/LikeService';
 import LikeButton from '../../../components/like-button';
+import UserStore from '../../../../../stores/UserStore';
 
-export default Advert = ({ item, navigation, owner, user, liked: BLiked }) => {
+export default Advert = ({ item, navigation, owner, user, liked }) => {
     const { id, title, price, author, categories, condition_id, covers_url, approved_at } = item;
-    const [liked, setLiked] = useState(BLiked);
     const animation = useRef();
     let condition;
     let badgeColor;
@@ -37,13 +36,7 @@ export default Advert = ({ item, navigation, owner, user, liked: BLiked }) => {
     }
 
     async function handleLike() {
-        if (liked) {
-            await unlikeBook(id);
-            setLiked(false);
-        } else {
-            await likeBook(id);
-            setLiked(true);
-        }
+        UserStore.likeBook(id);
     }
 
     return (
@@ -53,7 +46,10 @@ export default Advert = ({ item, navigation, owner, user, liked: BLiked }) => {
             </View>
             <View style={Styles.Infos}>
                 <Text style={Styles.Title}>{title}</Text>
-                <Text style={Styles.Author}>{author}</Text>
+                <Text style={Styles.Author}>
+                    <Text style={[Styles.Author, { fontSize: 14, color: '#555', fontWeight: 'bold' }]}>Autor: </Text>
+                    {author}
+                </Text>
                 <View style={Styles.Categories}>
                     {categories.map(({ id, name }) => (
                         <Text key={id} style={Styles.TextCategory}>{name}</Text>

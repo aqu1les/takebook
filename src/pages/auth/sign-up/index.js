@@ -12,7 +12,7 @@ import CameraPlus from '../../../assets/icons/camera-plus-outline.svg';
 import SuccessFeedback from '../../core/success-feedback';
 import FailedFeedback from '../../core/failed-feedback';
 import { getInfoByCEP } from '../../../services/IBGEService';
-import { registerUser, storeUser } from '../../../services/UserService';
+import { registerUser } from '../../../services/UserService';
 import { createFormData } from '../../../services/FormDataService';
 
 export default function SignUp(props) {
@@ -59,7 +59,6 @@ export default function SignUp(props) {
         const response = await registerUser(data);
         if (response.data) {
             setShowSuccessModal(true);
-            storeUser(response.data);
         } else {
             setShowFailModal(true);
         }

@@ -43,6 +43,7 @@ export default Styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: 'bold',
         marginTop: 20,
+        color: '#000'
     },
     Author: {
         color: '#A5A5A5',

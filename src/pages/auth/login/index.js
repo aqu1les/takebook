@@ -4,7 +4,8 @@ import Styles from './style';
 import Template from '../components/template';
 import User from '../../../assets/icons/user.svg';
 import Password from '../../../assets/icons/password.svg';
-import { getUserEmail, setUserEmail, authenticateUser, storeToken } from '../../../services/UserService';
+import { getUserEmail, setUserEmail } from '../../../services/UserService';
+import UserStore from '../../../stores/UserStore';
 
 export default function Login(props) {
     const redirectEmail = props.navigation.getParam('email');
@@ -26,28 +27,28 @@ export default function Login(props) {
             const userEmail = await getUserEmail();
             return userEmail ? setLogin(userEmail) : setLogin('');
         }
-        if (redirectEmail !== '') {
-            setLogin(redirectEmail);
-        } else {
-            getUserInfo();
-        }
+        getUserInfo();
     });
 
     function handleLoginChange(value) {
         setLogin(value);
-        return !EMAIL_REGEX.test(value)
+        !EMAIL_REGEX.test(value)
             ? setLoginError(true)
             : setLoginError(false);
+        return;
     }
+
     function handlePasswordChange(value) {
         setPassword(value);
         return value.length < 5
             ? setPasswordError(true)
             : setPasswordError(false);
     }
+
     function navigateSignUp() {
         return props.navigation.navigate('SignUp');
     }
+
     async function submitForm() {
         setLoading(true);
         passwordInput.current.blur();
@@ -59,20 +60,26 @@ export default function Login(props) {
         if (remind) {
             await setUserEmail(login);
         }
-        const response = await authenticateUser(login, password, remind);
-        setLoading(false);
-        if (!response)
-            return ToastAndroid.show(
-                'Não foi possível contactar o servidor!',
-                ToastAndroid.LONG,
-            );
-        if (response === 'Senha Inválida!' || response === 'E-mail inválido!')
-            return ToastAndroid.show(response, ToastAndroid.SHORT);
-        if (response.data.status === 'success') {
-            await storeToken(response.data.token);
-            ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
-            props.navigation.navigate('App');
+        const unsubscribeUserStore = UserStore.subscribe(state => {
+            setLoading(state.loading);
+        });
+        const response = await UserStore.login(login, password, remind);
+        unsubscribeUserStore();
+        switch (response) {
+            case '':
+                return ToastAndroid.show('Não foi possível contactar o servidor!',
+                    ToastAndroid.LONG);
+            case 'Senha Inválida!':
+                ToastAndroid.show(response, ToastAndroid.SHORT);
+                setPasswordError(true);
+                return passwordInput.current.focus();
+            case 'E-mail inválido!':
+                ToastAndroid.show(response, ToastAndroid.SHORT);
+                setLoginError(true);
+                return loginInput.current.focus();
         }
+        ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
+        props.navigation.navigate('App');
     }
 
     return (
