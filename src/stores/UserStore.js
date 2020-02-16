@@ -1,8 +1,8 @@
 import { authenticateUser, getUser, removeToken, storeToken } from "../services/UserService";
 import { loadUserLikes, likeBook } from "../services/LikeService";
+import { Store } from "./Store";
 
-class UserStore {
-    observers = [];
+class UserStore extends Store {
     state = {
         loading: false,
         authenticated: false,
@@ -22,6 +22,10 @@ class UserStore {
         likes: [],
         notifications: [],
     };
+
+    constructor() {
+        super();
+    }
 
     reducer(action, payload) {
         switch (action) {
@@ -138,17 +142,6 @@ class UserStore {
     newNotification(notification) {
         this.reducer('NEW_NOTIFICATION', { notification });
     }
-
-    notify() {
-        this.observers.forEach(observer => observer(this.state));
-    }
-
-    subscribe(newObserver) {
-        this.observers.push(newObserver);
-        this.notify();
-        return () => {
-            this.observers = this.observers.filter(observer => observer !== newObserver);
-        }
-    }
 }
+
 export default new UserStore();

@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, View, KeyboardAvoidingView, ActivityIndicator, SafeAreaView, Image } from 'react-native';
 import Styles from './style';
 import BgBr from '../../../../assets/background/backgroundBottomRight.svg';
 import BgTL from '../../../../assets/background/backgroundTopLeft.svg';
 import Logo from '../../../../assets/logo.svg';
+
 export default Template = props => {
+    useEffect(() => {
+        StatusBar.setBarStyle('dark-content');
+    });
     return (
         <>
             <StatusBar backgroundColor="#EAEAEA" barStyle="dark-content" />

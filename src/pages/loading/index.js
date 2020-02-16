@@ -7,7 +7,7 @@ import BgTL from '../../assets/background/backgroundTopLeft.svg';
 import { isTokenValid } from '../../services/UserService';
 import UserStore from '../../stores/UserStore';
 
-export default Loading = props => {
+export default function Loading(props) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -26,23 +26,26 @@ export default Loading = props => {
                 navigateTo('Login');
             }
         }
+        function navigateTo(route) {
+            StatusBar.setHidden(false);
+            StatusBar.setBarStyle('light-content');
+            props.navigation.navigate(route);
+        }
 
         checkToken();
 
         return () => {
             unsubscribeUserStore();
         };
-    }, []);
-
-    function navigateTo(route) {
-        StatusBar.setHidden(false);
-        StatusBar.setBarStyle('light-content');
-        props.navigation.navigate(route);
-    }
+    }, [props.navigation]);
 
     return (
         <>
-            <StatusBar backgroundColor={'#FFFFFF'} barStyle={'dark-content'} hidden={true} />
+            <StatusBar
+                backgroundColor={'#FFFFFF'}
+                barStyle={'dark-content'}
+                hidden={true}
+            />
             <View style={Styles.Container}>
                 <View style={Styles.ImageLeft}>
                     <BgTL width={'100%'} height={'100%'} />
@@ -62,4 +65,4 @@ export default Loading = props => {
             </View>
         </>
     );
-};
+}

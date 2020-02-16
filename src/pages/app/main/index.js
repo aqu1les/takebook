@@ -40,6 +40,7 @@ export default Main = (props) => {
             setLikes(state.likes);
         });
 
+        CategoryStore.loadCategories();
         UserStore.loadUserInfo();
         AdvertStore.loadAdverts();
 

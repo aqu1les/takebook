@@ -1,14 +1,18 @@
-import { fetchAdverts, fetchNextPage } from "../services/AdvertsService";
+import { fetchAdverts, fetchNextPage } from '../services/AdvertsService';
 import _ from 'lodash';
+import { Store } from './Store';
 
-class AdvertStore {
-    observers = [];
+class AdvertStore extends Store {
     state = {
         loading: false,
         adverts: [],
         nextPageUrl: null,
         loadingMore: false,
     };
+
+    constructor() {
+        super();
+    }
 
     reducer(action, payload) {
         switch (action) {
@@ -27,7 +31,7 @@ class AdvertStore {
                     ...this.state,
                     loading: false,
                     adverts: payload.adverts,
-                    nextPageUrl: payload.nextPageUrl
+                    nextPageUrl: payload.nextPageUrl,
                 };
                 break;
             }
@@ -35,7 +39,10 @@ class AdvertStore {
             case 'ADVERT_ACCEPTED': {
                 this.state = {
                     ...this.state,
-                    adverts: _.uniqBy([payload.advert, ...this.state.adverts], 'id')
+                    adverts: _.uniqBy(
+                        [payload.advert, ...this.state.adverts],
+                        'id',
+                    ),
                 };
                 break;
             }
@@ -44,9 +51,12 @@ class AdvertStore {
                 this.state = {
                     ...this.state,
                     loading: false,
-                    adverts: _.uniqBy([...this.state.adverts, ...payload.adverts], 'id'),
+                    adverts: _.uniqBy(
+                        [...this.state.adverts, ...payload.adverts],
+                        'id',
+                    ),
                     nextPageUrl: payload.nextPageUrl,
-                    loadingMore: false
+                    loadingMore: false,
                 };
                 break;
             }
@@ -60,7 +70,10 @@ class AdvertStore {
             .then(response => {
                 if (response.data) {
                     const nextPage = response.data.next_page_url;
-                    this.reducer('LOAD_SUCCESS', { adverts: response.data.data, nextPageUrl: nextPage ? nextPage.split('=')[1] : null });
+                    this.reducer('LOAD_SUCCESS', {
+                        adverts: response.data.data,
+                        nextPageUrl: nextPage ? nextPage.split('=')[1] : null,
+                    });
                 }
             })
             .catch(err => console.log(err));
@@ -72,9 +85,11 @@ class AdvertStore {
             .then(response => {
                 if (response.data) {
                     const nextPage = response.data.next_page_url;
-                    console.log(nextPage);
 
-                    this.reducer('NEXT_PAGE_SUCCESS', { adverts: response.data.data, nextPageUrl: nextPage ? nextPage.split('=')[1] : null });
+                    this.reducer('NEXT_PAGE_SUCCESS', {
+                        adverts: response.data.data,
+                        nextPageUrl: nextPage ? nextPage.split('=')[1] : null,
+                    });
                 }
             })
             .catch(err => console.log(err));
@@ -82,17 +97,6 @@ class AdvertStore {
 
     advertAccepted(advert) {
         this.reducer('ADVERT_ACCEPTED', { advert });
-    }
-
-    notify() {
-        this.observers.forEach(observer => observer(this.state));
-    }
-
-    subscribe(newObserver) {
-        this.observers.push(newObserver);
-        return () => {
-            this.observers = this.observers.filter(observer => observer !== newObserver);
-        }
     }
 }
 export default new AdvertStore();

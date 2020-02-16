@@ -1,6 +1,6 @@
 {
     "name": "takebook",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "private": false,
     "scripts": {
         "android": "react-native run-android",
@@ -25,6 +25,7 @@
         "pusher-js": "^5.0.3",
         "react": "16.9.0",
         "react-native": "0.61.5",
+        "react-native-geocoding": "^0.4.0",
         "react-native-gesture-handler": "^1.5.2",
         "react-native-image-picker": "^2.2.1",
         "react-native-keyboard-aware-scroll-view": "^0.9.1",

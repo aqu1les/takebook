@@ -1,10 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Switch, ToastAndroid } from 'react-native';
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Switch,
+    ToastAndroid,
+} from 'react-native';
 import Styles from './style';
 import Template from '../components/template';
 import User from '../../../assets/icons/user.svg';
 import Password from '../../../assets/icons/password.svg';
 import { getUserEmail, setUserEmail } from '../../../services/UserService';
+import { getCategories } from '../../../services/CategoriesService';
 import UserStore from '../../../stores/UserStore';
 
 export default function Login(props) {
@@ -19,23 +27,21 @@ export default function Login(props) {
     const [passwordError, setPasswordError] = useState(false);
     const [remind, setRemind] = useState(true);
     const invalid =
-        loginError || passwordError || login == '' || password == '';
-
+        loginError || passwordError || login === '' || password === '';
 
     useEffect(() => {
+        if (redirectEmail) {
+            return setLogin(redirectEmail);
+        }
         async function getUserInfo() {
-            const userEmail = await getUserEmail();
-            return userEmail ? setLogin(userEmail) : setLogin('');
+            setLogin((await getUserEmail()) || '');
         }
         getUserInfo();
-    });
+    }, [redirectEmail]);
 
     function handleLoginChange(value) {
         setLogin(value);
-        !EMAIL_REGEX.test(value)
-            ? setLoginError(true)
-            : setLoginError(false);
-        return;
+        !EMAIL_REGEX.test(value) ? setLoginError(true) : setLoginError(false);
     }
 
     function handlePasswordChange(value) {
@@ -53,8 +59,11 @@ export default function Login(props) {
         setLoading(true);
         passwordInput.current.blur();
         if (!login || !password || invalid) {
-            if (!login) setLoginError(true);
-            else if (!password) setPasswordError(true);
+            if (!login) {
+                setLoginError(true);
+            } else if (!password) {
+                setPasswordError(true);
+            }
             return setLoading(false);
         }
         if (remind) {
@@ -67,8 +76,10 @@ export default function Login(props) {
         unsubscribeUserStore();
         switch (response) {
             case '':
-                return ToastAndroid.show('Não foi possível contactar o servidor!',
-                    ToastAndroid.LONG);
+                return ToastAndroid.show(
+                    'Não foi possível contactar o servidor!',
+                    ToastAndroid.LONG,
+                );
             case 'Senha Inválida!':
                 ToastAndroid.show(response, ToastAndroid.SHORT);
                 setPasswordError(true);
@@ -78,6 +89,7 @@ export default function Login(props) {
                 setLoginError(true);
                 return loginInput.current.focus();
         }
+        getCategories();
         ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
         props.navigation.navigate('App');
     }
@@ -145,4 +157,4 @@ export default function Login(props) {
             </TouchableOpacity>
         </Template>
     );
-};
+}

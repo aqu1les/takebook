@@ -1,8 +1,8 @@
 import { getCategories } from "../services/CategoriesService";
+import { Store } from "./Store";
 
 
-class CategoryStore {
-    observers = [];
+class CategoryStore extends Store {
     state = {
         loading: false,
         categories: [],
@@ -10,6 +10,7 @@ class CategoryStore {
     };
 
     constructor() {
+        super();
         this.loadCategories();
     }
 
@@ -38,17 +39,5 @@ class CategoryStore {
             })
             .catch(error => console.log(error));
     };
-
-    notify() {
-        this.observers.forEach(observer => observer(this.state));
-    }
-
-    subscribe(newObserver) {
-        this.observers.push(newObserver);
-        this.notify();
-        return () => {
-            this.observers = this.observers.filter(observer => observer !== newObserver);
-        }
-    }
 }
 export default new CategoryStore();

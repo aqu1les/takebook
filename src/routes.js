@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -102,8 +102,13 @@ const Chats = createStackNavigator(
         },
         Room: {
             screen: Room,
-            navigationOptions: () => ({
-                headerTransparent: true,
+            navigationOptions: ({ navigation }) => ({
+                headerTransparent: false,
+                headerStyle: {
+                    backgroundColor: '#3ac2fe',
+                },
+                headerTintColor: '#FFF',
+                title: navigation.getParam('title')
             }),
         },
     },

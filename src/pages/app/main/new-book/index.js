@@ -8,6 +8,7 @@ import PageOne from './page-one';
 import PageTwo from './page-two';
 import PageThree from './page-three';
 import CategoryStore from '../../../../stores/CategoryStore';
+import ImageEditor from '../../../../services/ImageEditor';
 
 export default NewBook = props => {
     const [cover, setCover] = useState(null);
@@ -91,56 +92,39 @@ export default NewBook = props => {
     }
 
     function handleEditImage(index) {
+        function onCancel() {
+            return;
+        };
         switch (index) {
             case 1:
-                RNPhotoEditor.Edit({
-                    path: cover.path,
-                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
-                    onDone: (path) => {
-                        setCover({ ...cover, path });
-                    },
-                    onCancel: () => { return; }
-                });
+                ImageEditor(cover.path, (path) => {
+                    setCover({ ...cover, path });
+                }, onCancel);
+
                 break;
             case 2:
-                RNPhotoEditor.Edit({
-                    path: cover2.path,
-                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
-                    onDone: (path) => {
-                        setCover2({ ...cover2, path });
-                    },
-                    onCancel: () => { return; }
-                });
+                ImageEditor(cover2.path, (path) => {
+                    setCover2({ ...cover2, path });
+                }, onCancel);
+
                 break;
             case 3:
-                RNPhotoEditor.Edit({
-                    path: cover3.path,
-                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
-                    onDone: (path) => {
-                        setCover3({ ...cover3, path });
-                    },
-                    onCancel: () => { return; }
-                });
+                ImageEditor(cover3.path, (path) => {
+                    setCover3({ ...cover3, path });
+                }, onCancel);
+
                 break;
             case 4:
-                RNPhotoEditor.Edit({
-                    path: cover4.path,
-                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
-                    onDone: (path) => {
-                        setCover4({ ...cover4, path });
-                    },
-                    onCancel: () => { return; }
-                });
+                ImageEditor(cover4.path, (path) => {
+                    setCover4({ ...cover4, path });
+                }, onCancel);
+
                 break;
             case 5:
-                RNPhotoEditor.Edit({
-                    path: cover5.path,
-                    hiddenControls: ['draw', 'share', 'sticker', 'text'],
-                    onDone: (path) => {
-                        setCover5({ ...cover5, path });
-                    },
-                    onCancel: () => { return; },
-                });
+                ImageEditor(cover5.path, (path) => {
+                    setCover5({ ...cover5, path });
+                }, onCancel);
+
                 break;
             default:
                 break;
