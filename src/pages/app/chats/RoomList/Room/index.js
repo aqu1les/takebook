@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, TouchableOpacity, FlatList, TextInput } from 'react-native';
-import Styles from './style';
-import ChatStore from '../../../../../stores/ChatStore';
-import Message from './message';
+import { View, Text, TouchableOpacity, FlatList, TextInput, ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Styles from './style';
+import Message from './message';
+import BackgroundTop from '../../../../../assets/background/background-chat-top-right.svg';
+import BackgroundBottom from '../../../../../assets/background/background-chat-bottom-left.svg';
+import ChatStore from '../../../../../stores/ChatStore';
 import UserStore from '../../../../../stores/UserStore';
 import { subscribeToChannel, unsubscribeChannel } from '../../../../../services/Pusher';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Room({ navigation }) {
     const [messages, setMessages] = useState([]);
@@ -63,9 +66,12 @@ export default function Room({ navigation }) {
                 contentContainerStyle={{
                     width: '100%',
                     flexDirection: 'column',
-                    padding: 10
+                    padding: 10,
                 }}
+                style={{ zIndex: 100 }}
             />
+            <BackgroundTop style={Styles.BackgroundTopRight} />
+            <BackgroundBottom style={Styles.BackgroundBottomLeft} />
             <View style={Styles.WriteMessageSection}>
                 <TouchableOpacity style={Styles.MessageTouchable} >
                     <TextInput

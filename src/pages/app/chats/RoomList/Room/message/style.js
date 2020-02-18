@@ -25,7 +25,8 @@ export default Styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 10,
         paddingHorizontal: 15,
-        marginVertical: 5
+        marginVertical: 5,
+        elevation: 1
     },
     Text: {
         color: '#FFFFFF',

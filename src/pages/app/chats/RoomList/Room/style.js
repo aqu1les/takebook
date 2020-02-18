@@ -3,7 +3,23 @@ import { StyleSheet } from 'react-native';
 export default Styles = StyleSheet.create({
     ChatContainer: {
         flex: 1,
-        flexDirection: 'column'
+        flexDirection: 'column',
+        position: 'relative'
+    },
+    BackgroundTopRight: {
+        position: 'absolute',
+        top: -52,
+        right: 0,
+        height: '50%',
+        width: '50%',
+        zIndex: 1
+    },
+    BackgroundBottomLeft: {
+        position: 'absolute',
+        bottom: 17,
+        left: 0,
+        height: '50%',
+        width: '50%'
     },
     WriteMessageSection: {
         height: 70,
