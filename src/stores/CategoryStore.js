@@ -3,15 +3,14 @@ import { Store } from "./Store";
 
 
 class CategoryStore extends Store {
-    state = {
-        loading: false,
-        categories: [],
-        nextPageUrl: null
-    };
 
     constructor() {
         super();
-        this.loadCategories();
+        this.state = {
+            loading: false,
+            categories: [],
+            nextPageUrl: null
+        };
     }
 
     reducer(action, payload) {

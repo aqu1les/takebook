@@ -3,28 +3,28 @@ import { loadUserLikes, likeBook } from "../services/LikeService";
 import { Store } from "./Store";
 
 class UserStore extends Store {
-    state = {
-        loading: false,
-        authenticated: false,
-        id: null,
-        firstName: '',
-        lastName: '',
-        email: '',
-        address: {
-            street: '',
-            number: null,
-            neighborhood: '',
-            city: '',
-            state: '',
-            zipCode: null
-        },
-        avatar_url: null,
-        likes: [],
-        notifications: [],
-    };
 
     constructor() {
         super();
+        this.state = {
+            loading: false,
+            authenticated: false,
+            id: null,
+            firstName: '',
+            lastName: '',
+            email: '',
+            address: {
+                street: '',
+                number: null,
+                neighborhood: '',
+                city: '',
+                state: '',
+                zipCode: null
+            },
+            avatar_url: null,
+            likes: [],
+            notifications: [],
+        };
     }
 
     reducer(action, payload) {
@@ -91,6 +91,28 @@ class UserStore extends Store {
                 };
                 break;
             }
+            case 'TOKEN_INVALID': {
+                this.state = {
+                    loading: false,
+                    authenticated: false,
+                    id: null,
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    address: {
+                        street: '',
+                        number: null,
+                        neighborhood: '',
+                        city: '',
+                        state: '',
+                        zipCode: null
+                    },
+                    avatar_url: null,
+                    likes: [],
+                    notifications: [],
+                };
+                break;
+            }
         }
         this.notify();
     }
@@ -113,14 +135,24 @@ class UserStore extends Store {
 
     loadUserInfo() {
         this.reducer('LOAD_INFO');
-        this.loadLikes();
         getUser()
             .then(response => {
-                if (response.data) {
-                    this.reducer('LOAD_INFO_SUCCESS', { ...response.data });
+                if (response) {
+                    if (response.data) {
+                        if (response.data.error) {
+                            this.reducer('TOKEN_INVALID');
+                        } else {
+                            this.loadLikes();
+                            this.reducer('LOAD_INFO_SUCCESS', { ...response.data });
+                        }
+                    }
+                } else {
+                    this.reducer('TOKEN_INVALID');
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.reducer('TOKEN_INVALID');
+            });
     }
 
     loadLikes() {

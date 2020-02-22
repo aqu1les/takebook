@@ -2,4 +2,5 @@
     <color name="colorPrimary">#0692cb</color>
     <color name="colorAccent">#f58636</color>
     <color name="textColorPrimary">#000000</color>
+    <color name="notificationPrimary">#2bc1f3</color>
 </resources>

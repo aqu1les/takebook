@@ -2,14 +2,14 @@ import { getAllRooms, getMessages } from '../services/ChatService';
 import { Store } from './Store';
 
 class ChatStore extends Store {
-    state = {
-        loading: false,
-        chats: [],
-        loadingMessages: false
-    };
 
     constructor() {
         super();
+        this.state = {
+            loading: false,
+            chats: [],
+            loadingMessages: false
+        };
     }
 
     reducer(action, payload) {

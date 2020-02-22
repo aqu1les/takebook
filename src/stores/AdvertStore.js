@@ -3,15 +3,15 @@ import _ from 'lodash';
 import { Store } from './Store';
 
 class AdvertStore extends Store {
-    state = {
-        loading: false,
-        adverts: [],
-        nextPageUrl: null,
-        loadingMore: false,
-    };
 
     constructor() {
         super();
+        this.state = {
+            loading: false,
+            adverts: [],
+            nextPageUrl: null,
+            loadingMore: false,
+        };
     }
 
     reducer(action, payload) {

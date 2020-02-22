@@ -1,4 +1,4 @@
-package com.takebookapp;
+package com.takebook.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

@@ -4,40 +4,32 @@ import Styles from './style';
 import Logo from '../../assets/logo.svg';
 import BgBr from '../../assets/background/backgroundBottomRight.svg';
 import BgTL from '../../assets/background/backgroundTopLeft.svg';
-import { isTokenValid } from '../../services/UserService';
 import UserStore from '../../stores/UserStore';
 
 export default function Loading(props) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
-
+        UserStore.loadUserInfo();
         const unsubscribeUserStore = UserStore.subscribe(state => {
             setLoading(state.loading);
-        });
-
-        async function checkToken() {
-            const validToken = await isTokenValid();
-            if (validToken) {
-                UserStore.loadUserInfo();
+            if (state.authenticated) {
                 navigateTo('App');
-            } else {
+            } else if (!state.authenticated && !state.loading) {
                 navigateTo('Login');
             }
-        }
-        function navigateTo(route) {
-            StatusBar.setHidden(false);
-            StatusBar.setBarStyle('light-content');
-            props.navigation.navigate(route);
-        }
-
-        checkToken();
+        });
 
         return () => {
             unsubscribeUserStore();
         };
-    }, [props.navigation]);
+    }, []);
+
+    function navigateTo(route) {
+        StatusBar.setHidden(false);
+        StatusBar.setBarStyle('light-content');
+        props.navigation.navigate(route);
+    }
 
     return (
         <>

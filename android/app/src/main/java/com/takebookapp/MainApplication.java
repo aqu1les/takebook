@@ -1,4 +1,4 @@
-package com.takebookapp;
+package com.takebook.app;
 
 import android.app.Application;
 import android.content.Context;

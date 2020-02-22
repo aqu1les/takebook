@@ -6,14 +6,15 @@ import {
     TouchableOpacity,
     Switch,
     ToastAndroid,
+    StatusBar,
 } from 'react-native';
 import Styles from './style';
 import Template from '../components/template';
 import User from '../../../assets/icons/user.svg';
 import Password from '../../../assets/icons/password.svg';
 import { getUserEmail, setUserEmail } from '../../../services/UserService';
-import { getCategories } from '../../../services/CategoriesService';
 import UserStore from '../../../stores/UserStore';
+import CategoryStore from '../../../stores/CategoryStore';
 
 export default function Login(props) {
     const redirectEmail = props.navigation.getParam('email');
@@ -89,7 +90,9 @@ export default function Login(props) {
                 setLoginError(true);
                 return loginInput.current.focus();
         }
-        getCategories();
+        CategoryStore.loadCategories();
+        StatusBar.setHidden(false);
+        StatusBar.setBarStyle('light-content');
         ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
         props.navigation.navigate('App');
     }

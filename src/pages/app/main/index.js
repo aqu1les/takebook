@@ -5,13 +5,13 @@ import CategoryList from './category-list';
 import AdvertList from './advert-list';
 import Loading from '../components/loading';
 import Plus from '../../../assets/icons/add-book.svg';
-import RemotePushController from '../../../services/RemotePushController';
 import { subscribeToChannel, unsubscribeChannel } from '../../../services/Pusher';
 import FirstModal from './onboard-modals/first-modal';
 import SecondModal from './onboard-modals/second-modal';
 import AdvertStore from '../../../stores/AdvertStore';
 import UserStore from '../../../stores/UserStore';
 import CategoryStore from '../../../stores/CategoryStore';
+import { registerAppWithFCM } from '../../../services/RemotePushController';
 
 export default Main = (props) => {
     const [loading, setLoading] = useState(true);
@@ -70,6 +70,10 @@ export default Main = (props) => {
         };
     }, []);
 
+    useEffect(() => {
+        registerAppWithFCM();
+    }, []);
+
     function handleHideModal() {
         setShowFirstModal(false);
         setShowSecondModal(false);
@@ -123,7 +127,6 @@ export default Main = (props) => {
                     <SecondModal isVisible={showSecondModal} handleHideModal={handleHideModal} navigateToForm={navigateToForm} />
                 </>
             }
-            <RemotePushController />
         </SafeAreaView>
     );
 };
