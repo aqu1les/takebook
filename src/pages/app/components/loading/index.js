@@ -1,16 +1,20 @@
-import React from 'react';
-import { StatusBar } from 'react-native';
+import React, { memo } from 'react';
 import Modal from 'react-native-modal';
 import LottieView from 'lottie-react-native';
 import Styles from './style';
 import LoadingBook from '../../../../assets/animations/loading-book.json';
 
-export default function Loading() {
+function Loading() {
     return (
         <>
-            <Modal style={Styles.LoadingContainer} animationIn='flipInY' isVisible={true} coverScreen={true}>
+            <Modal
+                style={Styles.LoadingContainer}
+                animationIn="flipInY"
+                isVisible={true}
+                coverScreen={true}>
                 <LottieView source={LoadingBook} loop autoPlay />
             </Modal>
         </>
     );
 }
+export default memo(Loading);

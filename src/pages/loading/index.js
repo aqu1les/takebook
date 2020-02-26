@@ -1,29 +1,67 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { View, StatusBar, ActivityIndicator } from 'react-native';
 import Styles from './style';
 import Logo from '../../assets/logo.svg';
 import BgBr from '../../assets/background/backgroundBottomRight.svg';
 import BgTL from '../../assets/background/backgroundTopLeft.svg';
-import UserStore from '../../stores/UserStore';
+import { loadAdvertsAction } from '../../redux/actions/advert';
+import {
+    checkTokenAction,
+    setUserAction,
+    tokenValidated,
+} from '../../redux/actions/authentication';
+import { setNotificationsAction } from '../../redux/actions/notification';
+import { loadCategoriesAction } from '../../redux/actions/category';
+import ApiService from '../../services/ApiService';
+import { getToken } from '../../services/UserService';
 
 export default function Loading(props) {
-    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+    const loading = useSelector(state => state.auth.loading);
+    const authenticated = useSelector(state => state.auth.authenticated);
+
+    const canLoad = useMemo(() => !loading && !authenticated, [
+        loading,
+        authenticated,
+    ]);
 
     useEffect(() => {
-        UserStore.loadUserInfo();
-        const unsubscribeUserStore = UserStore.subscribe(state => {
-            setLoading(state.loading);
-            if (state.authenticated) {
-                navigateTo('App');
-            } else if (!state.authenticated && !state.loading) {
+        async function checkIfTokenValid() {
+            const token = await getToken();
+            if (token) {
+                dispatch(checkTokenAction());
+                try {
+                    const response = await ApiService.get('/users/me');
+                    if (response) {
+                        if (response.status === 200) {
+                            await dispatch(loadAdvertsAction());
+                            dispatch(
+                                setNotificationsAction(
+                                    response.data.notifications,
+                                ),
+                            );
+                            await dispatch(loadCategoriesAction());
+                            await dispatch(
+                                setUserAction({ ...response.data, token }),
+                            );
+                            await dispatch(tokenValidated());
+                            navigateTo('App');
+                        }
+                    }
+                } catch (e) {
+                    navigateTo('Login');
+                }
+            } else {
                 navigateTo('Login');
             }
-        });
-
-        return () => {
-            unsubscribeUserStore();
-        };
-    }, []);
+        }
+        if (canLoad) {
+            checkIfTokenValid();
+        } else {
+            navigateTo('App');
+        }
+    }, [dispatch, canLoad]);
 
     function navigateTo(route) {
         StatusBar.setHidden(false);

@@ -8,18 +8,31 @@ import {
     ToastAndroid,
     StatusBar,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import Styles from './style';
 import Template from '../components/template';
 import User from '../../../assets/icons/user.svg';
 import Password from '../../../assets/icons/password.svg';
-import { getUserEmail, setUserEmail } from '../../../services/UserService';
-import UserStore from '../../../stores/UserStore';
-import CategoryStore from '../../../stores/CategoryStore';
+import {
+    getUserEmail,
+    setUserEmail,
+    authenticateUser,
+    storeToken,
+} from '../../../services/UserService';
+import {
+    loadAuthErrorAction,
+    loadAuthAction,
+    setUserAction,
+} from '../../../redux/actions/authentication';
+import { loadAdvertsAction } from '../../../redux/actions/advert';
+import { loadCategoriesAction } from '../../../redux/actions/category';
+import { setNotificationsAction } from '../../../redux/actions/notification';
 
 export default function Login(props) {
+    const dispatch = useDispatch();
     const redirectEmail = props.navigation.getParam('email');
     const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const [loading, setLoading] = useState(false);
+    const loading = useSelector(state => state.auth.loading);
     const loginInput = useRef(null);
     const passwordInput = useRef(null);
     const [login, setLogin] = useState('');
@@ -57,7 +70,6 @@ export default function Login(props) {
     }
 
     async function submitForm() {
-        setLoading(true);
         passwordInput.current.blur();
         if (!login || !password || invalid) {
             if (!login) {
@@ -65,36 +77,59 @@ export default function Login(props) {
             } else if (!password) {
                 setPasswordError(true);
             }
-            return setLoading(false);
+            return;
         }
         if (remind) {
             await setUserEmail(login);
         }
-        const unsubscribeUserStore = UserStore.subscribe(state => {
-            setLoading(state.loading);
-        });
-        const response = await UserStore.login(login, password, remind);
-        unsubscribeUserStore();
-        switch (response) {
-            case '':
-                return ToastAndroid.show(
-                    'Não foi possível contactar o servidor!',
-                    ToastAndroid.LONG,
-                );
-            case 'Senha Inválida!':
-                ToastAndroid.show(response, ToastAndroid.SHORT);
-                setPasswordError(true);
-                return passwordInput.current.focus();
-            case 'E-mail inválido!':
-                ToastAndroid.show(response, ToastAndroid.SHORT);
-                setLoginError(true);
-                return loginInput.current.focus();
+        try {
+            dispatch(loadAuthAction());
+            const response = await authenticateUser(login, password, remind);
+            switch (response) {
+                case '':
+                    return ToastAndroid.show(
+                        'Não foi possível contactar o servidor!',
+                        ToastAndroid.LONG,
+                    );
+                case 'Senha Inválida!':
+                    ToastAndroid.show(response, ToastAndroid.SHORT);
+                    setPasswordError(true);
+                    return passwordInput.current.focus();
+                case 'E-mail inválido!':
+                    ToastAndroid.show(response, ToastAndroid.SHORT);
+                    setLoginError(true);
+                    return loginInput.current.focus();
+                default: {
+                    storeToken(response.data.token);
+                    StatusBar.setHidden(false);
+                    StatusBar.setBarStyle('light-content');
+                    ToastAndroid.show(
+                        'Bem vindo ao Takebook !',
+                        ToastAndroid.SHORT,
+                    );
+                    await dispatch(loadAdvertsAction());
+                    await dispatch(
+                        setNotificationsAction(
+                            response.data.user.notifications,
+                        ),
+                    );
+                    await dispatch(loadCategoriesAction());
+                    await dispatch(
+                        setUserAction({
+                            ...response.data.user,
+                            token: response.data.token,
+                        }),
+                    );
+                    props.navigation.navigate('App');
+                }
+            }
+        } catch (e) {
+            dispatch(loadAuthErrorAction());
+            ToastAndroid.show(
+                'Algo de errado aconteceu, tente novamente mais tarde.',
+                ToastAndroid.LONG,
+            );
         }
-        CategoryStore.loadCategories();
-        StatusBar.setHidden(false);
-        StatusBar.setBarStyle('light-content');
-        ToastAndroid.show('Bem vindo ao Takebook !', ToastAndroid.SHORT);
-        props.navigation.navigate('App');
     }
 
     return (

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from './style';
 
-export default function CategoryItem({ name }) {
+function CategoryItem({ name }) {
     let icon;
     switch (name) {
         case 'Destaques':
@@ -29,3 +29,5 @@ export default function CategoryItem({ name }) {
         </TouchableOpacity>
     );
 }
+
+export default memo(CategoryItem);

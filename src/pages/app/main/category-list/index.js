@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, FlatList } from 'react-native';
 import CategoryItem from './category-item';
 import Styles from './style';
 
-export default function CategoryList({ categories }) {
-
+function CategoryList({ categories }) {
     function renderSeparator() {
         return <View style={Styles.Separator} />;
     }
@@ -12,10 +11,8 @@ export default function CategoryList({ categories }) {
     return (
         <View style={Styles.Categories}>
             <FlatList
-                data={categories}
-                renderItem={({ item }) => (
-                    <CategoryItem name={item.name} />
-                )}
+                data={[{ name: 'Destaques' }, ...categories]}
+                renderItem={({ item }) => <CategoryItem name={item.name} />}
                 keyExtractor={item => item.name}
                 horizontal={true}
                 contentContainerStyle={{
@@ -27,3 +24,5 @@ export default function CategoryList({ categories }) {
         </View>
     );
 }
+
+export default memo(CategoryList);

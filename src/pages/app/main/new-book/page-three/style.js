@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 export default Styles = StyleSheet.create({
     PageThree: {
         height: '33.3333%',
+        minHeight: 600,
         width: '100%',
         position: 'relative',
         justifyContent: 'space-evenly',

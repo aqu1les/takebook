@@ -7,7 +7,6 @@ import {
     Image,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { RNPhotoEditor } from 'react-native-photo-editor';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Styles from './style';
 import Template from '../components/template';
@@ -70,8 +69,6 @@ export default function SignUp(props) {
         setShowSuccessModal(false);
     }
 
-
-
     function handleAvatarPicker() {
         ImagePicker.showImagePicker({ title: 'Camera' }, image => {
             if (image.didCancel) {
@@ -118,12 +115,12 @@ export default function SignUp(props) {
             />
         </TouchableOpacity>
     ) : (
-            <TouchableOpacity
-                style={Styles.AvatarHolder}
-                onPress={handleAvatarPicker}>
-                <CameraPlus style={Styles.CameraIcon} />
-            </TouchableOpacity>
-        );
+        <TouchableOpacity
+            style={Styles.AvatarHolder}
+            onPress={handleAvatarPicker}>
+            <CameraPlus style={Styles.CameraIcon} />
+        </TouchableOpacity>
+    );
 
     return (
         <Template newHeader={newHeader}>

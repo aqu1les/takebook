@@ -1,13 +1,11 @@
 import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { View, Platform } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { RNPhotoEditor } from 'react-native-photo-editor';
 import { ScrollView } from 'react-native-gesture-handler';
 import Styles from './style';
 import PageOne from './page-one';
 import PageTwo from './page-two';
 import PageThree from './page-three';
-import CategoryStore from '../../../../stores/CategoryStore';
 import ImageEditor from '../../../../services/ImageEditor';
 
 export default NewBook = props => {
@@ -17,7 +15,6 @@ export default NewBook = props => {
     const [cover4, setCover4] = useState(null);
     const [cover5, setCover5] = useState(null);
     const [bookStatus, setBookStatus] = useState(1);
-    const [categories, setCategories] = useState([]);
     const [bookCategories, setBookCategories] = useState([]);
     const [description, setDescription] = useState('');
     const scrollView = useRef();
@@ -25,36 +22,19 @@ export default NewBook = props => {
     const pageTwo = useRef();
     const pageThree = useRef();
 
-    useEffect(() => {
-        const unsubscribeCategories = CategoryStore.subscribe(state => {
-            setCategories(state.categories);
-        });
-
-        return () => {
-            unsubscribeCategories();
-        }
-    }, []);
-
-    const previewCover = useMemo(
-        () => (cover ? cover.path : null),
-        [cover],
-    );
-    const previewCover2 = useMemo(
-        () => (cover2 ? cover2.path : null),
-        [cover2],
-    );
-    const previewCover3 = useMemo(
-        () => (cover3 ? cover3.path : null),
-        [cover3],
-    );
-    const previewCover4 = useMemo(
-        () => (cover4 ? cover4.path : null),
-        [cover4],
-    );
-    const previewCover5 = useMemo(
-        () => (cover5 ? cover5.path : null),
-        [cover5],
-    );
+    const previewCover = useMemo(() => (cover ? cover.path : null), [cover]);
+    const previewCover2 = useMemo(() => (cover2 ? cover2.path : null), [
+        cover2,
+    ]);
+    const previewCover3 = useMemo(() => (cover3 ? cover3.path : null), [
+        cover3,
+    ]);
+    const previewCover4 = useMemo(() => (cover4 ? cover4.path : null), [
+        cover4,
+    ]);
+    const previewCover5 = useMemo(() => (cover5 ? cover5.path : null), [
+        cover5,
+    ]);
 
     function handleCoverPicker(index) {
         ImagePicker.showImagePicker({ title: 'Camera' }, response => {
@@ -94,36 +74,56 @@ export default NewBook = props => {
     function handleEditImage(index) {
         function onCancel() {
             return;
-        };
+        }
         switch (index) {
             case 1:
-                ImageEditor(cover.path, (path) => {
-                    setCover({ ...cover, path });
-                }, onCancel);
+                ImageEditor(
+                    cover.path,
+                    path => {
+                        setCover({ ...cover, path });
+                    },
+                    onCancel,
+                );
 
                 break;
             case 2:
-                ImageEditor(cover2.path, (path) => {
-                    setCover2({ ...cover2, path });
-                }, onCancel);
+                ImageEditor(
+                    cover2.path,
+                    path => {
+                        setCover2({ ...cover2, path });
+                    },
+                    onCancel,
+                );
 
                 break;
             case 3:
-                ImageEditor(cover3.path, (path) => {
-                    setCover3({ ...cover3, path });
-                }, onCancel);
+                ImageEditor(
+                    cover3.path,
+                    path => {
+                        setCover3({ ...cover3, path });
+                    },
+                    onCancel,
+                );
 
                 break;
             case 4:
-                ImageEditor(cover4.path, (path) => {
-                    setCover4({ ...cover4, path });
-                }, onCancel);
+                ImageEditor(
+                    cover4.path,
+                    path => {
+                        setCover4({ ...cover4, path });
+                    },
+                    onCancel,
+                );
 
                 break;
             case 5:
-                ImageEditor(cover5.path, (path) => {
-                    setCover5({ ...cover5, path });
-                }, onCancel);
+                ImageEditor(
+                    cover5.path,
+                    path => {
+                        setCover5({ ...cover5, path });
+                    },
+                    onCancel,
+                );
 
                 break;
             default:
@@ -191,7 +191,6 @@ export default NewBook = props => {
                 });
             });
         }
-
     }
 
     function goToTop() {
@@ -216,8 +215,7 @@ export default NewBook = props => {
                 contentContainerStyle={Styles.CardContainer}
                 scrollEnabled={false}
                 nestedScrollEnabled={true}
-                showsVerticalScrollIndicator={false}
-            >
+                showsVerticalScrollIndicator={false}>
                 <PageOne
                     pageOne={pageOne}
                     goToSecondSection={goToSecondSection}
@@ -239,13 +237,14 @@ export default NewBook = props => {
                     bookStatus={bookStatus}
                 />
                 <PageThree
+                    scrollView={scrollView}
                     handleCheckBox={handleCheckBox}
-                    categories={categories}
                     goToSecondSection={goToSecondSection}
                     goToThirdSection={goToThirdSection}
                     pageThree={pageThree}
                     description={description}
                     bookCategories={bookCategories}
+                    setDescription={setDescription}
                 />
             </ScrollView>
         </View>
