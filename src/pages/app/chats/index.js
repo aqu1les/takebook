@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import Styles from './style';
-import { loadChatsAction } from '../../../../redux/actions/chat';
+import { loadChatsAction } from '../../../redux/actions/chat';
 
 export default function RoomList({ navigation }) {
     const dispatch = useDispatch();

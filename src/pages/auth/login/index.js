@@ -27,6 +27,7 @@ import {
 import { loadAdvertsAction } from '../../../redux/actions/advert';
 import { loadCategoriesAction } from '../../../redux/actions/category';
 import { setNotificationsAction } from '../../../redux/actions/notification';
+import { loadFavoritesAction } from '../../../redux/actions/fav';
 
 export default function Login(props) {
     const dispatch = useDispatch();
@@ -120,6 +121,7 @@ export default function Login(props) {
                             token: response.data.token,
                         }),
                     );
+                    dispatch(loadFavoritesAction());
                     props.navigation.navigate('App');
                 }
             }

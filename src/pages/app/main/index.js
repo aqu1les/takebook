@@ -29,7 +29,7 @@ export default function Main(props) {
     const [showFirstModal, setShowFirstModal] = useState(false);
     const [showSecondModal, setShowSecondModal] = useState(false);
     const adverts = useSelector(state => state.adverts.data);
-    const [likes, setLikes] = useState([]);
+    const likes = useSelector(state => state.likes.data);
     const user = useSelector(state => state.auth);
     const hasMore = useSelector(state => state.adverts.nextPage);
 
@@ -42,6 +42,7 @@ export default function Main(props) {
         if (user) {
             const globalChannel = subscribeToChannel('all-clients');
             globalChannel.bind('book-accepted', event => {
+                console.log('new book');
                 dispatch(addAdvertAction(event.message));
             });
 

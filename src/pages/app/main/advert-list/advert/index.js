@@ -1,4 +1,5 @@
 import React, { useRef, memo } from 'react';
+import { useDispatch } from 'react-redux';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { formatDistance } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -6,8 +7,10 @@ import { Badge } from 'native-base';
 import Styles from './style';
 import defaultBook from '../../../../../assets/bookDefault.jpg';
 import LikeButton from '../../../components/like-button';
+import { handleLikeAction } from '../../../../../redux/actions/fav';
 
 function Advert({ item, navigation, owner, user, liked }) {
+    const dispatch = useDispatch();
     const {
         id,
         title,
@@ -47,7 +50,9 @@ function Advert({ item, navigation, owner, user, liked }) {
         });
     }
 
-    async function handleLike() {}
+    async function handleLike() {
+        dispatch(handleLikeAction(id));
+    }
 
     return (
         <TouchableOpacity

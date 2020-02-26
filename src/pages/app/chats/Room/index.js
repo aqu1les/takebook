@@ -4,13 +4,13 @@ import { View, TouchableOpacity, FlatList, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from './style';
 import Message from './message';
-import BackgroundTop from '../../../../../assets/background/background-chat-top-right.svg';
-import BackgroundBottom from '../../../../../assets/background/background-chat-bottom-left.svg';
+import BackgroundTop from '../../../../assets/background/background-chat-top-right.svg';
+import BackgroundBottom from '../../../../assets/background/background-chat-bottom-left.svg';
 import {
     subscribeToChannel,
     unsubscribeChannel,
-} from '../../../../../services/Pusher';
-import { addNewMessage } from '../../../../../redux/actions/chat';
+} from '../../../../services/Pusher';
+import { addNewMessage } from '../../../../redux/actions/chat';
 
 export default function Room({ navigation }) {
     const dispatch = useDispatch();

@@ -5,10 +5,10 @@ export async function loadUserLikes() {
         ApiService.get('users/me/likes')
             .then(res => {
                 if (!res || !res.data) reject('ERROR FETCHING FAVORITES');
-                const nextPageUrl = res.data.next_page_url;
+                const nextPageUrl = null;
                 resolve({
-                    data: res.data.data,
-                    nextPage: nextPageUrl ? nextPageUrl.split('=')[1] : null,
+                    data: res.data,
+                    nextPage: nextPageUrl,
                 });
             })
             .catch(err => reject(err));

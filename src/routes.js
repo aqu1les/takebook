@@ -10,8 +10,8 @@ import AdvertDetails from './pages/app/main/advert-details';
 import NewBook from './pages/app/main/new-book';
 import SignUp from './pages/auth/sign-up';
 import SideMenu from './pages/app/components/menu';
-import RoomList from './pages/app/chats/RoomList';
-import Room from './pages/app/chats/RoomList/Room';
+import RoomList from './pages/app/chats/';
+import Room from './pages/app/chats/Room';
 import Header from './pages/app/components/header';
 
 function transitionConfig() {
@@ -108,7 +108,7 @@ const Chats = createStackNavigator(
                     backgroundColor: '#3ac2fe',
                 },
                 headerTintColor: '#FFF',
-                title: navigation.getParam('title')
+                title: navigation.getParam('title'),
             }),
         },
     },

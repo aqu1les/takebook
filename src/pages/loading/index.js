@@ -15,6 +15,7 @@ import { setNotificationsAction } from '../../redux/actions/notification';
 import { loadCategoriesAction } from '../../redux/actions/category';
 import ApiService from '../../services/ApiService';
 import { getToken } from '../../services/UserService';
+import { loadFavoritesAction } from '../../redux/actions/fav';
 
 export default function Loading(props) {
     const dispatch = useDispatch();
@@ -46,6 +47,7 @@ export default function Loading(props) {
                                 setUserAction({ ...response.data, token }),
                             );
                             await dispatch(tokenValidated());
+                            dispatch(loadFavoritesAction());
                             navigateTo('App');
                         }
                     }
