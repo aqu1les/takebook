@@ -5,27 +5,23 @@ import Styles from './style';
 import Logo from '../../assets/logo.svg';
 import BgBr from '../../assets/background/backgroundBottomRight.svg';
 import BgTL from '../../assets/background/backgroundTopLeft.svg';
-import { loadAdvertsAction } from '../../redux/actions/advert';
 import {
     checkTokenAction,
     setUserAction,
     tokenValidated,
 } from '../../redux/actions/authentication';
 import { setNotificationsAction } from '../../redux/actions/notification';
-import { loadCategoriesAction } from '../../redux/actions/category';
 import ApiService from '../../services/ApiService';
 import { getToken } from '../../services/UserService';
 import { loadFavoritesAction } from '../../redux/actions/fav';
+import { Transition, Transitioning } from 'react-native-reanimated';
 
 export default function Loading(props) {
     const dispatch = useDispatch();
     const loading = useSelector(state => state.auth.loading);
     const authenticated = useSelector(state => state.auth.authenticated);
 
-    const canLoad = useMemo(() => !loading && !authenticated, [
-        loading,
-        authenticated,
-    ]);
+    const transition = <Transition.Change interpolation="easeInOut" />;
 
     useEffect(() => {
         async function checkIfTokenValid() {
@@ -36,20 +32,22 @@ export default function Loading(props) {
                     const response = await ApiService.get('/users/me');
                     if (response) {
                         if (response.status === 200) {
-                            await dispatch(loadAdvertsAction());
                             dispatch(
                                 setNotificationsAction(
                                     response.data.notifications,
                                 ),
                             );
-                            await dispatch(loadCategoriesAction());
                             await dispatch(
                                 setUserAction({ ...response.data, token }),
                             );
                             await dispatch(tokenValidated());
                             dispatch(loadFavoritesAction());
                             navigateTo('App');
+                        } else {
+                            navigateTo('Login');
                         }
+                    } else {
+                        navigateTo('Login');
                     }
                 } catch (e) {
                     navigateTo('Login');
@@ -58,12 +56,10 @@ export default function Loading(props) {
                 navigateTo('Login');
             }
         }
-        if (canLoad) {
+        if (!authenticated && !loading) {
             checkIfTokenValid();
-        } else {
-            navigateTo('App');
         }
-    }, [dispatch, canLoad]);
+    }, [dispatch, loading, authenticated]);
 
     function navigateTo(route) {
         StatusBar.setHidden(false);
@@ -78,7 +74,9 @@ export default function Loading(props) {
                 barStyle={'dark-content'}
                 hidden={true}
             />
-            <View style={Styles.Container}>
+            <Transitioning.View
+                transition={transition}
+                style={Styles.Container}>
                 <View style={Styles.ImageLeft}>
                     <BgTL width={'100%'} height={'100%'} />
                 </View>
@@ -94,7 +92,7 @@ export default function Loading(props) {
                         style={Styles.ActvIndicator}
                     />
                 )}
-            </View>
+            </Transitioning.View>
         </>
     );
 }

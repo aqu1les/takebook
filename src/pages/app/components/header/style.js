@@ -13,6 +13,7 @@ export default Styles = StyleSheet.create({
     },
     Search: {
         height: '60%',
+        minWidth: '30%',
         backgroundColor: '#FFFFFF',
         borderRadius: 24,
         flexDirection: 'row',

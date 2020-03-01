@@ -2,7 +2,7 @@ import React, { useRef, useState, memo } from 'react';
 import { View, TouchableOpacity, TextInput, Animated } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
 import Styles from './style';
-import Search from '../../../../assets/icons/search.svg';
+import SearchIcon from '../../../../assets/icons/search.svg';
 import MenuIcon from '../../../../assets/icons/menu.svg';
 
 function Header(props) {
@@ -35,7 +35,7 @@ function Header(props) {
                 Styles.Header,
                 searchFocused && { justifyContent: 'center' },
             ]}>
-            <TouchableOpacity onPress={openMenu}>
+            <TouchableOpacity onPress={openMenu} style={{ padding: 10 }}>
                 <MenuIcon
                     style={{ display: !searchFocused ? 'flex' : 'none' }}
                 />
@@ -43,7 +43,7 @@ function Header(props) {
             <Animated.View
                 style={[Styles.Search, { flex: widthValue }]}
                 onPress={() => searchInput.current.focus()}>
-                <Search />
+                <SearchIcon />
                 <TextInput
                     ref={searchInput}
                     style={Styles.Input}
@@ -56,6 +56,7 @@ function Header(props) {
                     returnKeyType="search"
                     onFocus={_widthAnimation}
                     onBlur={_normalAnimation}
+                    onEndEditing={_normalAnimation}
                 />
             </Animated.View>
         </View>

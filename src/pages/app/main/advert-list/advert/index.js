@@ -1,6 +1,6 @@
 import React, { useRef, memo } from 'react';
 import { useDispatch } from 'react-redux';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { formatDistance } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { Badge } from 'native-base';
@@ -8,6 +8,7 @@ import Styles from './style';
 import defaultBook from '../../../../../assets/bookDefault.jpg';
 import LikeButton from '../../../components/like-button';
 import { handleLikeAction } from '../../../../../redux/actions/fav';
+import FastImage from 'react-native-fast-image';
 
 function Advert({ item, navigation, owner, user, liked }) {
     const dispatch = useDispatch();
@@ -60,7 +61,7 @@ function Advert({ item, navigation, owner, user, liked }) {
             activeOpacity={0.8}
             onPress={handleClick}>
             <View style={Styles.Cover}>
-                <Image
+                <FastImage
                     source={
                         covers_url.length > 0
                             ? { uri: covers_url[0].url }

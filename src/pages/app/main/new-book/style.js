@@ -1,28 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export default Styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f2f1f3',
-    },
     TextCenter: { textAlign: 'center' },
     CardScrollView: {
         backgroundColor: '#F9F9F9',
         borderRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 1,
-        width: '90%',
-        minHeight: '85%',
-        height: '85%',
-        maxHeight: '85%',
+        flex: 1,
     },
     CardContainer: {
         alignItems: 'center',
@@ -37,7 +20,7 @@ export default Styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         position: 'relative',
         paddingVertical: 30,
-        padding: 20
+        padding: 20,
     },
     PageTwo: {
         height: '33.3333%',
@@ -46,7 +29,7 @@ export default Styles = StyleSheet.create({
         alignItems: 'center',
         position: 'relative',
         paddingVertical: 30,
-        padding: 20
+        padding: 20,
     },
     PageThree: {
         minHeight: 480,
@@ -56,7 +39,7 @@ export default Styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         paddingVertical: 30,
-        padding: 20
+        padding: 20,
     },
     HeadingText: {
         color: '#000000',

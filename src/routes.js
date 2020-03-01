@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Loading from './pages/loading';
@@ -129,7 +130,7 @@ const App = createDrawerNavigator(
     },
 );
 const Routes = createAppContainer(
-    createSwitchNavigator(
+    createAnimatedSwitchNavigator(
         {
             Loading,
             App,

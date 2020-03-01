@@ -1,14 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Chip } from 'react-native-paper';
 import { Tab, Tabs } from 'native-base';
 import Styles from './style';
 import LikeButton from '../../components/like-button';
 import Background from '../../../../assets/background/advertDetailbg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import { handleLikeAction } from '../../../../redux/actions/fav';
+import FastImage from 'react-native-fast-image';
 
 export default AdvertDetails = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -46,7 +48,7 @@ export default AdvertDetails = ({ navigation }) => {
                     containerStyle={Styles.ImgCoverContainer}
                     activeDotColor="#FB8C00">
                     {advert.covers_url.map(cover => (
-                        <Image
+                        <FastImage
                             source={{ uri: cover.url }}
                             key={cover.url + cover.id}
                             style={Styles.ImgCover}
@@ -60,22 +62,16 @@ export default AdvertDetails = ({ navigation }) => {
                 <Text style={Styles.Author}>{advert.author}</Text>
                 <View style={Styles.Row}>
                     {advert.categories.map((cat, index) => (
-                        <Text
-                            key={cat.id}
-                            style={[
-                                Styles.Category,
-                                index === 0
-                                    ? { marginLeft: 0 }
-                                    : { marginHorizontal: 5 },
-                            ]}>
-                            {cat.name}
-                        </Text>
+                        <Chip key={cat.id}>{cat.name}</Chip>
                     ))}
                 </View>
             </View>
             <Tabs
                 initialPage={0}
-                tabBarUnderlineStyle={{ backgroundColor: '#FB8C00' }}>
+                tabBarUnderlineStyle={{
+                    backgroundColor: '#FB8C00',
+                    borderRadius: 10,
+                }}>
                 <Tab
                     heading="Descrição"
                     textStyle={Styles.TabHeadingText}
@@ -107,7 +103,7 @@ export default AdvertDetails = ({ navigation }) => {
                         <View style={Styles.RowLeftSide}>
                             <View style={Styles.ElipseAvatar}>
                                 {advert.user.avatar_url ? (
-                                    <Image
+                                    <FastImage
                                         source={{ uri: user.avatar_url }}
                                         height="90%"
                                         width="90%"

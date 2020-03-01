@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { TouchableOpacity, SafeAreaView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import Styles from './style';
@@ -18,10 +18,10 @@ import {
     loadNextPageAction,
     addAdvertAction,
 } from '../../../redux/actions/advert';
-import { loadCategoriesAction } from '../../../redux/actions/category';
 import { addNotificationAction } from '../../../redux/actions/notification';
+import { loadCategoriesAction } from '../../../redux/actions/category';
 
-export default function Main(props) {
+function Main(props) {
     const dispatch = useDispatch();
     const loading = useSelector(state => state.adverts.loading);
     const categories = useSelector(state => state.categories.data);
@@ -32,11 +32,6 @@ export default function Main(props) {
     const likes = useSelector(state => state.likes.data);
     const user = useSelector(state => state.auth);
     const hasMore = useSelector(state => state.adverts.nextPage);
-
-    useEffect(() => {
-        dispatch(loadAdvertsAction());
-        dispatch(loadCategoriesAction());
-    }, [dispatch]);
 
     useEffect(() => {
         if (user) {
@@ -59,6 +54,8 @@ export default function Main(props) {
 
     useEffect(() => {
         registerAppWithFCM();
+        dispatch(loadAdvertsAction());
+        dispatch(loadCategoriesAction());
     }, []);
 
     function handleHideModal() {
@@ -92,9 +89,7 @@ export default function Main(props) {
 
     return (
         <SafeAreaView style={Styles.Container}>
-            {loading ? (
-                <Loading />
-            ) : (
+            {!loading && categories.length > 0 ? (
                 <>
                     <CategoryList categories={categories} />
                     <AdvertList
@@ -122,7 +117,11 @@ export default function Main(props) {
                         navigateToForm={navigateToForm}
                     />
                 </>
+            ) : (
+                <Loading />
             )}
         </SafeAreaView>
     );
 }
+
+export default memo(Main);

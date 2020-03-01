@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
     View,
@@ -6,13 +6,13 @@ import {
     TouchableOpacity,
     TextInput,
     Keyboard,
+    KeyboardAvoidingView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from './style';
 import CheckBox from '../check-box';
 
 export default function PageThree({
-    scrollView,
     pageThree,
     goToSecondSection,
     goToThirdSection,
@@ -24,19 +24,27 @@ export default function PageThree({
     const [keyboardVisible, setKeyboardVisible] = useState(false);
     const categories = useSelector(state => state.categories.data);
 
-    Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
-    Keyboard.addListener('keyboardDidHide', () => {
-        setKeyboardVisible(false);
-        pageThree.current.measure((x, y, width, height) => {
-            scrollView.current.scrollTo({
-                x: 0,
-                y: y,
-                animated: true,
-            });
+    useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
+        Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardVisible(false);
+            goToThirdSection();
         });
-    });
+        return () => {
+            console.log('removed listener');
+            Keyboard.removeListener('keyboardDidShow');
+            Keyboard.removeListener('keyboardDidHide');
+            Keyboard.removeAllListeners('keyboardDidShow');
+            Keyboard.removeAllListeners('keyboardDidHide');
+        };
+    }, []);
+
     return (
-        <View style={Styles.PageThree} ref={pageThree} onLayout={() => {}}>
+        <KeyboardAvoidingView
+            behavior="padding"
+            style={Styles.PageThree}
+            ref={pageThree}
+            onLayout={() => {}}>
             <View
                 style={[
                     { flexDirection: 'column' },
@@ -70,9 +78,8 @@ export default function PageThree({
             <Text>Descreva bem o seu livro, quanto mais detalhes melhor!</Text>
             <TextInput
                 multiline
-                blurOnSubmit
-                returnKeyLabel="Publicar"
-                returnKeyType="send"
+                blurOnSubmit={false}
+                returnKeyLabel="Enter"
                 onChangeText={text => setDescription(text)}
                 value={description}
                 style={{
@@ -82,14 +89,13 @@ export default function PageThree({
                     borderColor: '#000',
                     borderRadius: 8,
                 }}
-                onBlur={goToThirdSection}
-                onEndEditing={goToThirdSection}
+                onSubmitEditing={() => setDescription(text => text + '\n')}
             />
 
             <TouchableOpacity style={Styles.PostBookButton}>
                 <Text style={Styles.PostBookText}>Publicar</Text>
             </TouchableOpacity>
             <View style={{ height: 60 }} />
-        </View>
+        </KeyboardAvoidingView>
     );
 }
