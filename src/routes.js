@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -40,6 +40,7 @@ function transitionConfig() {
         },
     };
 }
+
 const AuthStack = createStackNavigator(
     {
         Login: {
@@ -63,6 +64,7 @@ const AuthStack = createStackNavigator(
         transitionConfig,
     },
 );
+
 const Main = createStackNavigator(
     {
         Home: {
@@ -93,6 +95,7 @@ const Main = createStackNavigator(
         transitionConfig,
     },
 );
+
 const Chats = createStackNavigator(
     {
         RoomList: {
@@ -118,6 +121,7 @@ const Chats = createStackNavigator(
         transitionConfig,
     },
 );
+
 const App = createDrawerNavigator(
     {
         Main,
@@ -129,6 +133,7 @@ const App = createDrawerNavigator(
         drawerWidth: Dimensions.get('window').width - 100,
     },
 );
+
 const Routes = createAppContainer(
     createAnimatedSwitchNavigator(
         {

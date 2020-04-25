@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
 import AppStore from './redux/store';
 import Routes from './routes';
+import i18n from './languages/i18n';
 
 export default function App() {
     return (

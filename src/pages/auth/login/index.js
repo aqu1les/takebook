@@ -28,6 +28,7 @@ import { loadAdvertsAction } from '../../../redux/actions/advert';
 import { loadCategoriesAction } from '../../../redux/actions/category';
 import { setNotificationsAction } from '../../../redux/actions/notification';
 import { loadFavoritesAction } from '../../../redux/actions/fav';
+import { useTranslation } from 'react-i18next';
 
 export default function Login(props) {
     const dispatch = useDispatch();
@@ -43,6 +44,7 @@ export default function Login(props) {
     const [remind, setRemind] = useState(true);
     const invalid =
         loginError || passwordError || login === '' || password === '';
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         if (redirectEmail) {
@@ -89,25 +91,28 @@ export default function Login(props) {
             switch (response) {
                 case '':
                     return ToastAndroid.show(
-                        'Não foi possível contactar o servidor!',
+                        t('error.no_connection'),
                         ToastAndroid.LONG,
                     );
                 case 'Senha Inválida!':
-                    ToastAndroid.show(response, ToastAndroid.SHORT);
+                    ToastAndroid.show(
+                        t('error.wrong_password'),
+                        ToastAndroid.SHORT,
+                    );
                     setPasswordError(true);
                     return passwordInput.current.focus();
                 case 'E-mail inválido!':
-                    ToastAndroid.show(response, ToastAndroid.SHORT);
+                    ToastAndroid.show(
+                        t('error.invalid_email'),
+                        ToastAndroid.SHORT,
+                    );
                     setLoginError(true);
                     return loginInput.current.focus();
                 default: {
                     storeToken(response.data.token);
                     StatusBar.setHidden(false);
                     StatusBar.setBarStyle('light-content');
-                    ToastAndroid.show(
-                        'Bem vindo ao Takebook !',
-                        ToastAndroid.SHORT,
-                    );
+                    ToastAndroid.show(t('global.welcome'), ToastAndroid.SHORT);
                     await dispatch(loadAdvertsAction());
                     await dispatch(
                         setNotificationsAction(
@@ -128,7 +133,7 @@ export default function Login(props) {
         } catch (e) {
             dispatch(loadAuthErrorAction());
             ToastAndroid.show(
-                'Algo de errado aconteceu, tente novamente mais tarde.',
+                t('error.something_went_wrong'),
                 ToastAndroid.LONG,
             );
         }
@@ -142,7 +147,7 @@ export default function Login(props) {
                 <User style={Styles.Icon} />
                 <TextInput
                     ref={loginInput}
-                    placeholder="Digite aqui o seu e-mail"
+                    placeholder={t('login.email')}
                     placeholderTextColor="#666666"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -161,7 +166,7 @@ export default function Login(props) {
                 <Password style={Styles.Icon} />
                 <TextInput
                     ref={passwordInput}
-                    placeholder="Digite aqui a sua senha"
+                    placeholder={t('login.password')}
                     placeholderTextColor="#666666"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -179,21 +184,21 @@ export default function Login(props) {
                     trackColor={{ false: '', true: '#FFBB89' }}
                     thumbColor="#EB6339"
                     value={remind}
-                    accessibilityLabel="Mantenha-se conectado"
+                    accessibilityLabel={t('login.remindme')}
                     onValueChange={value => setRemind(value)}
                 />
                 <TouchableOpacity>
-                    <Text style={Styles.Forgot}>Esqueceu a senha?</Text>
+                    <Text style={Styles.Forgot}>{t('login.remindme')}</Text>
                 </TouchableOpacity>
             </View>
             <TouchableOpacity
                 style={[Styles.Button, invalid && Styles.ButtonDisabled]}
                 onPress={submitForm}
                 disabled={invalid}>
-                <Text style={Styles.ButtonText}>Entrar</Text>
+                <Text style={Styles.ButtonText}>{t('login.login')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={navigateSignUp}>
-                <Text style={Styles.Register}>Cadastre-se</Text>
+                <Text style={Styles.Register}>{t('login.register')}</Text>
             </TouchableOpacity>
         </Template>
     );
