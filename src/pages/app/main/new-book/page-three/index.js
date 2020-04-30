@@ -8,6 +8,7 @@ import {
     Keyboard,
     KeyboardAvoidingView,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from './style';
 import CheckBox from '../check-box';
@@ -21,6 +22,7 @@ export default function PageThree({
     setDescription,
     bookCategories,
 }) {
+    const { t } = useTranslation();
     const [keyboardVisible, setKeyboardVisible] = useState(false);
     const categories = useSelector(state => state.categories.data);
 
@@ -51,7 +53,7 @@ export default function PageThree({
                     keyboardVisible && { display: 'none' },
                 ]}>
                 <Text style={{ textAlign: 'center', marginBottom: 10 }}>
-                    Em quais categorias ele se encaixa?
+                    {t('newBook.pageThree.categories')}
                 </Text>
                 <View style={{ flexDirection: 'row' }}>
                     {categories.map(category => (
@@ -75,7 +77,7 @@ export default function PageThree({
                 onPress={goToSecondSection}>
                 <Icon name="chevron-up" size={32} color="#a5a5a5" />
             </TouchableOpacity>
-            <Text>Descreva bem o seu livro, quanto mais detalhes melhor!</Text>
+            <Text>{t('newBook.pageThree.description')}</Text>
             <TextInput
                 multiline
                 blurOnSubmit={false}
@@ -93,7 +95,9 @@ export default function PageThree({
             />
 
             <TouchableOpacity style={Styles.PostBookButton}>
-                <Text style={Styles.PostBookText}>Publicar</Text>
+                <Text style={Styles.PostBookText}>
+                    {t('newBook.pageThree.button')}
+                </Text>
             </TouchableOpacity>
             <View style={{ height: 60 }} />
         </KeyboardAvoidingView>

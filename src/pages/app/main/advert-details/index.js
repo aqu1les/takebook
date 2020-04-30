@@ -5,20 +5,22 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Chip } from 'react-native-paper';
 import { Tab, Tabs } from 'native-base';
+import { useTranslation } from 'react-i18next';
+import FastImage from 'react-native-fast-image';
 import Styles from './style';
 import LikeButton from '../../components/like-button';
 import Background from '../../../../assets/background/advertDetailbg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import { handleLikeAction } from '../../../../redux/actions/fav';
-import FastImage from 'react-native-fast-image';
 
-export default AdvertDetails = ({ navigation }) => {
+export default (AdvertDetails = ({ navigation }) => {
     const dispatch = useDispatch();
     const advert = navigation.getParam('advert');
     const user = navigation.getParam('logged_user');
     const liked = useSelector(state =>
         state.likes.data.find(book => book.id === advert.id) ? true : false,
     );
+    const { t } = useTranslation();
 
     function contactSeller() {
         navigation.navigate({
@@ -73,7 +75,7 @@ export default AdvertDetails = ({ navigation }) => {
                     borderRadius: 10,
                 }}>
                 <Tab
-                    heading="Descrição"
+                    heading={t('advertDetails.tabs.description')}
                     textStyle={Styles.TabHeadingText}
                     tabStyle={Styles.TabHeading}
                     activeTabStyle={Styles.SectionTextActive}
@@ -83,18 +85,18 @@ export default AdvertDetails = ({ navigation }) => {
                     </View>
                 </Tab>
                 <Tab
-                    heading="Localização"
+                    heading={t('advertDetails.tabs.localization')}
                     textStyle={Styles.TabHeadingText}
                     tabStyle={Styles.TabHeading}
                     activeTabStyle={Styles.SectionTextActive}
                     activeTextStyle={Styles.SectionTextActive}>
                     <View style={Styles.SectionContentRow}>
-                        <View style={Styles.RowLeftSide}></View>
-                        <View style={Styles.RowRightSide}></View>
+                        <View style={Styles.RowLeftSide} />
+                        <View style={Styles.RowRightSide} />
                     </View>
                 </Tab>
                 <Tab
-                    heading="Contato"
+                    heading={t('advertDetails.tabs.contact')}
                     textStyle={Styles.TabHeadingText}
                     tabStyle={Styles.TabHeading}
                     activeTabStyle={Styles.SectionTextActive}
@@ -119,7 +121,9 @@ export default AdvertDetails = ({ navigation }) => {
                                     fontSize: 20,
                                     color: '#ff7719',
                                     fontWeight: 'bold',
-                                }}>{`${advert.user.first_name} ${advert.user.last_name}`}</Text>
+                                }}>{`${advert.user.first_name} ${
+                                advert.user.last_name
+                            }`}</Text>
                             <View
                                 style={{
                                     flexDirection: 'row',
@@ -133,13 +137,16 @@ export default AdvertDetails = ({ navigation }) => {
                             <TouchableOpacity
                                 style={{}}
                                 onPress={() => console.log('Ver Perfil')}>
-                                <Text style={{}}>Ver Perfil</Text>
+                                <Text style={{}}>
+                                    {t('advertDetails.tabs.contact')}
+                                    {t('advertDetails.profile.button')}
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={Styles.MessageButton}
                                 onPress={contactSeller}>
                                 <Text style={Styles.ButtonText}>
-                                    Entrar em contato
+                                    {t('advertDetails.profile.talk')}
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -148,4 +155,4 @@ export default AdvertDetails = ({ navigation }) => {
             </Tabs>
         </View>
     );
-};
+});

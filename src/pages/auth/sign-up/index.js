@@ -19,8 +19,10 @@ import FailedFeedback from '../../core/failed-feedback';
 import { registerUser } from '../../../services/UserService';
 import { createFormData } from '../../../services/FormDataService';
 import ImageEditor from '../../../services/ImageEditor';
+import { useTranslation } from 'react-i18next';
 
 export default function SignUp(props) {
+    const { t } = useTranslation();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -133,7 +135,7 @@ export default function SignUp(props) {
                     <User style={Styles.Icon} />
                     <TextInput
                         ref={nameField}
-                        placeholder="Nome"
+                        placeholder={t('signUp.name')}
                         placeholderTextColor="#666666"
                         autoCapitalize="words"
                         autoCorrect={false}
@@ -153,7 +155,7 @@ export default function SignUp(props) {
                     <Email style={Styles.Icon} />
                     <TextInput
                         ref={emailField}
-                        placeholder="E-mail"
+                        placeholder={t('signUp.email')}
                         placeholderTextColor="#666666"
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -177,7 +179,7 @@ export default function SignUp(props) {
                     <Password style={Styles.Icon} />
                     <TextInput
                         ref={passwordField}
-                        placeholder="Senha"
+                        placeholder={t('signUp.password')}
                         placeholderTextColor="#666666"
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -203,7 +205,7 @@ export default function SignUp(props) {
                     <Password style={Styles.Icon} />
                     <TextInput
                         ref={passwordConfirmationField}
-                        placeholder="Digite a senha novamente"
+                        placeholder={t('signUp.confirmPassword')}
                         placeholderTextColor="#666666"
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -221,20 +223,22 @@ export default function SignUp(props) {
                 <TouchableOpacity
                     style={Styles.RegisterButton}
                     onPress={handleModalHide}>
-                    <Text style={Styles.RegisterText}>Cadastrar</Text>
+                    <Text style={Styles.RegisterText}>
+                        {t('signUp.register')}
+                    </Text>
                 </TouchableOpacity>
             </ScrollView>
             <SuccessFeedback
                 isVisible={showSuccessModal}
                 handleModalHide={handleModalHide}>
-                <Text style={Styles.TextH1}>Cadastro realizado!</Text>
-                <Text style={Styles.TextP}>
-                    Sinta-se à vontade para publicar um livro ou adquirir novos!
-                </Text>
+                <Text style={Styles.TextH1}>{t('signUp.success.title')}</Text>
+                <Text style={Styles.TextP}>{t('signUp.success.content')}</Text>
                 <TouchableOpacity
                     style={Styles.ModalButton}
                     onPress={navigateToLogin}>
-                    <Text style={Styles.ButtonText}>Começar</Text>
+                    <Text style={Styles.ButtonText}>
+                        {t('signUp.success.button')}
+                    </Text>
                 </TouchableOpacity>
             </SuccessFeedback>
             <FailedFeedback

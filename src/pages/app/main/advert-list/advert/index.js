@@ -1,6 +1,7 @@
 import React, { useRef, memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { formatDistance } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { Badge } from 'native-base';
@@ -12,6 +13,7 @@ import FastImage from 'react-native-fast-image';
 
 function Advert({ item, navigation, owner, user, liked }) {
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const {
         id,
         title,
@@ -28,15 +30,15 @@ function Advert({ item, navigation, owner, user, liked }) {
 
     switch (condition_id) {
         case 1:
-            condition = 'Novo';
+            condition = t('advertList.advert.new');
             badgeColor = '#00cc09';
             break;
         case 2:
-            condition = 'Semi-Novo';
+            condition = t('advertList.advert.semi');
             badgeColor = '#38c2ff';
             break;
         case 3:
-            condition = 'Usado';
+            condition = t('advertList.advert.used');
             badgeColor = '#ff3d00';
             break;
         default:
@@ -95,7 +97,9 @@ function Advert({ item, navigation, owner, user, liked }) {
                         <Text style={Styles.Condition}>{condition}</Text>
                     </Badge>
                     <View style={Styles.Row}>
-                        <Text style={Styles.TextCategory}>Local: </Text>
+                        <Text style={Styles.TextCategory}>
+                            {t('advertList.advert.locale')}:{' '}
+                        </Text>
                         <Text style={Styles.Locale}>
                             {owner.address_city} - {owner.address_state}
                         </Text>

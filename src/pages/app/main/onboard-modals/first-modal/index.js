@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Modal from 'react-native-modal';
 import Styles from './style';
 import BookModal from '../../../../../assets/book-modal.svg';
 import CloseIcon from '../../../../../assets/close.svg';
 
-export default FirstModal = ({ isVisible, handleHideModal, nextModal }) => {
+export default (FirstModal = ({ isVisible, handleHideModal, nextModal }) => {
+    const { t } = useTranslation();
 
     return (
         <Modal
@@ -20,20 +22,20 @@ export default FirstModal = ({ isVisible, handleHideModal, nextModal }) => {
                     <CloseIcon />
                 </TouchableOpacity>
                 <Text style={Styles.TextHeader}>
-                    Você está pronto para anunciar o seu livro?
-            </Text>
+                    {t('onboardModals.first.header')}
+                </Text>
                 <BookModal />
                 <Text style={Styles.TextP}>
-                    É muito simples, são apenas 2 passos!
-            </Text>
+                    {t('onboardModals.first.content')}
+                </Text>
                 <TouchableOpacity
                     style={Styles.ModalButton}
                     onPress={nextModal}>
                     <Text style={Styles.ModalButtonText}>
-                        Vamos lá
-                </Text>
+                        {t('onboardModals.first.button')}
+                    </Text>
                 </TouchableOpacity>
             </View>
         </Modal>
     );
-};
+});

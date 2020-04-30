@@ -1,12 +1,18 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import Styles from './style';
 import CloseIcon from '../../../../../assets/close.svg';
 import DefaultBook from '../../../../../assets/bookDefault.jpg';
 
-export default SecondModal = ({ isVisible, handleHideModal, navigateToForm }) => {
+export default (SecondModal = ({
+    isVisible,
+    handleHideModal,
+    navigateToForm,
+}) => {
+    const { t } = useTranslation();
 
     return (
         <Modal
@@ -21,29 +27,24 @@ export default SecondModal = ({ isVisible, handleHideModal, navigateToForm }) =>
                     <CloseIcon />
                 </TouchableOpacity>
                 <Text style={Styles.TextHeader}>Tire fotos!</Text>
-                <View style={Styles.Divider}></View>
+                <View style={Styles.Divider} />
                 <Text style={Styles.Texplanation}>
-                    Será necessário a foto da capa e contracapa.
-                    Utilize suas melhores técnicas como fotógrafo
-                    para o seu anúncio ficar mais atraente :D
+                    {t('onboardModals.second.textplanation')}
                 </Text>
-                <Image source={DefaultBook} style={{
-                    width: 140,
-                    height: 210,
-                    borderRadius: 8,
-                }}
+                <Image
+                    source={DefaultBook}
+                    style={{
+                        width: 140,
+                        height: 210,
+                        borderRadius: 8,
+                    }}
                 />
                 <TouchableOpacity
                     style={Styles.Modal2Button}
                     onPress={navigateToForm}>
-                    <Icon
-                        name="chevron-right"
-                        size={30}
-                        color="#FFFFFF"
-                    />
+                    <Icon name="chevron-right" size={30} color="#FFFFFF" />
                 </TouchableOpacity>
             </View>
         </Modal>
     );
-};
-
+});

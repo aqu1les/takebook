@@ -1,12 +1,26 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from './style';
 import Cover from './cover';
 
-export default function PageOne({ pageOne, goToSecondSection, previewCover, previewCover2, previewCover3, previewCover4, previewCover5, handleCoverPicker, handleEditImage, handleRemoveImage }) {
+export default function PageOne({
+    pageOne,
+    goToSecondSection,
+    previewCover,
+    previewCover2,
+    previewCover3,
+    previewCover4,
+    previewCover5,
+    handleCoverPicker,
+    handleEditImage,
+    handleRemoveImage,
+}) {
+    const { t } = useTranslation();
+
     return (
-        <View style={Styles.PageOne} ref={pageOne} onLayout={() => { }}>
+        <View style={Styles.PageOne} ref={pageOne} onLayout={() => {}}>
             <Text style={Styles.HeadingText}>Selecione as fotos</Text>
             <ScrollView
                 horizontal={true}
@@ -45,21 +59,13 @@ export default function PageOne({ pageOne, goToSecondSection, previewCover, prev
                     handleRemoveImage={() => handleRemoveImage(5)}
                 />
             </ScrollView>
-            <Text style={Styles.TextCenter}>
-                Clique nos campos para as adicionar fotos desejadas
-            </Text>
-            <Text style={Styles.TextCenter}>
-                * Arraste para esquerda caso queira adicionar mais fotos
-                para o seu anúncio
-            </Text>
+            <Text style={Styles.TextCenter}>{t('newBook.pageOne.help1')}</Text>
+            <Text style={Styles.TextCenter}>{t('newBook.pageOne.help1')}</Text>
             <TouchableOpacity
                 style={Styles.NextSectionButton}
                 onPress={goToSecondSection}>
-                <Icon name='chevron-down' size={32} color='#a5a5a5' />
+                <Icon name="chevron-down" size={32} color="#a5a5a5" />
             </TouchableOpacity>
         </View>
     );
 }
-
-
-

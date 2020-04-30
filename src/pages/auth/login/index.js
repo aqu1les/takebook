@@ -44,7 +44,7 @@ export default function Login(props) {
     const [remind, setRemind] = useState(true);
     const invalid =
         loginError || passwordError || login === '' || password === '';
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (redirectEmail) {
@@ -91,19 +91,19 @@ export default function Login(props) {
             switch (response) {
                 case '':
                     return ToastAndroid.show(
-                        t('error.no_connection'),
+                        t('error.noConnection'),
                         ToastAndroid.LONG,
                     );
                 case 'Senha Inválida!':
                     ToastAndroid.show(
-                        t('error.wrong_password'),
+                        t('error.wrongPassword'),
                         ToastAndroid.SHORT,
                     );
                     setPasswordError(true);
                     return passwordInput.current.focus();
                 case 'E-mail inválido!':
                     ToastAndroid.show(
-                        t('error.invalid_email'),
+                        t('error.invalidEmail'),
                         ToastAndroid.SHORT,
                     );
                     setLoginError(true);
@@ -132,10 +132,7 @@ export default function Login(props) {
             }
         } catch (e) {
             dispatch(loadAuthErrorAction());
-            ToastAndroid.show(
-                t('error.something_went_wrong'),
-                ToastAndroid.LONG,
-            );
+            ToastAndroid.show(t('error.somethingWentWrong'), ToastAndroid.LONG);
         }
     }
 
@@ -184,11 +181,11 @@ export default function Login(props) {
                     trackColor={{ false: '', true: '#FFBB89' }}
                     thumbColor="#EB6339"
                     value={remind}
-                    accessibilityLabel={t('login.remindme')}
+                    accessibilityLabel={t('login.remindMe')}
                     onValueChange={value => setRemind(value)}
                 />
                 <TouchableOpacity>
-                    <Text style={Styles.Forgot}>{t('login.remindme')}</Text>
+                    <Text style={Styles.Forgot}>{t('login.remindMe')}</Text>
                 </TouchableOpacity>
             </View>
             <TouchableOpacity
