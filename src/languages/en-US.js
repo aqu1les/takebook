@@ -14,7 +14,7 @@ export default {
         login: {
             email: 'E-mail',
             password: 'Password',
-            remindme: 'Stay connected',
+            remindMe: 'Stay connected',
             forgot: 'Forgot your password?',
             login: 'Login',
             register: 'Register',

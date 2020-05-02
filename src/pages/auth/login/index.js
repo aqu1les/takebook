@@ -185,7 +185,7 @@ export default function Login(props) {
                     onValueChange={value => setRemind(value)}
                 />
                 <TouchableOpacity>
-                    <Text style={Styles.Forgot}>{t('login.remindMe')}</Text>
+                    <Text style={Styles.Forgot}>{t('login.forgot')}</Text>
                 </TouchableOpacity>
             </View>
             <TouchableOpacity

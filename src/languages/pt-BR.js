@@ -15,7 +15,7 @@ export default {
         login: {
             email: 'Digite aqui o seu e-mail',
             password: 'Digite aqui a sua senha',
-            remindme: 'Mantenha-se conectado',
+            remindMe: 'Mantenha-se conectado',
             forgot: 'Esqueceu a senha?',
             login: 'Entre',
             register: 'Cadastre-se',
