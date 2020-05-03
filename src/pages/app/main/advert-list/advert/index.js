@@ -13,7 +13,6 @@ import { handleLikeAction } from '../../../../../redux/actions/fav';
 import FastImage from 'react-native-fast-image';
 
 function Advert({ item, navigation }) {
-    console.log('advert');
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
     const {
