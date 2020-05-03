@@ -1,10 +1,12 @@
 import React, { memo } from 'react';
 import { View, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import CategoryItem from './category-item';
 import Styles from './style';
 
-function CategoryList({ categories }) {
+function CategoryList(props) {
+    const categories = useSelector(state => state.categories.data);
     const { t } = useTranslation();
     function renderSeparator() {
         return <View style={Styles.Separator} />;

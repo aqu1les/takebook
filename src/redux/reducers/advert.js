@@ -5,6 +5,7 @@ import {
     LOAD_NEXT_PAGE_ADVERTS_SUCCESS,
     ADD_ADVERT,
 } from '../actions/advert';
+import { HANDLE_LIKE } from '../actions/fav';
 
 const INITIAL_STATE = {
     loading: false,
@@ -47,6 +48,19 @@ export default function advertsReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 data: [action.advert, ...state.data],
+            };
+        }
+        case HANDLE_LIKE: {
+            const newData = state.data.map(advert => {
+                if (advert.id === action.advertId) {
+                    advert.viewer_liked = !advert.viewer_liked;
+                }
+
+                return advert;
+            });
+            return {
+                ...state,
+                data: newData,
             };
         }
         default:

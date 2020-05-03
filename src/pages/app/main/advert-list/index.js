@@ -6,22 +6,17 @@ import {
     RefreshControl,
     ActivityIndicator,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import Styles from './style';
 import Advert from './advert';
 import { useTranslation } from 'react-i18next';
 
-export default (AdvertList = ({
-    navigation,
-    adverts,
-    user,
-    likes,
-    refreshAdverts,
-    onEndReached,
-    loadingMore,
-}) => {
+export default (AdvertList = ({ navigation, refreshAdverts, onEndReached }) => {
     const { t } = useTranslation();
     const [refreshing, setRefreshing] = useState(false);
     const advList = useRef();
+    const adverts = useSelector(state => state.adverts.data);
+    const loadingMore = useSelector(state => state.adverts.loadingMore);
 
     async function refreshAds() {
         setRefreshing(true);
@@ -52,17 +47,7 @@ export default (AdvertList = ({
                         ref={advList}
                         data={adverts}
                         renderItem={({ item }) => (
-                            <Advert
-                                item={item}
-                                navigation={navigation}
-                                owner={item.owner}
-                                user={user}
-                                liked={
-                                    likes.find(book => book.id === item.id)
-                                        ? true
-                                        : false
-                                }
-                            />
+                            <Advert item={item} navigation={navigation} />
                         )}
                         onScroll={handleOnEndReached}
                         keyExtractor={item => String(item.id)}

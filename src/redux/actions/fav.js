@@ -6,6 +6,8 @@ export const LOAD_FAVORITES_SUCCESS = 'LOAD_FAVORITES_SUCCESS';
 
 export const LOAD_FAVORITES_NEXT_PAGE = 'LOAD_FAVORITES_NEXT_PAGE';
 
+export const HANDLE_LIKE = 'HANDLE_LIKE';
+
 export const LOAD_FAVORITES_NEXT_PAGE_SUCCESS =
     'LOAD_FAVORITES_NEXT_PAGE_SUCCESS';
 
@@ -33,6 +35,7 @@ export function handleLikeAction(advertId) {
     return async dispatch => {
         try {
             await likeBook(advertId);
+            dispatch({ type: HANDLE_LIKE, advertId });
             dispatch(loadFavoritesAction());
         } catch (e) {
             console.log(e);

@@ -16,9 +16,6 @@ import { handleLikeAction } from '../../../../redux/actions/fav';
 export default (AdvertDetails = ({ navigation }) => {
     const dispatch = useDispatch();
     const advert = navigation.getParam('advert');
-    const liked = useSelector(state =>
-        state.likes.data.find(book => book.id === advert.id) ? true : false,
-    );
     const { t } = useTranslation();
 
     function contactSeller() {
@@ -41,7 +38,7 @@ export default (AdvertDetails = ({ navigation }) => {
                     style={Styles.BackgroundSvg}
                 />
                 <LikeButton
-                    liked={liked}
+                    liked={advert.viewer_liked}
                     style={Styles.IconButton}
                     onPress={handleLike}
                 />

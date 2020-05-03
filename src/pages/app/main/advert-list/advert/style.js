@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export default Styles = StyleSheet.create({
+export default (Styles = StyleSheet.create({
     Card: {
         width: '99%',
         height: 240,
@@ -43,7 +43,7 @@ export default Styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: 'bold',
         marginTop: 20,
-        color: '#000'
+        color: '#000',
     },
     Author: {
         color: '#A5A5A5',
@@ -85,13 +85,18 @@ export default Styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         alignSelf: 'center',
-        marginBottom: 8
+        marginBottom: 8,
     },
     Price: {
         color: '#FFFFFF',
         textAlign: 'center',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    LikeBtn: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
     },
     CreationTime: {
         position: 'absolute',
@@ -101,4 +106,4 @@ export default Styles = StyleSheet.create({
         fontSize: 12,
         fontStyle: 'italic',
     },
-});
+}));

@@ -24,12 +24,8 @@ import { loadCategoriesAction } from '../../../redux/actions/category';
 function Main(props) {
     const dispatch = useDispatch();
     const loading = useSelector(state => state.adverts.loading);
-    const categories = useSelector(state => state.categories.data);
-    const loadingMore = useSelector(state => state.adverts.loadingMore);
     const [showFirstModal, setShowFirstModal] = useState(false);
     const [showSecondModal, setShowSecondModal] = useState(false);
-    const adverts = useSelector(state => state.adverts.data);
-    const likes = useSelector(state => state.likes.data);
     const user = useSelector(state => state.auth);
     const hasMore = useSelector(state => state.adverts.nextPage);
 
@@ -89,17 +85,13 @@ function Main(props) {
 
     return (
         <SafeAreaView style={Styles.Container}>
-            {!loading && categories.length > 0 ? (
+            {!loading ? (
                 <>
-                    <CategoryList categories={categories} />
+                    <CategoryList />
                     <AdvertList
-                        adverts={adverts}
                         navigation={props.navigation}
-                        user={user}
-                        likes={likes}
                         refreshAdverts={refreshAdverts}
                         onEndReached={handleEndReached}
-                        loadingMore={loadingMore}
                     />
                     <TouchableOpacity
                         style={Styles.AddButton}

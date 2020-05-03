@@ -15,11 +15,21 @@ export default function LikeButton({ liked, style, onPress }) {
     }
 
     return (
-        <TouchableOpacity style={[style, Styles.Icon]} onPress={handleLikeAnimation}>
-            <LottieView ref={animation} source={Like} progress={liked ? 1 : 0} loop={false} colorFilters={[{
-                keypath: "Heart Hollow",
-                color: "#F95959"
-            }]} />
+        <TouchableOpacity
+            style={[style, Styles.Icon]}
+            onPress={handleLikeAnimation}>
+            <LottieView
+                ref={animation}
+                source={Like}
+                progress={liked ? 1 : 0}
+                loop={false}
+                colorFilters={[
+                    {
+                        keypath: 'Heart Hollow',
+                        color: '#F95959',
+                    },
+                ]}
+            />
         </TouchableOpacity>
     );
 }

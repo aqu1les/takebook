@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { formatDistance } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import en from 'date-fns/locale/en-US';
 import { Badge } from 'native-base';
 import Styles from './style';
 import defaultBook from '../../../../../assets/bookDefault.jpg';
@@ -11,9 +12,10 @@ import LikeButton from '../../../components/like-button';
 import { handleLikeAction } from '../../../../../redux/actions/fav';
 import FastImage from 'react-native-fast-image';
 
-function Advert({ item, navigation, owner, user, liked }) {
+function Advert({ item, navigation }) {
+    console.log('advert');
     const dispatch = useDispatch();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         id,
         title,
@@ -23,8 +25,9 @@ function Advert({ item, navigation, owner, user, liked }) {
         condition_id,
         covers_url,
         approved_at,
+        viewer_liked,
+        owner,
     } = item;
-    const animation = useRef();
     let condition;
     let badgeColor;
 
@@ -48,8 +51,6 @@ function Advert({ item, navigation, owner, user, liked }) {
     function handleClick() {
         navigation.navigate('AdvertDetails', {
             advert: item,
-            liked,
-            logged_user: user,
         });
     }
 
@@ -109,15 +110,14 @@ function Advert({ item, navigation, owner, user, liked }) {
                     <Text style={Styles.Price}>R$ {String(price)}</Text>
                 </View>
                 <LikeButton
-                    refProp={animation}
-                    liked={liked}
-                    style={{ position: 'absolute', top: 0, right: 0 }}
+                    liked={viewer_liked}
+                    style={Styles.LikeBtn}
                     onPress={handleLike}
                 />
                 <Text style={Styles.CreationTime}>
                     {formatDistance(new Date(approved_at), Date.now(), {
                         addSuffix: true,
-                        locale: pt,
+                        locale: i18n.language == 'pt' ? pt : en,
                     })}
                 </Text>
             </View>
@@ -125,4 +125,4 @@ function Advert({ item, navigation, owner, user, liked }) {
     );
 }
 
-export default memo(Advert);
+export default Advert;
