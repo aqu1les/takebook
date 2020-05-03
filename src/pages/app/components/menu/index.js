@@ -49,10 +49,11 @@ function SideBar(props) {
         {
             title: 'Meus Favoritos',
             icon: 'heart-outline',
-            active: props.activeItemKey === 'Favorites' ? true : false,
-            route: 'App',
+            active: props.activeItemKey === 'Bookmarks' ? true : false,
+            route: 'Bookmarks',
         },
     ];
+
     function Item({ title, icon, active, route }) {
         return (
             <TouchableOpacity
@@ -105,10 +106,9 @@ function SideBar(props) {
                             )}
                         </View>
                         <View style={Styles.LeftSide}>
-                            <Text
-                                style={
-                                    Styles.Name
-                                }>{`${user.first_name} ${user.last_name}`}</Text>
+                            <Text style={Styles.Name}>{`${user.first_name} ${
+                                user.last_name
+                            }`}</Text>
                             <View style={Styles.RateSession}>
                                 <Icon name="star" size={20} color="#fedf43" />
                                 <Text style={Styles.Rate}>4,8</Text>
