@@ -55,7 +55,7 @@ export default (AdvertList = ({
                             <Advert
                                 item={item}
                                 navigation={navigation}
-                                owner={item.user}
+                                owner={item.owner}
                                 user={user}
                                 liked={
                                     likes.find(book => book.id === item.id)
