@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, TouchableOpacity, FlatList, TextInput } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from './style';
 import Message from './message';
@@ -14,14 +15,18 @@ import { addNewMessage } from '../../../../redux/actions/chat';
 
 export default function Room({ navigation }) {
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const messages = useSelector(state => state.chats.chats.find.messages);
     const roomId = navigation.getParam('room_id');
+    const receiver = navigation.getParam('user');
     const loggedUser = useSelector(state => state.auth);
     const loading = useSelector(state => state.chats.loadingMessages);
     const messagesList = useRef();
 
     useEffect(() => {
-        navigation.setParams({ title: String(roomId) });
+        navigation.setParams({
+            title: `${receiver.first_name} ${receiver.last_name}`,
+        });
         const roomSubscription = subscribeToChannel(`room${roomId}`);
         roomSubscription.bind('new-message', event => {
             dispatch(addNewMessage(event.message));
@@ -32,15 +37,9 @@ export default function Room({ navigation }) {
         };
     }, []);
 
-    function scrollToBottom() {
-        setTimeout(() => {
-            messagesList.current.scrollToEnd();
-        }, 1000);
-    }
-
     useEffect(() => {
         if (messagesList.current && !loading) {
-            scrollToBottom();
+            messagesList.current.scrollToEnd();
         }
     }, [loading]);
 
@@ -66,7 +65,7 @@ export default function Room({ navigation }) {
                 <TouchableOpacity style={Styles.MessageTouchable}>
                     <TextInput
                         style={Styles.MessageTextField}
-                        placeholder="Digite uma mensagem"
+                        placeholder={t('chats.type')}
                     />
                 </TouchableOpacity>
                 <TouchableOpacity style={Styles.SendButton}>

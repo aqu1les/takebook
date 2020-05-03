@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
@@ -13,20 +13,28 @@ import Background from '../../../../assets/background/advertDetailbg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import { handleLikeAction } from '../../../../redux/actions/fav';
 
-export default (AdvertDetails = ({ navigation }) => {
+const AdvertDetails = ({ navigation }) => {
     const dispatch = useDispatch();
-    const advert = navigation.getParam('advert');
     const { t } = useTranslation();
+    const [upd, setUpd] = useState(false);
+    const advertId = navigation.getParam('advertId');
+    const advert = useSelector(
+        state => state.adverts.data.filter(ad => ad.id === advertId)[0],
+    );
+    const loggedUser = useSelector(state => state.auth);
 
     function contactSeller() {
         navigation.navigate({
             routeName: 'Room',
-            params: { user: advert.owner },
+            params: {
+                user: advert.owner,
+            },
         });
     }
 
     async function handleLike() {
-        dispatch(handleLikeAction(advert.id));
+        dispatch(handleLikeAction(advertId));
+        setUpd(!upd);
     }
 
     return (
@@ -140,8 +148,14 @@ export default (AdvertDetails = ({ navigation }) => {
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={Styles.MessageButton}
-                                onPress={contactSeller}>
+                                style={[
+                                    Styles.MessageButton,
+                                    loggedUser.id === advert.owner.id && {
+                                        backgroundColor: '#E5E5E5',
+                                    },
+                                ]}
+                                onPress={contactSeller}
+                                disabled={loggedUser.id === advert.owner.id}>
                                 <Text style={Styles.ButtonText}>
                                     {t('advertDetails.profile.talk')}
                                 </Text>
@@ -152,4 +166,6 @@ export default (AdvertDetails = ({ navigation }) => {
             </Tabs>
         </View>
     );
-});
+};
+
+export default AdvertDetails;

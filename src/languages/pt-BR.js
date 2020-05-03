@@ -99,5 +99,9 @@ export default {
                 button: 'Publicar',
             },
         },
+
+        chats: {
+            type: 'Digite uma mensagem',
+        },
     },
 };

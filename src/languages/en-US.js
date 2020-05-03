@@ -95,5 +95,9 @@ export default {
                 button: 'Publish',
             },
         },
+
+        chats: {
+            type: 'Type a message',
+        },
     },
 };

@@ -49,7 +49,7 @@ function Advert({ item, navigation }) {
 
     function handleClick() {
         navigation.navigate('AdvertDetails', {
-            advert: item,
+            advertId: item.id,
         });
     }
 
