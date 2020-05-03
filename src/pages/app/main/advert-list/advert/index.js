@@ -80,7 +80,7 @@ function Advert({ item, navigation, owner, user, liked }) {
                             Styles.Author,
                             { fontSize: 14, color: '#555', fontWeight: 'bold' },
                         ]}>
-                        Autor:{' '}
+                        {t('advertList.advert.author') + ': '}
                     </Text>
                     {author}
                 </Text>

@@ -42,6 +42,7 @@ export default {
                 new: 'New',
                 semi: 'Semi-New',
                 used: 'Used',
+                author: 'Author',
             },
         },
 

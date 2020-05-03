@@ -16,7 +16,6 @@ import { handleLikeAction } from '../../../../redux/actions/fav';
 export default (AdvertDetails = ({ navigation }) => {
     const dispatch = useDispatch();
     const advert = navigation.getParam('advert');
-    const user = navigation.getParam('logged_user');
     const liked = useSelector(state =>
         state.likes.data.find(book => book.id === advert.id) ? true : false,
     );
@@ -25,7 +24,7 @@ export default (AdvertDetails = ({ navigation }) => {
     function contactSeller() {
         navigation.navigate({
             routeName: 'Room',
-            params: { user: advert.user },
+            params: { user: advert.owner },
         });
     }
 
@@ -104,9 +103,11 @@ export default (AdvertDetails = ({ navigation }) => {
                     <View style={Styles.SectionContentRow}>
                         <View style={Styles.RowLeftSide}>
                             <View style={Styles.ElipseAvatar}>
-                                {advert.user.avatar_url ? (
+                                {advert.owner.avatar_url ? (
                                     <FastImage
-                                        source={{ uri: user.avatar_url }}
+                                        source={{
+                                            uri: advert.owner.avatar_url,
+                                        }}
                                         height="90%"
                                         width="90%"
                                     />
@@ -121,8 +122,8 @@ export default (AdvertDetails = ({ navigation }) => {
                                     fontSize: 20,
                                     color: '#ff7719',
                                     fontWeight: 'bold',
-                                }}>{`${advert.user.first_name} ${
-                                advert.user.last_name
+                                }}>{`${advert.owner.first_name} ${
+                                advert.owner.last_name
                             }`}</Text>
                             <View
                                 style={{
@@ -138,7 +139,6 @@ export default (AdvertDetails = ({ navigation }) => {
                                 style={{}}
                                 onPress={() => console.log('Ver Perfil')}>
                                 <Text style={{}}>
-                                    {t('advertDetails.tabs.contact')}
                                     {t('advertDetails.profile.button')}
                                 </Text>
                             </TouchableOpacity>
