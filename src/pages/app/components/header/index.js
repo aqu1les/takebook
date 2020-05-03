@@ -1,5 +1,11 @@
 import React, { useRef, useState, memo } from 'react';
-import { View, TouchableOpacity, TextInput, Animated } from 'react-native';
+import {
+    View,
+    TouchableOpacity,
+    TextInput,
+    Animated,
+    Text,
+} from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
 import Styles from './style';
 import SearchIcon from '../../../../assets/icons/search.svg';
@@ -14,6 +20,7 @@ function Header(props) {
     function openMenu() {
         props.navigation.dispatch(DrawerActions.toggleDrawer());
     }
+
     const _widthAnimation = () => {
         setSearchFocused(true);
         Animated.timing(widthValue, {
@@ -21,6 +28,7 @@ function Header(props) {
             duration: 250,
         }).start();
     };
+
     const _normalAnimation = () => {
         setSearchFocused(false);
         Animated.timing(widthValue, {
@@ -29,7 +37,18 @@ function Header(props) {
         }).start();
     };
 
-    return (
+    return props.title ? (
+        <View
+            style={[
+                Styles.Header,
+                { justifyContent: 'flex-start', elevation: 5 },
+            ]}>
+            <TouchableOpacity onPress={openMenu} style={{ padding: 10 }}>
+                <MenuIcon style={{ marginHorizontal: 15 }} />
+            </TouchableOpacity>
+            <Text style={Styles.Title}>{props.title}</Text>
+        </View>
+    ) : (
         <View
             style={[
                 Styles.Header,
@@ -37,7 +56,7 @@ function Header(props) {
             ]}>
             <TouchableOpacity onPress={openMenu} style={{ padding: 10 }}>
                 <MenuIcon
-                    style={{ display: !searchFocused ? 'flex' : 'none' }}
+                    style={{ display: searchFocused ? 'none' : 'flex' }}
                 />
             </TouchableOpacity>
             <Animated.View

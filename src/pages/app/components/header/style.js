@@ -1,6 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 
-export default Styles = StyleSheet.create({
+export default (Styles = StyleSheet.create({
     Header: {
         backgroundColor: '#38C2FF',
         width: '100%',
@@ -26,4 +26,9 @@ export default Styles = StyleSheet.create({
         fontSize: 16,
         padding: 8,
     },
-});
+    Title: {
+        fontSize: 24,
+        fontWeight: '700',
+        color: '#FFFFFF',
+    },
+}));

@@ -102,12 +102,7 @@ const Chats = createStackNavigator(
         RoomList: {
             screen: RoomList,
             navigationOptions: () => ({
-                headerTransparent: false,
-                headerStyle: {
-                    backgroundColor: '#3ac2fe',
-                },
-                headerTintColor: '#FFF',
-                title: 'Conversas',
+                header: props => <Header {...props} title="Conversas" />,
             }),
         },
         Room: {
@@ -133,12 +128,7 @@ const Bookmarks = createStackNavigator(
         AdList: {
             screen: AdList,
             navigationOptions: ({ navigation }) => ({
-                headerTransparent: false,
-                headerStyle: {
-                    backgroundColor: '#3ac2fe',
-                },
-                headerTintColor: '#FFF',
-                title: 'Favoritos',
+                header: props => <Header {...props} title="Favoritos" />,
             }),
         },
     },

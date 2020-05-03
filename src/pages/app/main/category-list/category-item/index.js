@@ -6,7 +6,7 @@ import Styles from './style';
 function CategoryItem({ name }) {
     let icon;
     switch (name) {
-        case 'Destaques':
+        case ('Destaques', 'Highlights'):
             icon = 'star-outline';
             break;
         case 'Terror':

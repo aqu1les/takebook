@@ -58,6 +58,8 @@ export default function Loading(props) {
         }
         if (!authenticated && !loading) {
             checkIfTokenValid();
+        } else {
+            props.navigation.navigate('Main');
         }
     }, [dispatch, loading, authenticated]);
 
