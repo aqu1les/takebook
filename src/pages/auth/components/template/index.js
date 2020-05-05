@@ -55,4 +55,4 @@ function Template(props) {
     );
 }
 
-export default memo(Template);
+export default Template;

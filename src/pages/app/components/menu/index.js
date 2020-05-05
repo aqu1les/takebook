@@ -37,8 +37,8 @@ function SideBar(props) {
         {
             title: 'Meus Anúncios',
             icon: 'book-open-page-variant',
-            active: props.activeItemKey === 'Adv' ? true : false,
-            route: 'App',
+            active: props.activeItemKey === 'MyAds' ? true : false,
+            route: 'MyAds',
         },
         {
             title: 'Mensagens',

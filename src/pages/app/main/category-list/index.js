@@ -8,6 +8,7 @@ import Styles from './style';
 function CategoryList(props) {
     const categories = useSelector(state => state.categories.data);
     const { t } = useTranslation();
+
     function renderSeparator() {
         return <View style={Styles.Separator} />;
     }

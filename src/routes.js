@@ -15,6 +15,7 @@ import RoomList from './pages/app/chats/';
 import Room from './pages/app/chats/Room';
 import Header from './pages/app/components/header';
 import AdList from './pages/app/bookmarks/index';
+import MyAdsList from './pages/app/myads/index';
 
 function transitionConfig() {
     return {
@@ -138,11 +139,27 @@ const Bookmarks = createStackNavigator(
     },
 );
 
+const MyAds = createStackNavigator(
+    {
+        MyAdverts: {
+            screen: MyAdsList,
+            navigationOptions: ({ navigation }) => ({
+                header: props => <Header {...props} title="Meus Anúncios" />,
+            }),
+        },
+    },
+    {
+        initialRouteName: 'MyAdverts',
+        transitionConfig,
+    },
+);
+
 const App = createDrawerNavigator(
     {
         Main,
         Chats,
         Bookmarks,
+        MyAds,
     },
     {
         initialRouteName: 'Main',

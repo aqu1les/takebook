@@ -15,6 +15,7 @@ import ApiService from '../../services/ApiService';
 import { getToken } from '../../services/UserService';
 import { loadFavoritesAction } from '../../redux/actions/fav';
 import { Transition, Transitioning } from 'react-native-reanimated';
+import { loadAuthErrorAction } from './../../redux/actions/authentication';
 
 export default function Loading(props) {
     const dispatch = useDispatch();
@@ -44,22 +45,22 @@ export default function Loading(props) {
                             dispatch(loadFavoritesAction());
                             navigateTo('App');
                         } else {
-                            navigateTo('Login');
+                            handleError();
                         }
                     } else {
-                        navigateTo('Login');
+                        handleError();
                     }
                 } catch (e) {
-                    navigateTo('Login');
+                    handleError();
                 }
             } else {
-                navigateTo('Login');
+                handleError();
             }
         }
-        if (!authenticated && !loading) {
-            checkIfTokenValid();
+        if (authenticated) {
+            navigateTo('Main');
         } else {
-            props.navigation.navigate('Main');
+            checkIfTokenValid();
         }
     }, [dispatch, loading, authenticated]);
 
@@ -67,6 +68,11 @@ export default function Loading(props) {
         StatusBar.setHidden(false);
         StatusBar.setBarStyle('light-content');
         props.navigation.navigate(route);
+    }
+
+    function handleError() {
+        navigateTo('Login');
+        dispatch(loadAuthErrorAction());
     }
 
     return (
