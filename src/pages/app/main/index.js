@@ -30,29 +30,35 @@ function Main(props) {
     const hasMore = useSelector(state => state.adverts.nextPage);
 
     useEffect(() => {
-        if (user) {
-            const globalChannel = subscribeToChannel('all-clients');
-            globalChannel.bind('book-accepted', event => {
-                console.log('new book');
-                dispatch(addAdvertAction(event.message));
-            });
+        if (!showFirstModal && !showSecondModal) {
+            dispatch(loadAdvertsAction());
+            dispatch(loadCategoriesAction());
 
-            const privateChannel = subscribeToChannel(`userID${user.id}`);
-            privateChannel.bind('new-notification', event => {
-                dispatch(addNotificationAction(event.message));
-            });
+            if (user) {
+                const globalWS = 'all-clients';
+                const userWS = `userID${user.id}`;
+                const globalChannel = subscribeToChannel(globalWS);
+                const privateChannel = subscribeToChannel(userWS);
+
+                globalChannel.bind('book-accepted', event => {
+                    console.log('new book');
+                    dispatch(addAdvertAction(event.message));
+                });
+
+                privateChannel.bind('new-notification', event => {
+                    dispatch(addNotificationAction(event.message));
+                });
+
+                registerAppWithFCM();
+
+                return function cleanup() {
+                    unsubscribeChannel(globalWS);
+                    unsubscribeChannel(userWS);
+                    console.log('clean up');
+                };
+            }
         }
-        return function cleanup() {
-            unsubscribeChannel(`userID${user.id}`);
-            unsubscribeChannel('all-clients');
-        };
-    }, [dispatch]);
-
-    useEffect(() => {
-        registerAppWithFCM();
-        dispatch(loadAdvertsAction());
-        dispatch(loadCategoriesAction());
-    }, []);
+    }, [dispatch, user, showFirstModal, showSecondModal]);
 
     function handleHideModal() {
         setShowFirstModal(false);

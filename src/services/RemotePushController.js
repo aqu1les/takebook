@@ -11,9 +11,9 @@ export function registerAppWithFCM() {
         permissions: {
             alert: true,
             badge: true,
-            sound: true
+            sound: true,
         },
         popInitialNotification: true,
-        requestPermissions: true
+        requestPermissions: true,
     });
 }

@@ -1,15 +1,7 @@
-import PushNotification from "react-native-push-notification";
+import PushNotification from 'react-native-push-notification';
 
 export default function notificationHandler(notification) {
-    const totalNot = PushNotification.getApplicationIconBadgeNumber() || 0;
-    if (notification.foreground) {
-        console.log('FOREGROUND');
-    }
-    if (notification.userInteraction) {
-        PushNotification.cancelLocalNotifications({ id: notification.id });
-
-    }
-    else {
+    if (notification.foreground && !notification.userInteraction) {
         PushNotification.setApplicationIconBadgeNumber(totalNot + 1);
         console.log('REMOTE BOOK', notification);
         PushNotification.localNotification({
@@ -26,7 +18,12 @@ export default function notificationHandler(notification) {
             playSound: true,
             soundName: 'default',
             actions: '["OK"]',
-            color: "#2bc1f3",
+            color: '#2bc1f3',
         });
+    }
+    if (notification.userInteraction) {
+        notification.finish();
+        PushNotification.cancelLocalNotifications({ id: notification.id });
+        PushNotification.clearLocalNotification(Number(notification.id));
     }
 }
