@@ -1,4 +1,4 @@
-import React, { useRef, memo } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -11,10 +11,12 @@ import defaultBook from '../../../../../assets/bookDefault.jpg';
 import LikeButton from '../../../components/like-button';
 import { handleLikeAction } from '../../../../../redux/actions/fav';
 import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 
-function Advert({ item, navigation }) {
+function Advert({ item }) {
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
+    const navigation = useNavigation();
     const {
         id,
         title,

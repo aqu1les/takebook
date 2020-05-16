@@ -66,7 +66,6 @@ export default function SignUp(props) {
     }
 
     function handleModalHide() {
-        // props.navigattion.navigate('App');
         setShowFailModal(false);
         setShowSuccessModal(false);
     }

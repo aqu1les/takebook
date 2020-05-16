@@ -1,5 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
 import { TouchableOpacity, SafeAreaView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import Styles from './style';
 import CategoryList from './category-list';
@@ -23,6 +24,7 @@ import { loadCategoriesAction } from '../../../redux/actions/category';
 
 function Main(props) {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const loading = useSelector(state => state.adverts.loading);
     const [showFirstModal, setShowFirstModal] = useState(false);
     const [showSecondModal, setShowSecondModal] = useState(false);
@@ -75,8 +77,8 @@ function Main(props) {
     }
 
     function navigateToForm() {
-        props.navigation.navigate('NewBook');
         handleHideModal();
+        navigation.navigate('NewBook');
     }
 
     function refreshAdverts() {

@@ -10,8 +10,9 @@ import { removeToken, storeToken } from '../../services/UserService';
 
 const INITIAL_STATE = {
     authenticated: false,
-    loading: false,
-    id: 2,
+    loading: true,
+    checked: false,
+    id: null,
     first_name: '',
     last_name: '',
     email: '',
@@ -46,6 +47,7 @@ export default function authReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 loading: false,
+                checked: true,
             };
         }
         case CHECK_TOKEN:
@@ -57,6 +59,7 @@ export default function authReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 loading: false,
+                checked: true,
             };
         case LOG_OUT:
             removeToken();

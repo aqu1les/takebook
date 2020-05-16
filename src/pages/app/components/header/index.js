@@ -6,7 +6,6 @@ import {
     Animated,
     Text,
 } from 'react-native';
-import { DrawerActions } from 'react-navigation-drawer';
 import Styles from './style';
 import SearchIcon from '../../../../assets/icons/search.svg';
 import MenuIcon from '../../../../assets/icons/menu.svg';
@@ -18,7 +17,7 @@ function Header(props) {
     const [searchFocused, setSearchFocused] = useState(false);
 
     function openMenu() {
-        props.navigation.dispatch(DrawerActions.toggleDrawer());
+        props.navigation.toggleDrawer();
     }
 
     const _widthAnimation = () => {

@@ -9,6 +9,7 @@ import {
     FlatList,
     SafeAreaView,
 } from 'react-native';
+import { useIsDrawerOpen } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from './style';
 import MenuBG from '../../../../assets/background/menubg.svg';
@@ -18,38 +19,38 @@ import { logOutAction } from '../../../../redux/actions/authentication';
 
 function SideBar(props) {
     const dispatch = useDispatch();
-    const { isDrawerOpen } = props.navigation.state;
+    const isDrawerOpen = useIsDrawerOpen();
     const user = useSelector(state => state.auth);
 
     const menuItens = [
         {
             title: 'Início',
             icon: 'home-outline',
-            active: props.activeItemKey === 'Main' ? true : false,
+            active: props.state.index === 0 ? true : false,
             route: 'Main',
         },
         {
             title: 'Perfil',
             icon: 'clipboard-account-outline',
-            active: props.activeItemKey === 'Profile' ? true : false,
+            active: props.state.index === 1 ? true : false,
             route: 'App',
         },
         {
             title: 'Meus Anúncios',
             icon: 'book-open-page-variant',
-            active: props.activeItemKey === 'MyAds' ? true : false,
+            active: props.state.index === 2 ? true : false,
             route: 'MyAds',
         },
         {
             title: 'Mensagens',
             icon: 'forum-outline',
-            active: props.activeItemKey === 'Chats' ? true : false,
+            active: props.state.index === 3 ? true : false,
             route: 'Chats',
         },
         {
             title: 'Meus Favoritos',
             icon: 'heart-outline',
-            active: props.activeItemKey === 'Bookmarks' ? true : false,
+            active: props.state.index === 4 ? true : false,
             route: 'Bookmarks',
         },
     ];

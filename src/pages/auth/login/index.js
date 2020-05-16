@@ -32,7 +32,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Login(props) {
     const dispatch = useDispatch();
-    const redirectEmail = props.navigation.getParam('email');
+    const { redirectEmail } = props.route.params;
     const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const loading = useSelector(state => state.auth.loading);
     const loginInput = useRef(null);
@@ -127,7 +127,6 @@ export default function Login(props) {
                         }),
                     );
                     dispatch(loadFavoritesAction());
-                    props.navigation.navigate('App');
                 }
             }
         } catch (e) {

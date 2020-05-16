@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Chip } from 'react-native-paper';
@@ -13,23 +14,19 @@ import Background from '../../../../assets/background/advertDetailbg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import { handleLikeAction } from '../../../../redux/actions/fav';
 
-const AdvertDetails = ({ navigation }) => {
+const AdvertDetails = ({ route }) => {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const { t } = useTranslation();
     const [upd, setUpd] = useState(false);
-    const advertId = navigation.getParam('advertId');
+    const { advertId } = route.params;
     const advert = useSelector(
         state => state.adverts.data.filter(ad => ad.id === advertId)[0],
     );
     const loggedUser = useSelector(state => state.auth);
 
     function contactSeller() {
-        navigation.navigate({
-            routeName: 'Room',
-            params: {
-                user: advert.owner,
-            },
-        });
+        navigation.navigate('Room', { user: advert.owner });
     }
 
     async function handleLike() {

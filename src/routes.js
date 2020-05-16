@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Dimensions } from 'react-native';
-import { createAppContainer } from 'react-navigation';
-import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Loading from './pages/loading';
 import Login from './pages/auth/login';
 import Home from './pages/app/main';
@@ -16,167 +16,162 @@ import Room from './pages/app/chats/Room';
 import Header from './pages/app/components/header';
 import AdList from './pages/app/bookmarks/index';
 import MyAdsList from './pages/app/myads/index';
+import { checkTokenAction } from './redux/actions/authentication';
 
-function transitionConfig() {
-    return {
-        transitionSpec: {},
-        screenInterpolator: ({ layout, position, scene }) => {
-            const thisSceneIndex = scene.index;
-            const width = layout.initWidth;
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
-            const translateX = position.interpolate({
-                inputRange: [thisSceneIndex - 1, thisSceneIndex],
-                outputRange: [width, 0],
-            });
-
-            const opacity = position.interpolate({
-                inputRange: [
-                    thisSceneIndex - 1,
-                    thisSceneIndex,
-                    thisSceneIndex + 1,
-                ],
-                outputRange: [0, 1, 1],
-            });
-
-            return { opacity, transform: [{ translateX }] };
-        },
-    };
+function AuthStack() {
+    return (
+        <Stack.Navigator initialRouteName="Login" headerMode="screen">
+            <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }}
+                initialParams={{ redirectEmail: '' }}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="SignUp"
+                component={SignUp}
+                options={{
+                    headerTransparent: true,
+                    headerTintColor: '#000',
+                    title: '',
+                }}
+            />
+        </Stack.Navigator>
+    );
 }
 
-const AuthStack = createStackNavigator(
-    {
-        Login: {
-            screen: Login,
-            navigationOptions: () => ({
-                headerShown: false,
-            }),
-        },
-        SignUp: {
-            screen: SignUp,
-            navigationOptions: () => ({
-                headerTransparent: true,
-                headerTintColor: '#000',
-                gestureDirection: 'inverted',
-                headerForceInset: true,
-            }),
-        },
-    },
-    {
-        initialRouteName: 'Login',
-        transitionConfig,
-    },
-);
+function Main() {
+    return (
+        <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen
+                name="Home"
+                component={Home}
+                options={{ header: props => <Header {...props} /> }}
+            />
+            <Stack.Screen
+                name="AdvertDetails"
+                component={AdvertDetails}
+                options={{ headerTransparent: true, title: '' }}
+                initialParams={{ advertId: 0 }}
+            />
+            <Stack.Screen
+                name="NewBook"
+                component={NewBook}
+                options={{
+                    headerTransparent: false,
+                    headerStyle: {
+                        backgroundColor: '#3ac2fe',
+                    },
+                    headerTintColor: '#FFF',
+                }}
+            />
+        </Stack.Navigator>
+    );
+}
 
-const Main = createStackNavigator(
-    {
-        Home: {
-            screen: Home,
-            navigationOptions: () => ({
-                header: props => <Header {...props} />,
-            }),
-        },
-        AdvertDetails: {
-            screen: AdvertDetails,
-            navigationOptions: () => ({
-                headerTransparent: true,
-            }),
-        },
-        NewBook: {
-            screen: NewBook,
-            navigationOptions: () => ({
-                headerTransparent: false,
-                headerStyle: {
-                    backgroundColor: '#3ac2fe',
-                },
-                headerTintColor: '#FFF',
-            }),
-        },
-    },
-    {
-        initialRouteName: 'Home',
-        transitionConfig,
-    },
-);
+function Chats() {
+    return (
+        <Stack.Navigator initialRouteName="RoomList">
+            <Stack.Screen
+                name="RoomList"
+                component={RoomList}
+                options={{
+                    header: props => <Header {...props} title="Conversas" />,
+                }}
+            />
+            <Stack.Screen
+                name="Room"
+                component={Room}
+                options={{
+                    headerTransparent: false,
+                    headerStyle: {
+                        backgroundColor: '#3ac2fe',
+                    },
+                    headerTintColor: '#FFF',
+                }}
+            />
+            <Stack.Screen
+                name="NewBook"
+                component={NewBook}
+                options={{
+                    headerTransparent: false,
+                    headerStyle: {
+                        backgroundColor: '#3ac2fe',
+                    },
+                    headerTintColor: '#FFF',
+                }}
+            />
+        </Stack.Navigator>
+    );
+}
 
-const Chats = createStackNavigator(
-    {
-        RoomList: {
-            screen: RoomList,
-            navigationOptions: () => ({
-                header: props => <Header {...props} title="Conversas" />,
-            }),
-        },
-        Room: {
-            screen: Room,
-            navigationOptions: ({ navigation }) => ({
-                headerTransparent: false,
-                headerStyle: {
-                    backgroundColor: '#3ac2fe',
-                },
-                headerTintColor: '#FFF',
-                title: navigation.getParam('title'),
-            }),
-        },
-    },
-    {
-        initialRouteName: 'RoomList',
-        transitionConfig,
-    },
-);
+function Bookmarks() {
+    return (
+        <Stack.Navigator initialRouteName="AdList">
+            <Stack.Screen
+                name="AdList"
+                component={AdList}
+                options={{
+                    header: props => <Header {...props} title="Favoritos" />,
+                }}
+            />
+        </Stack.Navigator>
+    );
+}
 
-const Bookmarks = createStackNavigator(
-    {
-        AdList: {
-            screen: AdList,
-            navigationOptions: ({ navigation }) => ({
-                header: props => <Header {...props} title="Favoritos" />,
-            }),
-        },
-    },
-    {
-        initialRouteName: 'AdList',
-        transitionConfig,
-    },
-);
+function MyAds() {
+    return (
+        <Stack.Navigator initialRouteName="MyAdverts">
+            <Stack.Screen
+                name="MyAdverts"
+                component={MyAdsList}
+                options={{
+                    header: props => (
+                        <Header {...props} title="Meus Anúncios" />
+                    ),
+                }}
+            />
+        </Stack.Navigator>
+    );
+}
 
-const MyAds = createStackNavigator(
-    {
-        MyAdverts: {
-            screen: MyAdsList,
-            navigationOptions: ({ navigation }) => ({
-                header: props => <Header {...props} title="Meus Anúncios" />,
-            }),
-        },
-    },
-    {
-        initialRouteName: 'MyAdverts',
-        transitionConfig,
-    },
-);
+function App() {
+    return (
+        <Drawer.Navigator
+            initialRouteName="Main"
+            drawerContent={props => <SideMenu {...props} />}
+            drawerStyle={{ width: Dimensions.get('window').width - 100 }}>
+            <Drawer.Screen name="Main" component={Main} />
+            <Drawer.Screen name="MyAds" component={MyAds} />
+            <Drawer.Screen name="Chats" component={Chats} />
+            <Drawer.Screen name="Bookmarks" component={Bookmarks} />
+        </Drawer.Navigator>
+    );
+}
 
-const App = createDrawerNavigator(
-    {
-        Main,
-        Chats,
-        Bookmarks,
-        MyAds,
-    },
-    {
-        initialRouteName: 'Main',
-        contentComponent: SideMenu,
-        drawerWidth: Dimensions.get('window').width - 100,
-    },
-);
+function TakebookRoutes() {
+    const dispatch = useDispatch();
+    const loading = useSelector(state => state.auth.loading);
+    const checked = useSelector(state => state.auth.checked);
+    const authenticated = useSelector(state => state.auth.authenticated);
 
-const Routes = createAppContainer(
-    createAnimatedSwitchNavigator(
-        {
-            Loading,
-            App,
-            Auth: AuthStack,
-        },
-        { initialRouteName: 'Loading' },
-    ),
-);
+    useEffect(() => {
+        dispatch(checkTokenAction());
+    }, [dispatch]);
 
-export default Routes;
+    if (loading && !checked) {
+        return <Loading />;
+    }
+
+    return (
+        <NavigationContainer>
+            {authenticated ? <App /> : <AuthStack />}
+        </NavigationContainer>
+    );
+}
+
+export default TakebookRoutes;

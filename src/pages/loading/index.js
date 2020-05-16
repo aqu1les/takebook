@@ -1,79 +1,58 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, StatusBar, ActivityIndicator } from 'react-native';
 import Styles from './style';
 import Logo from '../../assets/logo.svg';
 import BgBr from '../../assets/background/backgroundBottomRight.svg';
 import BgTL from '../../assets/background/backgroundTopLeft.svg';
+import { Transition, Transitioning } from 'react-native-reanimated';
 import {
-    checkTokenAction,
     setUserAction,
     tokenValidated,
 } from '../../redux/actions/authentication';
 import { setNotificationsAction } from '../../redux/actions/notification';
-import ApiService from '../../services/ApiService';
-import { getToken } from '../../services/UserService';
 import { loadFavoritesAction } from '../../redux/actions/fav';
-import { Transition, Transitioning } from 'react-native-reanimated';
 import { loadAuthErrorAction } from './../../redux/actions/authentication';
+import { getToken, getUser } from '../../services/UserService';
 
-export default function Loading(props) {
+export default function Loading() {
     const dispatch = useDispatch();
+    const transition = <Transition.Change interpolation="easeInOut" />;
     const loading = useSelector(state => state.auth.loading);
     const authenticated = useSelector(state => state.auth.authenticated);
 
-    const transition = <Transition.Change interpolation="easeInOut" />;
-
     useEffect(() => {
-        async function checkIfTokenValid() {
-            const token = await getToken();
-            if (token) {
-                dispatch(checkTokenAction());
-                try {
-                    const response = await ApiService.get('/users/me');
-                    if (response) {
-                        if (response.status === 200) {
-                            dispatch(
-                                setNotificationsAction(
-                                    response.data.notifications,
-                                ),
-                            );
-                            await dispatch(
-                                setUserAction({ ...response.data, token }),
-                            );
-                            await dispatch(tokenValidated());
-                            dispatch(loadFavoritesAction());
-                            navigateTo('App');
-                        } else {
-                            handleError();
-                        }
+        async function checkUser() {
+            try {
+                const response = await getUser();
+                const token = await getToken();
+                if (response) {
+                    if (response.status === 200) {
+                        dispatch(
+                            setNotificationsAction(response.data.notifications),
+                        );
+                        await dispatch(
+                            setUserAction({
+                                ...response.data,
+                                token,
+                            }),
+                        );
+                        dispatch(tokenValidated());
+                        dispatch(loadFavoritesAction());
                     } else {
-                        handleError();
+                        dispatch(loadAuthErrorAction());
                     }
-                } catch (e) {
-                    handleError();
+                } else {
+                    dispatch(loadAuthErrorAction());
                 }
-            } else {
-                handleError();
+            } catch (e) {
+                dispatch(loadAuthErrorAction());
             }
         }
-        if (authenticated) {
-            navigateTo('Main');
-        } else {
-            checkIfTokenValid();
+        if (loading && !authenticated) {
+            checkUser();
         }
-    }, [dispatch, loading, authenticated]);
-
-    function navigateTo(route) {
-        StatusBar.setHidden(false);
-        StatusBar.setBarStyle('light-content');
-        props.navigation.navigate(route);
-    }
-
-    function handleError() {
-        navigateTo('Login');
-        dispatch(loadAuthErrorAction());
-    }
+    }, [loading, authenticated, dispatch]);
 
     return (
         <>
@@ -94,12 +73,10 @@ export default function Loading(props) {
                 <View>
                     <Logo />
                 </View>
-                {loading && (
-                    <ActivityIndicator
-                        color={'#fb8c00'}
-                        style={Styles.ActvIndicator}
-                    />
-                )}
+                <ActivityIndicator
+                    color={'#fb8c00'}
+                    style={Styles.ActvIndicator}
+                />
             </Transitioning.View>
         </>
     );
