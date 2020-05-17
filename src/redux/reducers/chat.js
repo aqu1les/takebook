@@ -5,11 +5,11 @@ import {
     LOAD_MESSAGES_SUCCESS,
     NEW_MESSAGE,
 } from '../actions/chat';
+import _ from 'lodash';
 
 const INITIAL_STATE = {
     loading: false,
     chats: [],
-    loadingMessages: false,
 };
 
 export default function chatsReducer(state = INITIAL_STATE, action) {
@@ -18,19 +18,35 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
             return { ...state, loading: true };
         }
         case LOAD_CHAT_SUCCESS: {
+            const chats = action.chats.map(chat => {
+                chat.loadingMessages = false;
+                chat.messages = Array(chat.message);
+                chat.id = chat.room_id;
+                delete chat.room_id;
+                delete chat.message;
+                return chat;
+            });
+
             return {
                 ...state,
                 loading: false,
-                chats: action.chats,
+                chats: _.uniqBy(chats, 'id'),
             };
         }
         case LOAD_MESSAGES: {
-            return { ...state, loadingMessages: true };
+            const chats = state.chats.map(chat => {
+                if (chat.id === action.room_id) {
+                    chat.loadingMessages = true;
+                }
+                return chat;
+            });
+            return { ...state, chats: _.uniqBy(chats, 'id') };
         }
         case LOAD_MESSAGES_SUCCESS: {
-            const newChats = this.state.chats.map(chat => {
-                if (chat.id == action.room_id) {
-                    chat.messages = action.messages;
+            const newChats = state.chats.map(chat => {
+                if (chat.id === action.room_id) {
+                    chat.messages = _.uniqBy(action.messages, 'id');
+                    chat.loadingMessages = false;
                 }
                 return chat;
             });
@@ -42,8 +58,8 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
             };
         }
         case NEW_MESSAGE: {
-            const chatsWithNewMessage = this.state.chats.map(chat => {
-                if (chat.id == action.message.room_id) {
+            const chatsWithNewMessage = state.chats.map(chat => {
+                if (chat.id == action.room_id) {
                     chat.messages = [...chat.messages, action.message];
                 }
                 return chat;

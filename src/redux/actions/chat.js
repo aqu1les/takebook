@@ -18,8 +18,8 @@ function loadChatsSuccess(chats) {
     return { type: LOAD_CHAT_SUCCESS, chats };
 }
 
-function loadMessages() {
-    return { type: LOAD_MESSAGES };
+function loadMessages(room_id) {
+    return { type: LOAD_MESSAGES, room_id };
 }
 
 function loadMessagesSuccess(room_id, messages) {
@@ -43,13 +43,13 @@ export function loadChatsAction() {
     };
 }
 
-export function loadMessagesAction(id) {
+export function loadMessagesAction(room_id) {
     return dispatch => {
-        dispatch(loadMessages());
-        getMessages(id)
+        dispatch(loadMessages(room_id));
+        getMessages(room_id)
             .then(response => {
                 if (response.data) {
-                    dispatch(loadMessagesSuccess(id, response.data));
+                    dispatch(loadMessagesSuccess(room_id, response.data));
                 }
             })
             .catch(err => console.log(err));

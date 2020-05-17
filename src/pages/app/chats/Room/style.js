@@ -1,28 +1,27 @@
 import { StyleSheet } from 'react-native';
 
-export default Styles = StyleSheet.create({
+export default (Styles = StyleSheet.create({
     ChatContainer: {
-        flex: 1,
         flexDirection: 'column',
-        position: 'relative'
+        position: 'relative',
     },
     BackgroundTopRight: {
         position: 'absolute',
-        top: -52,
+        top: -4,
         right: 0,
-        height: '50%',
-        width: '50%',
-        zIndex: 1
+        height: 255,
+        width: 205,
+        zIndex: 1,
     },
     BackgroundBottomLeft: {
         position: 'absolute',
-        bottom: 17,
+        bottom: 3,
         left: 0,
-        height: '50%',
-        width: '50%'
+        height: 255,
+        width: 205,
     },
     WriteMessageSection: {
-        height: 70,
+        height: 55,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
@@ -43,15 +42,15 @@ export default Styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 12,
         fontSize: 16,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
     },
     SendButton: {
-        width: 60,
+        width: 45,
         height: '100%',
         backgroundColor: '#f98b0d',
         borderRadius: 100,
         elevation: 2,
         alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
+        justifyContent: 'center',
+    },
+}));

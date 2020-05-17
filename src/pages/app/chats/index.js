@@ -1,52 +1,78 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
+import { StackActions } from '@react-navigation/native';
 import Styles from './style';
 import { loadChatsAction } from '../../../redux/actions/chat';
+import TalkItem from './talk-item';
+import EmptyList from '../../../assets/empty-chat.svg';
 
-export default function RoomList({ navigation }) {
+export default function RoomList({ route, navigation }) {
     const dispatch = useDispatch();
+    const { user: receiver } = route.params;
     const chats = useSelector(state => state.chats.chats);
+    const loading = useSelector(state => state.chats.loading);
     const loggedUser = useSelector(state => state.auth);
 
     useEffect(() => {
-        dispatch(loadChatsAction());
-    }, [dispatch]);
+        loadChats();
+    }, []);
 
-    function Chat({ ad_id, b_id, room_id }) {
-        function goToChat() {
-            navigation.navigate('Room', { room_id });
+    useEffect(() => {
+        if (receiver) {
+            let push;
+            if (chats.length > 0) {
+                const chat = chats.find(chat => chat.user[0].id == receiver.id);
+                if (chat) {
+                    push = StackActions.push('Room', { roomId: chat.id });
+                } else {
+                    push = StackActions.push('Room', { receiver });
+                }
+            } else {
+                push = StackActions.push('Room', { receiver });
+            }
+            navigation.dispatch(push);
+            navigation.setParams({ user: null });
         }
-        return (
-            <TouchableOpacity
-                style={{ height: 100, backgroundColor: '#fafe', width: '100%' }}
-                onPress={goToChat}>
-                <Text>
-                    Chat {ad_id} with {b_id}
-                </Text>
-            </TouchableOpacity>
-        );
+    }, [receiver, chats]);
+
+    function loadChats() {
+        dispatch(loadChatsAction());
+    }
+
+    function renderSeparator() {
+        return <View style={Styles.Divider} />;
     }
 
     return (
         <View style={Styles.Container}>
-            <Text>
-                {loggedUser.firstName} {loggedUser.lastName}
-            </Text>
-            <FlatList
-                data={chats}
-                renderItem={({ item }) => (
-                    <Chat
-                        ad_id={item.advertiser_id}
-                        b_id={item.buyer_id}
-                        room_id={item.id}
-                    />
-                )}
-                keyExtractor={item => item.id}
-                contentContainerStyle={{
-                    width: '100%',
-                }}
-            />
+            {chats.length > 0 ? (
+                <FlatList
+                    data={chats}
+                    renderItem={({ item }) => (
+                        <TalkItem
+                            user={item.user[0]}
+                            lastMessage={item.messages[0]}
+                            room_id={item.id}
+                            navigation={navigation}
+                        />
+                    )}
+                    keyExtractor={item => String(item.id)}
+                    contentContainerStyle={{
+                        width: '100%',
+                    }}
+                    refreshControl={
+                        <RefreshControl
+                            colors={['#fb8c00', '#38C2FF']}
+                            refreshing={loading}
+                            onRefresh={loadChats}
+                        />
+                    }
+                    ItemSeparatorComponent={renderSeparator}
+                />
+            ) : (
+                <EmptyList />
+            )}
         </View>
     );
 }

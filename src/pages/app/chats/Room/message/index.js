@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
 import Styles from './style';
-import { format } from 'date-fns';
+import { formatToLocale } from './../../../../../helpers/Date';
 
 function Message({ item, loggedUser }) {
     return (
@@ -15,7 +15,7 @@ function Message({ item, loggedUser }) {
             ]}>
             <Text style={Styles.Text}>{item.message}</Text>
             <Text style={Styles.CreationTime}>
-                {format(new Date(item.created_at), 'HH:mm')}
+                {formatToLocale(item.created_at, 'HH:mm')}
             </Text>
         </TouchableOpacity>
     );

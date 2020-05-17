@@ -1,23 +1,23 @@
 import { StyleSheet } from 'react-native';
 
-export default Styles = StyleSheet.create({
+export default (Styles = StyleSheet.create({
     MyMessage: {
         backgroundColor: '#0692cb',
         alignSelf: 'flex-end',
         borderTopRightRadius: 0,
-        paddingRight: 10
+        paddingRight: 10,
     },
     NotMyMessage: {
         backgroundColor: '#f98b0d',
         alignSelf: 'flex-start',
         borderTopLeftRadius: 0,
-        paddingLeft: 10
+        paddingLeft: 10,
     },
     Message: {
         minHeight: 40,
         height: 'auto',
         width: 'auto',
-        minWidth: 60,
+        minWidth: 90,
         maxWidth: '70%',
         borderRadius: 50,
         justifyContent: 'center',
@@ -26,11 +26,11 @@ export default Styles = StyleSheet.create({
         paddingBottom: 10,
         paddingHorizontal: 15,
         marginVertical: 5,
-        elevation: 1
+        elevation: 1,
     },
     Text: {
         color: '#FFFFFF',
-        fontSize: 14
+        fontSize: 14,
     },
     CreationTime: {
         position: 'absolute',
@@ -39,4 +39,4 @@ export default Styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 10,
     },
-});
+}));
