@@ -6,6 +6,7 @@ import {
     ADD_ADVERT,
 } from '../actions/advert';
 import { HANDLE_LIKE } from '../actions/fav';
+import _ from 'lodash';
 
 const INITIAL_STATE = {
     loading: false,
@@ -26,7 +27,7 @@ export default function advertsReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 loading: false,
-                data: action.adverts.data,
+                data: _.uniqBy(action.adverts.data, 'id'),
                 nextPage: action.adverts.nextPage,
             };
         }
@@ -47,7 +48,7 @@ export default function advertsReducer(state = INITIAL_STATE, action) {
         case ADD_ADVERT: {
             return {
                 ...state,
-                data: [action.advert, ...state.data],
+                data: _.uniqBy([action.advert, ...state.data], 'id'),
             };
         }
         case HANDLE_LIKE: {

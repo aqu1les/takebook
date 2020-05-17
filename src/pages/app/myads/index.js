@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import Styles from './style';
 import { loadMyAdvertsAction } from '../../../redux/actions/myads';
 import Advert from '../main/advert-list/advert';
@@ -27,8 +27,13 @@ export default function MyAdsList({ navigation }) {
                 )}
                 keyExtractor={item => String(item.id)}
                 showsVerticalScrollIndicator={false}
-                refreshing={loading}
-                onRefresh={loadMyAdverts}
+                refreshControl={
+                    <RefreshControl
+                        colors={['#fb8c00', '#38C2FF']}
+                        refreshing={loading}
+                        onRefresh={loadMyAdverts}
+                    />
+                }
             />
         </View>
     );
