@@ -55,8 +55,11 @@ function Main() {
             <Stack.Screen
                 name="AdvertDetails"
                 component={AdvertDetails}
-                options={{ headerTransparent: true, title: '' }}
-                initialParams={{ advertId: 0 }}
+                options={{
+                    headerTransparent: true,
+                    title: '',
+                    unmountOnBlur: true,
+                }}
             />
             <Stack.Screen
                 name="NewBook"
@@ -82,17 +85,20 @@ function Chats() {
                 options={{
                     header: props => <Header {...props} title="Conversas" />,
                 }}
+                initialParams={{ user: null }}
             />
             <Stack.Screen
                 name="Room"
                 component={Room}
-                options={{
+                options={({ route }) => ({
                     headerTransparent: false,
                     headerStyle: {
                         backgroundColor: '#3ac2fe',
                     },
                     headerTintColor: '#FFF',
-                }}
+                    title: route.params.title,
+                })}
+                initialParams={{ roomId: 0 }}
             />
             <Stack.Screen
                 name="NewBook"
@@ -144,8 +150,13 @@ function App() {
         <Drawer.Navigator
             initialRouteName="Main"
             drawerContent={props => <SideMenu {...props} />}
-            drawerStyle={{ width: Dimensions.get('window').width - 100 }}>
-            <Drawer.Screen name="Main" component={Main} />
+            drawerStyle={{ width: Dimensions.get('window').width - 100 }}
+            openByDefault={false}>
+            <Drawer.Screen
+                name="Main"
+                component={Main}
+                listeners={{ blur: console.log('blurred') }}
+            />
             <Drawer.Screen name="MyAds" component={MyAds} />
             <Drawer.Screen name="Chats" component={Chats} />
             <Drawer.Screen name="Bookmarks" component={Bookmarks} />
