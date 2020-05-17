@@ -76,7 +76,7 @@ function SideBar(props) {
         );
     }
     function navigateByRoute(route) {
-        props.navigation.navigate(route);
+        props.navigation.navigate(route, { initial: true });
     }
     async function logOut() {
         dispatch(logOutAction());

@@ -26,7 +26,12 @@ const AdvertDetails = ({ route }) => {
     const loggedUser = useSelector(state => state.auth);
 
     function contactSeller() {
-        navigation.navigate('Room', { user: advert.owner });
+        navigation.navigate('Chats', {
+            screen: 'RoomList',
+            params: {
+                user: advert.owner,
+            },
+        });
     }
 
     async function handleLike() {
