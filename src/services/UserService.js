@@ -15,6 +15,7 @@ export async function storeToken(token) {
 
 export async function removeToken() {
     await AsyncStorage.removeItem('userToken:TB');
+    await AsyncStorage.removeItem('userLogin');
     return;
 }
 
@@ -31,8 +32,8 @@ export function authenticateUser(email, password, remind) {
     return ApiService.post('/auth/login', { email, password, remind });
 }
 
-export async function registerUser(body) {
-    return await ApiService.post(`users`, body);
+export function registerUser(body) {
+    return ApiService.post('users', body);
 }
 
 export function registerUserDevice(token) {
