@@ -47,13 +47,14 @@ export default function Login(props) {
     const { t } = useTranslation();
 
     useEffect(() => {
-        if (redirectEmail) {
-            return setLogin(redirectEmail);
-        }
         async function getUserInfo() {
             setLogin((await getUserEmail()) || '');
         }
-        getUserInfo();
+        if (redirectEmail) {
+            return setLogin(redirectEmail);
+        } else {
+            getUserInfo();
+        }
     }, [redirectEmail]);
 
     function handleLoginChange(value) {
@@ -109,7 +110,13 @@ export default function Login(props) {
                     setLoginError(true);
                     return loginInput.current.focus();
                 default: {
-                    storeToken(response.data.token);
+                    await storeToken(response.data.token);
+                    await dispatch(
+                        setUserAction({
+                            ...response.data.user,
+                            token: response.data.token,
+                        }),
+                    );
                     StatusBar.setHidden(false);
                     StatusBar.setBarStyle('light-content');
                     ToastAndroid.show(t('global.welcome'), ToastAndroid.SHORT);
@@ -120,13 +127,8 @@ export default function Login(props) {
                         ),
                     );
                     await dispatch(loadCategoriesAction());
-                    await dispatch(
-                        setUserAction({
-                            ...response.data.user,
-                            token: response.data.token,
-                        }),
-                    );
                     dispatch(loadFavoritesAction());
+                    break;
                 }
             }
         } catch (e) {
