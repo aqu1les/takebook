@@ -39,10 +39,10 @@ export function fetchMyAdverts() {
         ApiService.get('/users/me/books')
             .then(res => {
                 if (!res || !res.data) reject('ERROR FETCHING');
-                const nextPageUrl = res.data.next_page_url;
+                // const nextPageUrl = res.data.next_page_url;
                 resolve({
-                    data: res.data.data,
-                    nextPage: nextPageUrl ? nextPageUrl.split('=')[1] : null,
+                    data: res.data,
+                    // nextPage: nextPageUrl ? nextPageUrl.split('=')[1] : null,
                 });
             })
             .catch(err => reject(err));
@@ -66,4 +66,12 @@ export function fetchMyAdvertsNextPage(page) {
     });
 
     return promise;
+}
+
+export function deleteAdvert(bookId) {
+    return ApiService.delete(`books/${bookId}`);
+}
+
+export function createAdvert(body) {
+    return ApiService.post('books', body);
 }
