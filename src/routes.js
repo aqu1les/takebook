@@ -29,7 +29,6 @@ function AuthStack() {
                 component={Login}
                 options={{ headerShown: false }}
                 initialParams={{ redirectEmail: '' }}
-                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="SignUp"
@@ -70,6 +69,7 @@ function Main() {
                         backgroundColor: '#3ac2fe',
                     },
                     headerTintColor: '#FFF',
+                    headerTitle: 'Cadastrar Livro',
                 }}
             />
         </Stack.Navigator>
