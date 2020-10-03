@@ -49,18 +49,17 @@ export default function SignUp(props) {
             last_name: name.split(' ')[1] || ' ',
             email,
             password,
-            address_street: street,
-            address_neighborhood: neighborhood,
-            address_city: city,
-            address_state: state,
-            address_zip_code: cep,
+            is_admin: '0',
         };
-        const data = createFormData(avatar, 'avatar_file', reqBody);
-
-        const response = await registerUser(data);
-        if (response.data) {
-            setShowSuccessModal(true);
-        } else {
+        const data = createFormData([avatar], 'avatar_file', reqBody);
+        try {
+            const response = await registerUser(data).catch(console.log);
+            if (response.data) {
+                setShowSuccessModal(true);
+            } else {
+                setShowFailModal(true);
+            }
+        } catch (error) {
             setShowFailModal(true);
         }
     }
@@ -97,7 +96,7 @@ export default function SignUp(props) {
     }
 
     function navigateToLogin() {
-        props.navigation.navigate('Login', { email });
+        props.navigation.navigate('Login', { redirectEmail: email });
     }
 
     const newHeader = avatarPreview ? (
@@ -221,7 +220,7 @@ export default function SignUp(props) {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={Styles.RegisterButton}
-                    onPress={handleModalHide}>
+                    onPress={handleSubmit}>
                     <Text style={Styles.RegisterText}>
                         {t('signUp.register')}
                     </Text>
