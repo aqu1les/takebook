@@ -35,7 +35,6 @@ export default ({ navigation, refreshAdverts, onEndReached }) => {
         }
 
         if (filterTerm) {
-            String();
             return adverts.filter(
                 book =>
                     book.title
