@@ -97,6 +97,8 @@ export default (Styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         right: 0,
+        padding: 12,
+        zIndex: 1000,
     },
     CreationTime: {
         position: 'absolute',
@@ -105,5 +107,35 @@ export default (Styles = StyleSheet.create({
         color: '#c0c0c0',
         fontSize: 12,
         fontStyle: 'italic',
+    },
+    TextH1: {
+        fontSize: 24,
+        color: '#000',
+        fontWeight: '700',
+    },
+    TextP: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: '#000',
+    },
+    ModalButton: {
+        width: '60%',
+        padding: 10,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        borderRadius: 50,
+        backgroundColor: '#3eb3e5',
+        alignItems: 'center',
+    },
+    ButtonText: {
+        fontSize: 28,
+        textAlign: 'center',
+        color: '#FFFFFF',
     },
 }));

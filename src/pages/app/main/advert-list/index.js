@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import {
     View,
     Text,
@@ -10,13 +10,53 @@ import { useSelector } from 'react-redux';
 import Styles from './style';
 import Advert from './advert';
 import { useTranslation } from 'react-i18next';
+import FilterService from '../../../../services/FilterService';
 
-export default (AdvertList = ({ navigation, refreshAdverts, onEndReached }) => {
+export default ({ navigation, refreshAdverts, onEndReached }) => {
     const { t } = useTranslation();
     const [refreshing, setRefreshing] = useState(false);
     const advList = useRef();
     const adverts = useSelector(state => state.adverts.data);
     const loadingMore = useSelector(state => state.adverts.loadingMore);
+    const [filterTerm, setFilterTerm] = useState('');
+    const [filterCat, setFilterCat] = useState(null);
+
+    const filteredAdverts = useMemo(() => {
+        if (filterCat === 'b239-8956' && !filterTerm) {
+            return adverts;
+        }
+
+        if (filterCat && !filterTerm) {
+            const filtered = adverts.filter(book => {
+                return book.categories.find(cat => cat.id === filterCat);
+            });
+
+            return filtered;
+        }
+
+        if (filterTerm) {
+            String();
+            return adverts.filter(
+                book =>
+                    book.title
+                        .toLowerCase()
+                        .indexOf(filterTerm.toLowerCase()) !== -1,
+            );
+        }
+
+        return adverts;
+    }, [filterTerm, filterCat, adverts]);
+
+    useEffect(() => {
+        const unsub = FilterService.subscribe(({ category, searchTerm }) => {
+            setFilterTerm(searchTerm);
+            setFilterCat(category);
+        });
+
+        return () => {
+            unsub();
+        };
+    }, []);
 
     async function refreshAds() {
         setRefreshing(true);
@@ -41,16 +81,18 @@ export default (AdvertList = ({ navigation, refreshAdverts, onEndReached }) => {
     return (
         <View style={Styles.Content}>
             <Text style={Styles.H1}>{t('advertList.recent')}</Text>
-            {adverts.length > 0 ? (
+            {filteredAdverts.length > 0 ? (
                 <>
                     <FlatList
                         ref={advList}
-                        data={adverts}
+                        data={filteredAdverts}
                         renderItem={({ item }) => (
                             <Advert item={item} navigation={navigation} />
                         )}
+                        keyExtractor={item => {
+                            return `filtered-${item.id}`;
+                        }}
                         onScroll={handleOnEndReached}
-                        keyExtractor={item => String(item.id)}
                         refreshControl={
                             <RefreshControl
                                 colors={['#fb8c00', '#38C2FF']}
@@ -67,4 +109,4 @@ export default (AdvertList = ({ navigation, refreshAdverts, onEndReached }) => {
             )}
         </View>
     );
-});
+};

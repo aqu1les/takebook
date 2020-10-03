@@ -38,7 +38,7 @@ export default {
 
         advertList: {
             recent: 'Mais Recentes',
-            noBooks: 'Nenhum livro foi cadastrado!',
+            noBooks: 'Nenhum livro foi encontrado!',
             advert: {
                 locale: 'Local',
                 new: 'Novo',

@@ -1,4 +1,4 @@
-import React, { useRef, useState, memo } from 'react';
+import React, { useRef, useState, memo, useMemo } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -9,12 +9,17 @@ import {
 import Styles from './style';
 import SearchIcon from '../../../../assets/icons/search.svg';
 import MenuIcon from '../../../../assets/icons/menu.svg';
+import FilterService from '../../../../services/FilterService';
 
 function Header(props) {
     const searchInput = useRef(null);
     const [searchName, setSearchName] = useState('');
     const [widthValue] = useState(new Animated.Value(0.75));
     const [searchFocused, setSearchFocused] = useState(false);
+
+    useMemo(() => {
+        FilterService.filterByWord(searchName);
+    }, [searchName]);
 
     function openMenu() {
         props.navigation.toggleDrawer();

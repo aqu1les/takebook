@@ -11,13 +11,16 @@ export function addCategoryAction(category) {
 export function loadCategoriesAction() {
     return async dispatch => {
         const response = await getCategories();
-        if (!response || !response.data) return;
-        dispatch({
-            type: SET_CATEGORIES_INFO,
-            info: { ...response.data, data: [] },
-        });
+        if (!response || !response.data) {
+            return;
+        }
         response.data.data.map(category => {
             return dispatch(addCategoryAction(category));
+        });
+
+        dispatch({
+            type: SET_CATEGORIES_INFO,
+            info: { ...response.data },
         });
     };
 }
