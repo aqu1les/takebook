@@ -152,11 +152,7 @@ function App() {
             drawerContent={props => <SideMenu {...props} />}
             drawerStyle={{ width: Dimensions.get('window').width - 100 }}
             openByDefault={false}>
-            <Drawer.Screen
-                name="Main"
-                component={Main}
-                listeners={{ blur: console.log('blurred') }}
-            />
+            <Drawer.Screen name="Main" component={Main} />
             <Drawer.Screen name="MyAds" component={MyAds} />
             <Drawer.Screen name="Chats" component={Chats} />
             <Drawer.Screen name="Bookmarks" component={Bookmarks} />

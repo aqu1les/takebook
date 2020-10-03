@@ -2,8 +2,6 @@ import PushNotification from 'react-native-push-notification';
 
 export default function notificationHandler(notification) {
     if (notification.foreground && !notification.userInteraction) {
-        PushNotification.setApplicationIconBadgeNumber(totalNot + 1);
-        console.log('REMOTE BOOK', notification);
         PushNotification.localNotification({
             id: notification.id,
             autoCancel: true,

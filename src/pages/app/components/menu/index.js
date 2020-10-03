@@ -29,28 +29,28 @@ function SideBar(props) {
             active: props.state.index === 0 ? true : false,
             route: 'Main',
         },
-        {
-            title: 'Perfil',
-            icon: 'clipboard-account-outline',
-            active: props.state.index === 1 ? true : false,
-            route: 'App',
-        },
+        // {
+        //     title: 'Perfil',
+        //     icon: 'clipboard-account-outline',
+        //     active: props.state.index === 1 ? true : false,
+        //     route: 'App',
+        // },
         {
             title: 'Meus Anúncios',
             icon: 'book-open-page-variant',
-            active: props.state.index === 2 ? true : false,
+            active: props.state.index === 1 ? true : false,
             route: 'MyAds',
         },
         {
             title: 'Mensagens',
             icon: 'forum-outline',
-            active: props.state.index === 3 ? true : false,
+            active: props.state.index === 2 ? true : false,
             route: 'Chats',
         },
         {
             title: 'Meus Favoritos',
             icon: 'heart-outline',
-            active: props.state.index === 4 ? true : false,
+            active: props.state.index === 3 ? true : false,
             route: 'Bookmarks',
         },
     ];
@@ -80,7 +80,6 @@ function SideBar(props) {
     }
     async function logOut() {
         dispatch(logOutAction());
-        navigateByRoute('Auth');
     }
     return (
         <SafeAreaView style={Styles.Menu}>

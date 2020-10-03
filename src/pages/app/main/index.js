@@ -30,11 +30,12 @@ function Main(props) {
     const [showSecondModal, setShowSecondModal] = useState(false);
     const user = useSelector(state => state.auth);
     const hasMore = useSelector(state => state.adverts.nextPage);
+    const categories = useSelector(state => state.categories.data);
 
     useEffect(() => {
-        if (!showFirstModal && !showSecondModal) {
-            dispatch(loadAdvertsAction());
+        if (!showFirstModal && !showSecondModal && categories.length === 0) {
             dispatch(loadCategoriesAction());
+            dispatch(loadAdvertsAction());
 
             if (user) {
                 const globalWS = 'all-clients';
@@ -43,7 +44,6 @@ function Main(props) {
                 const privateChannel = subscribeToChannel(userWS);
 
                 globalChannel.bind('book-accepted', event => {
-                    console.log('new book');
                     dispatch(addAdvertAction(event.message));
                 });
 
@@ -56,7 +56,6 @@ function Main(props) {
                 return function cleanup() {
                     unsubscribeChannel(globalWS);
                     unsubscribeChannel(userWS);
-                    console.log('clean up');
                 };
             }
         }
