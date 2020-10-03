@@ -11,6 +11,12 @@ export default function PageTwo({
     setBookStatus,
     bookStatus,
     pageTwo,
+    title,
+    price,
+    author,
+    setTitle,
+    setPrice,
+    setAuthor,
 }) {
     const { t } = useTranslation();
     return (
@@ -43,12 +49,16 @@ export default function PageTwo({
                 <TextInput
                     placeholder={t('newBook.pageTwo.title')}
                     onBlur={goToSecondSection}
+                    value={title}
+                    onChangeText={t => setTitle(t)}
                 />
             </TouchableOpacity>
             <TouchableOpacity style={Styles.FormGroup}>
                 <TextInput
                     placeholder={t('newBook.pageTwo.author')}
                     onBlur={goToSecondSection}
+                    value={author}
+                    onChangeText={t => setAuthor(t)}
                 />
             </TouchableOpacity>
             <View
@@ -87,7 +97,11 @@ export default function PageTwo({
                         justifyContent: 'space-between',
                     }}>
                     <Text>{t('newBook.pageTwo.howMuch')}</Text>
-                    <TextInput placeholder="R$ 928" />
+                    <TextInput
+                        placeholder="R$ 928"
+                        value={price}
+                        onChangeText={t => setPrice(t)}
+                    />
                 </TouchableOpacity>
             </View>
             <TouchableOpacity

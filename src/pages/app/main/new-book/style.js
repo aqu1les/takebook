@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export default Styles = StyleSheet.create({
+export default (Styles = StyleSheet.create({
     TextCenter: { textAlign: 'center' },
     CardScrollView: {
         backgroundColor: '#F9F9F9',
@@ -151,4 +151,34 @@ export default Styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFFFFF',
     },
-});
+    TextH1: {
+        fontSize: 24,
+        color: '#000',
+        fontWeight: '700',
+    },
+    TextP: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: '#000',
+    },
+    ModalButton: {
+        width: '60%',
+        padding: 10,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        borderRadius: 50,
+        backgroundColor: '#3eb3e5',
+        alignItems: 'center',
+    },
+    ButtonText: {
+        fontSize: 28,
+        textAlign: 'center',
+        color: '#FFFFFF',
+    },
+}));

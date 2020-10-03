@@ -21,6 +21,8 @@ export default function PageThree({
     description,
     setDescription,
     bookCategories,
+    handleSubmit,
+    canSubmit,
 }) {
     const { t } = useTranslation();
     const [keyboardVisible, setKeyboardVisible] = useState(false);
@@ -33,7 +35,6 @@ export default function PageThree({
             goToThirdSection();
         });
         return () => {
-            console.log('removed listener');
             Keyboard.removeListener('keyboardDidShow');
             Keyboard.removeListener('keyboardDidHide');
             Keyboard.removeAllListeners('keyboardDidShow');
@@ -94,7 +95,13 @@ export default function PageThree({
                 onSubmitEditing={() => setDescription(text => text + '\n')}
             />
 
-            <TouchableOpacity style={Styles.PostBookButton}>
+            <TouchableOpacity
+                style={[
+                    Styles.PostBookButton,
+                    !canSubmit && { backgroundColor: '#e5e5e5' },
+                ]}
+                onPress={handleSubmit}
+                disabled={!canSubmit}>
                 <Text style={Styles.PostBookText}>
                     {t('newBook.pageThree.button')}
                 </Text>
