@@ -16,20 +16,22 @@ export default function AdList({ navigation }) {
 
     return (
         <View style={Styles.Container}>
-            <FlatList
-                data={likedAdverts}
-                renderItem={({ item }) => (
-                    <Advert
-                        item={item}
-                        navigation={navigation}
-                        owner={item.owner}
-                        user={user}
-                        liked={true}
-                    />
-                )}
-                keyExtractor={item => String(item.id)}
-                showsVerticalScrollIndicator={false}
-            />
+            {likedAdverts instanceof Array && (
+                <FlatList
+                    data={likedAdverts}
+                    renderItem={({ item }) => (
+                        <Advert
+                            item={item}
+                            navigation={navigation}
+                            owner={item.owner}
+                            user={user}
+                            liked={true}
+                        />
+                    )}
+                    keyExtractor={item => String(item.id)}
+                    showsVerticalScrollIndicator={false}
+                />
+            )}
         </View>
     );
 }
