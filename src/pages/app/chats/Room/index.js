@@ -52,7 +52,6 @@ export default function Room({ navigation, route }) {
 
             return () => {
                 unsubscribeChannel(`room${roomId}`);
-                console.log('destroy room');
             };
         }
     }, [dispatch, roomId]);

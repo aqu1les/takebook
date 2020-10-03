@@ -71,7 +71,7 @@ export default function RoomList({ route, navigation }) {
                     ItemSeparatorComponent={renderSeparator}
                 />
             ) : (
-                <EmptyList />
+                <EmptyList width={'50%'} height={'50%'} />
             )}
         </View>
     );
