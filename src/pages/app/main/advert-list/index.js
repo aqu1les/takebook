@@ -12,7 +12,11 @@ import Advert from './advert';
 import { useTranslation } from 'react-i18next';
 import FilterService from '../../../../services/FilterService';
 
-export default ({ navigation, refreshAdverts, onEndReached }) => {
+export default function AdvertList({
+    navigation,
+    refreshAdverts,
+    onEndReached,
+}) {
     const { t } = useTranslation();
     const [refreshing, setRefreshing] = useState(false);
     const advList = useRef();
@@ -47,12 +51,16 @@ export default ({ navigation, refreshAdverts, onEndReached }) => {
     }, [filterTerm, filterCat, adverts]);
 
     useEffect(() => {
+        let isMounted = true;
         const unsub = FilterService.subscribe(({ category, searchTerm }) => {
-            setFilterTerm(searchTerm);
-            setFilterCat(category);
+            if (isMounted) {
+                setFilterTerm(searchTerm);
+                setFilterCat(category);
+            }
         });
 
         return () => {
+            isMounted = false;
             unsub();
         };
     }, []);
@@ -108,4 +116,4 @@ export default ({ navigation, refreshAdverts, onEndReached }) => {
             )}
         </View>
     );
-};
+}

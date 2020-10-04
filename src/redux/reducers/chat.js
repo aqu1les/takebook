@@ -60,10 +60,14 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
         case NEW_MESSAGE: {
             const chatsWithNewMessage = state.chats.map(chat => {
                 if (chat.id == action.room_id) {
-                    chat.messages = [...chat.messages, action.message];
+                    chat.messages = _.uniqBy(
+                        [...chat.messages, action.message],
+                        'id',
+                    );
                 }
                 return chat;
             });
+
             return {
                 ...state,
                 chats: chatsWithNewMessage,

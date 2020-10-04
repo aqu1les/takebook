@@ -10,4 +10,12 @@ export default (Styles = StyleSheet.create({
         backgroundColor: '#e5e5e5',
         height: 1,
     },
+    EmptyList: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        padding: 10,
+    },
+    CenterText: { textAlign: 'center' },
 }));

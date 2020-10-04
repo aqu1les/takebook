@@ -1,20 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, FlatList, RefreshControl } from 'react-native';
+import { View, FlatList, RefreshControl, Text } from 'react-native';
 import { StackActions } from '@react-navigation/native';
 import Styles from './style';
 import { loadChatsAction } from '../../../redux/actions/chat';
 import TalkItem from './talk-item';
 import EmptyList from '../../../assets/empty-chat.svg';
+import { useTranslation } from 'react-i18next';
 
 export default function RoomList({ route, navigation }) {
+    const { t: trans } = useTranslation();
     const dispatch = useDispatch();
     const { user: receiver } = route.params;
     const chats = useSelector(state => state.chats.chats);
     const loading = useSelector(state => state.chats.loading);
-    const loggedUser = useSelector(state => state.auth);
 
     useEffect(() => {
+        getChats();
+    }, [getChats]);
+
+    const getChats = useCallback(() => {
         loadChats();
     }, []);
 
@@ -52,7 +57,9 @@ export default function RoomList({ route, navigation }) {
                     renderItem={({ item }) => (
                         <TalkItem
                             user={item.user[0]}
-                            lastMessage={item.messages[0]}
+                            lastMessage={
+                                item.messages[item.messages.length - 1]
+                            }
                             room_id={item.id}
                             navigation={navigation}
                         />
@@ -71,7 +78,15 @@ export default function RoomList({ route, navigation }) {
                     ItemSeparatorComponent={renderSeparator}
                 />
             ) : (
-                <EmptyList width={'50%'} height={'50%'} />
+                <View style={Styles.EmptyList}>
+                    <EmptyList width={'50%'} height={'50%'} />
+                    <Text style={Styles.CenterText}>
+                        {trans('chats.noChats_1')}
+                    </Text>
+                    <Text style={Styles.CenterText}>
+                        {trans('chats.noChats_2')}
+                    </Text>
+                </View>
             )}
         </View>
     );

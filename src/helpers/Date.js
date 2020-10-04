@@ -2,7 +2,12 @@ import { format } from 'date-fns';
 import { formatToTimeZone } from 'date-fns-timezone';
 import pt from 'date-fns/locale/pt';
 import en from 'date-fns/locale/en-US';
+import * as RNLocalize from 'react-native-localize';
+
+const DEVICE_TZ = RNLocalize.getTimeZone();
 
 export const formatToLocale = (date, dateFormat) => {
-    return format(new Date(date), dateFormat);
+    return formatToTimeZone(new Date(date), dateFormat, {
+        timeZone: DEVICE_TZ,
+    });
 };

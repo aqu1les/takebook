@@ -78,7 +78,6 @@ function Header(props) {
                     keyboardType="default"
                     returnKeyType="search"
                     onFocus={_widthAnimation}
-                    onBlur={_normalAnimation}
                     onEndEditing={_normalAnimation}
                 />
             </Animated.View>

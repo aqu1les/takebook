@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -7,20 +7,31 @@ import Styles from './style';
 import FilterService from '../../../../services/FilterService';
 
 function CategoryList(props) {
+    const { t } = useTranslation();
     const categories = useSelector(state => state.categories.data);
     const [selectedCat, setSelectedCat] = useState(null);
-    const { t } = useTranslation();
 
     useEffect(() => {
+        let isMounted = true;
         const unsubscribe = FilterService.subscribe(
             ({ category, searchTerm }) => {
-                setSelectedCat(category);
+                if (isMounted) {
+                    changeSelCat(category);
+                }
             },
         );
 
-        return () => {
+        changeSelCat(FilterService.category);
+        return function cleanup() {
+            isMounted = false;
             unsubscribe();
         };
+    }, []);
+
+    const changeSelCat = useCallback(category => {
+        if (category !== selectedCat) {
+            setSelectedCat(category);
+        }
     }, []);
 
     function renderSeparator() {
@@ -53,4 +64,4 @@ function CategoryList(props) {
     );
 }
 
-export default memo(CategoryList);
+export default CategoryList;
