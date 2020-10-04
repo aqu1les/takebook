@@ -54,14 +54,15 @@ export default function advertsReducer(state = INITIAL_STATE, action) {
         case HANDLE_LIKE: {
             const newData = state.data.map(advert => {
                 if (advert.id === action.advertId) {
-                    advert.viewer_liked = !advert.viewer_liked;
+                    advert.viewer_liked = action.viewerLiked;
                 }
 
                 return advert;
             });
+
             return {
                 ...state,
-                data: newData,
+                data: _.uniqBy([...newData], 'id'),
             };
         }
         default:

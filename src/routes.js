@@ -98,18 +98,6 @@ function Chats() {
                     headerTintColor: '#FFF',
                     title: route.params.title,
                 })}
-                initialParams={{ roomId: 0 }}
-            />
-            <Stack.Screen
-                name="NewBook"
-                component={NewBook}
-                options={{
-                    headerTransparent: false,
-                    headerStyle: {
-                        backgroundColor: '#3ac2fe',
-                    },
-                    headerTintColor: '#FFF',
-                }}
             />
         </Stack.Navigator>
     );

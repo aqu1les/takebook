@@ -22,15 +22,16 @@ const AdvertDetails = ({ route }) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const { t } = useTranslation();
-    const [upd, setUpd] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const { advertId } = route.params;
-    const advert = useSelector(state => {
-        return (
-            state.adverts.data.filter(ad => ad.id === advertId)[0] ||
-            state.myads.data.filter(ad => ad.id === advertId)[0]
-        );
-    });
+    const advert = useSelector(
+        state =>
+            state.adverts.data.find(ad => ad.id === advertId) ||
+            state.myads.data.find(ad => ad.id === advertId),
+        (prev, n) => {
+            return false;
+        },
+    );
     const loggedUser = useSelector(state => state.auth);
     const chats = useSelector(state => state.chats.chats);
 
@@ -73,8 +74,7 @@ const AdvertDetails = ({ route }) => {
     }
 
     function handleLike() {
-        dispatch(handleLikeAction());
-        setUpd(!upd);
+        dispatch(handleLikeAction(advert.id));
     }
 
     return (
@@ -113,11 +113,15 @@ const AdvertDetails = ({ route }) => {
                 </View>
                 <View style={Styles.InfoContainer}>
                     <Text style={Styles.Title}>{advert.title}</Text>
-                    <Text style={Styles.Price}>R$ {advert.price}</Text>
-                    <Text style={Styles.Author}>{advert.author}</Text>
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                        <Text style={Styles.Author}>{advert.author}</Text>
+                        <Text style={Styles.Price}>R$ {advert.price}</Text>
+                    </View>
                     <View style={Styles.Row}>
                         {advert.categories.map((cat, index) => (
-                            <Chip key={cat.id} textStyle={{ fontSize: 12 }}>
+                            <Chip
+                                key={cat.id}
+                                textStyle={{ fontSize: 12, height: 10 }}>
                                 {cat.name}
                             </Chip>
                         ))}

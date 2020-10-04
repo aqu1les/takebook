@@ -70,6 +70,7 @@ export default (Styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#FB8C00',
         alignSelf: 'flex-end',
+        marginLeft: 'auto',
     },
     Category: {
         color: '#9E9E9E',
@@ -92,7 +93,7 @@ export default (Styles = StyleSheet.create({
     SectionContent: {
         alignSelf: 'center',
         margin: 10,
-        width: '60%',
+        width: '90%',
         elevation: 3,
         height: '90%',
         backgroundColor: '#FFFFFF',

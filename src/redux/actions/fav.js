@@ -34,8 +34,14 @@ export function loadFavoritesAction() {
 export function handleLikeAction(advertId) {
     return async dispatch => {
         try {
-            await likeBook(advertId);
-            dispatch({ type: HANDLE_LIKE, advertId });
+            const { data } = await likeBook(advertId);
+
+            dispatch({
+                type: HANDLE_LIKE,
+                advertId: data.id,
+                viewerLiked: data.viewer_liked,
+            });
+
             dispatch(loadFavoritesAction());
         } catch (e) {
             console.log(e);
