@@ -10,6 +10,8 @@ export const LOAD_MESSAGES_SUCCESS = 'LOAD_MESSAGES_SUCCESS';
 
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 
+export const NEW_CHAT = 'NEW_CHAT';
+
 function loadChats() {
     return { type: LOAD_CHAT };
 }
@@ -28,6 +30,10 @@ function loadMessagesSuccess(room_id, messages) {
 
 export function addNewMessage(room_id, message) {
     return { type: NEW_MESSAGE, room_id, message };
+}
+
+export function onNewChat(room) {
+    return { type: NEW_CHAT, room };
 }
 
 export function loadChatsAction() {

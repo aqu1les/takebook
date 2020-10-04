@@ -3,6 +3,7 @@ import {
     LOAD_CHAT_SUCCESS,
     LOAD_MESSAGES,
     LOAD_MESSAGES_SUCCESS,
+    NEW_CHAT,
     NEW_MESSAGE,
 } from '../actions/chat';
 import _ from 'lodash';
@@ -17,20 +18,29 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
         case LOAD_CHAT: {
             return { ...state, loading: true };
         }
-        case LOAD_CHAT_SUCCESS: {
-            const chats = action.chats.map(chat => {
-                chat.loadingMessages = false;
-                chat.messages = Array(chat.message);
-                chat.id = chat.room_id;
-                delete chat.room_id;
-                delete chat.message;
-                return chat;
-            });
+        case NEW_CHAT: {
+            const chats = _.uniqBy([...state.chats, action.room], 'id');
 
             return {
                 ...state,
+                chats: chats,
+            };
+        }
+        case LOAD_CHAT_SUCCESS: {
+            const chats = _.uniqBy([...state.chats, ...action.chats], 'id')
+                .map(chat => {
+                    chat.loadingMessages = false;
+                    chat.messages = chat.messages;
+                    chat.id = chat.room_id;
+                    delete chat.room_id;
+                    delete chat.message;
+                    return chat;
+                })
+                .filter(c => c.id !== undefined);
+            return {
+                ...state,
                 loading: false,
-                chats: _.uniqBy(chats, 'id'),
+                chats: chats,
             };
         }
         case LOAD_MESSAGES: {
@@ -61,7 +71,7 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
             const chatsWithNewMessage = state.chats.map(chat => {
                 if (chat.id == action.room_id) {
                     chat.messages = _.uniqBy(
-                        [...chat.messages, action.message],
+                        [action.message, ...chat.messages],
                         'id',
                     );
                 }

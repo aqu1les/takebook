@@ -8,9 +8,10 @@ export function getMessages(id) {
     return ApiService.get(`/rooms/${id}/messages`);
 }
 
-export function createRoom(targetId) {
+export function createRoom(targetId, message) {
     return ApiService.post('/rooms', {
         target_id: targetId,
+        message: message,
     });
 }
 

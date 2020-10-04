@@ -27,7 +27,7 @@ export default function RoomList({ route, navigation }) {
         if (receiver) {
             let push;
             if (chats.length > 0) {
-                const chat = chats.find(chat => chat.user[0].id == receiver.id);
+                const chat = chats.find(c => c.user.id === receiver.id);
                 if (chat) {
                     push = StackActions.push('Room', { roomId: chat.id });
                 } else {
@@ -56,10 +56,8 @@ export default function RoomList({ route, navigation }) {
                     data={chats}
                     renderItem={({ item }) => (
                         <TalkItem
-                            user={item.user[0]}
-                            lastMessage={
-                                item.messages[item.messages.length - 1]
-                            }
+                            user={item.user}
+                            lastMessage={item.messages[0]}
                             room_id={item.id}
                             navigation={navigation}
                         />

@@ -31,12 +31,13 @@ export default (Styles = StyleSheet.create({
     Text: {
         color: '#FFFFFF',
         fontSize: 14,
+        marginBottom: 3,
     },
     CreationTime: {
         position: 'absolute',
         bottom: 3,
         right: 15,
         color: '#FFFFFF',
-        fontSize: 10,
+        fontSize: 9,
     },
 }));

@@ -19,6 +19,11 @@ import {
     loadNextPageAction,
     addAdvertAction,
 } from '../../../redux/actions/advert';
+import {
+    loadChatsAction,
+    addNewMessage,
+    onNewChat,
+} from './../../../redux/actions/chat';
 import { addNotificationAction } from '../../../redux/actions/notification';
 import { loadCategoriesAction } from '../../../redux/actions/category';
 
@@ -30,36 +35,44 @@ function Main(props) {
     const [showSecondModal, setShowSecondModal] = useState(false);
     const user = useSelector(state => state.auth);
     const hasMore = useSelector(state => state.adverts.nextPage);
-    const categories = useSelector(state => state.categories.data);
 
+    /* LOAD USER INFOS */
     useEffect(() => {
-        if (!showFirstModal && !showSecondModal && categories.length === 0) {
-            dispatch(loadCategoriesAction());
-            dispatch(loadAdvertsAction());
+        dispatch(loadCategoriesAction());
+        dispatch(loadAdvertsAction());
+        dispatch(loadChatsAction());
+    }, []);
 
-            if (user) {
-                const globalWS = 'all-clients';
-                const userWS = `userID${user.id}`;
-                const globalChannel = subscribeToChannel(globalWS);
-                const privateChannel = subscribeToChannel(userWS);
+    /* SUBSCRIBE TO WS  */
+    useEffect(() => {
+        const globalWS = 'all-clients';
+        const userWS = `userID${user.id}`;
+        const globalChannel = subscribeToChannel(globalWS);
+        const privateChannel = subscribeToChannel(userWS);
 
-                globalChannel.bind('book-accepted', event => {
-                    dispatch(addAdvertAction(event.message));
-                });
+        globalChannel.bind('book-accepted', event => {
+            dispatch(addAdvertAction(event.message));
+        });
 
-                privateChannel.bind('new-notification', event => {
-                    dispatch(addNotificationAction(event.message));
-                });
+        privateChannel.bind('new-notification', event => {
+            dispatch(addNotificationAction(event.message));
+        });
 
-                registerAppWithFCM();
+        privateChannel.bind('new-message', event => {
+            dispatch(addNewMessage(event.message.room_id, event.message));
+        });
 
-                return function cleanup() {
-                    unsubscribeChannel(globalWS);
-                    unsubscribeChannel(userWS);
-                };
-            }
-        }
-    }, [dispatch, user, showFirstModal, showSecondModal]);
+        privateChannel.bind('new-room', event => {
+            dispatch(onNewChat(event.room));
+        });
+
+        registerAppWithFCM();
+
+        return function cleanup() {
+            unsubscribeChannel(globalWS);
+            unsubscribeChannel(userWS);
+        };
+    }, []);
 
     function handleHideModal() {
         setShowFirstModal(false);

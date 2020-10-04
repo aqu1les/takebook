@@ -1,9 +1,21 @@
 import { StyleSheet } from 'react-native';
 
 export default (Styles = StyleSheet.create({
+    LoadingContainer: {
+        width: '100%',
+        height: '100%',
+        alignContent: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+    },
     ChatContainer: {
         flexDirection: 'column',
         position: 'relative',
+        flex: 1,
+    },
+    MessagesContainer: {
+        flex: 1,
+        marginBottom: 55,
     },
     BackgroundTopRight: {
         position: 'absolute',
@@ -15,19 +27,33 @@ export default (Styles = StyleSheet.create({
     },
     BackgroundBottomLeft: {
         position: 'absolute',
-        bottom: 3,
+        bottom: -3,
         left: 0,
         height: 255,
         width: 205,
     },
+    MessagesList: {
+        zIndex: 100,
+        height: '100%',
+    },
+    MessagesListContainer: {
+        width: '100%',
+        flexDirection: 'column',
+        padding: 10,
+    },
     WriteMessageSection: {
         height: 55,
+        minHeight: 55,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
         width: '100%',
         backgroundColor: '#d2d2d2',
         padding: 5,
+        position: 'absolute',
+        marginTop: 'auto',
+        bottom: 0,
+        marginBottom: 0,
     },
     MessageTouchable: {
         width: '80%',

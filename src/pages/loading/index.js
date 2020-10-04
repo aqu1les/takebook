@@ -40,7 +40,6 @@ export default function Loading() {
                         );
                         dispatch(tokenValidated());
                         dispatch(loadFavoritesAction());
-                        dispatch(loadChatsAction());
                     } else {
                         dispatch(loadAuthErrorAction());
                     }

@@ -16,6 +16,7 @@ import { handleLikeAction } from '../../../../redux/actions/fav';
 import { RectButton } from 'react-native-gesture-handler';
 import { deleteAdvert } from '../../../../services/AdvertsService';
 import SuccessFeedback from '../../../core/success-feedback';
+import { createRoom } from './../../../../services/ChatService';
 
 const AdvertDetails = ({ route }) => {
     const dispatch = useDispatch();
@@ -31,8 +32,28 @@ const AdvertDetails = ({ route }) => {
         );
     });
     const loggedUser = useSelector(state => state.auth);
+    const chats = useSelector(state => state.chats.chats);
 
-    function contactSeller() {
+    async function contactSeller() {
+        const room = chats.find(chat => chat.user.id === advert.owner.id);
+
+        if (room) {
+            return goToChat();
+        } else {
+            try {
+                await createRoom(
+                    advert.owner.id,
+                    'Olá :) Tenho interesse no seu livro!',
+                );
+
+                goToChat();
+            } catch (error) {
+                console.log('deu nao');
+            }
+        }
+    }
+
+    function goToChat() {
         navigation.navigate('Chats', {
             screen: 'RoomList',
             params: {

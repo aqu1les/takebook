@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     View,
@@ -6,6 +6,7 @@ import {
     FlatList,
     TextInput,
     ActivityIndicator,
+    KeyboardAvoidingView,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,14 +14,8 @@ import Styles from './style';
 import Message from './message';
 import BackgroundTop from '../../../../assets/background/background-chat-top-right.svg';
 import BackgroundBottom from '../../../../assets/background/background-chat-bottom-left.svg';
-import {
-    subscribeToChannel,
-    unsubscribeChannel,
-} from '../../../../services/Pusher';
-import {
-    addNewMessage,
-    loadMessagesAction,
-} from '../../../../redux/actions/chat';
+import { loadMessagesAction } from '../../../../redux/actions/chat';
+import { sendNewMessage } from '../../../../services/ChatService';
 
 export default function Room({ navigation, route }) {
     const dispatch = useDispatch();
@@ -29,32 +24,28 @@ export default function Room({ navigation, route }) {
     const loggedUser = useSelector(state => state.auth);
     const user = useSelector(state => {
         let chat = state.chats.chats.find(chat => chat.id == roomId);
-        return chat ? chat.user[0] : receiver;
+        return chat ? chat.user : receiver;
     });
     const messages = useSelector(state => {
         const chat = state.chats.chats.find(chat => chat.id == roomId);
-        return chat ? chat.messages : [];
+        return chat ? [...chat.messages].reverse() : [];
     });
     const loading = useSelector(state => {
         const chat = state.chats.chats.find(chat => chat.id == roomId);
         return chat ? chat.loadingMessages : false;
     });
     const messagesList = useRef();
+    const [userMessage, setUserMessage] = useState('');
+
+    const [sendingMsg, setSendingMsg] = useState(false);
+    const canSendMessage = useMemo(() => !!userMessage && !sendingMsg, [
+        userMessage,
+        sendingMsg,
+    ]);
 
     useEffect(() => {
-        if (roomId) {
-            loadChatMessages();
-            const roomSubscription = subscribeToChannel(`room${roomId}`);
-            roomSubscription.bind('new-message', event => {
-                dispatch(addNewMessage(roomId, event.message));
-                scrollToBottom();
-            });
-
-            return () => {
-                unsubscribeChannel(`room${roomId}`);
-            };
-        }
-    }, [dispatch, roomId]);
+        loadChatMessages();
+    }, []);
 
     useEffect(() => {
         if (user) {
@@ -64,60 +55,78 @@ export default function Room({ navigation, route }) {
         }
     }, [user]);
 
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
     function scrollToBottom() {
-        messagesList.current.scrollToEnd({ animated: true });
+        setTimeout(() => {
+            messagesList.current.scrollToEnd({ animated: true });
+        }, 500);
     }
 
     function loadChatMessages() {
         dispatch(loadMessagesAction(roomId));
     }
 
+    function handleSubmit() {
+        setSendingMsg(true);
+
+        if (!sendingMsg) {
+            sendNewMessage(roomId, userMessage)
+                .then(() => {
+                    setUserMessage('');
+                })
+                .catch(() => {
+                    console.log('err');
+                })
+                .finally(() => {
+                    setSendingMsg(false);
+                });
+        }
+    }
+
     return loading && messages.length < 1 ? (
-        <View
-            style={{
-                width: '100%',
-                height: '100%',
-                alignContent: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-            }}>
+        <View style={Styles.LoadingContainer}>
             <ActivityIndicator color="#f98b0d" />
             <BackgroundTop style={Styles.BackgroundTopRight} />
             <BackgroundBottom style={Styles.BackgroundBottomLeft} />
         </View>
     ) : (
-        <View style={Styles.ChatContainer}>
-            <FlatList
-                ref={messagesList}
-                data={messages}
-                renderItem={({ item }) => (
-                    <Message item={item} loggedUser={loggedUser} />
-                )}
-                keyExtractor={item => String(item.id)}
-                contentContainerStyle={{
-                    width: '100%',
-                    flexDirection: 'column',
-                    padding: 10,
-                }}
-                style={{
-                    zIndex: 100,
-                    minHeight: '92.3%',
-                    maxHeight: '92.3%',
-                }}
-            />
-            <BackgroundTop style={Styles.BackgroundTopRight} />
-            <BackgroundBottom style={Styles.BackgroundBottomLeft} />
+        <KeyboardAvoidingView style={Styles.ChatContainer}>
+            <View style={Styles.MessagesContainer}>
+                <FlatList
+                    ref={messagesList}
+                    data={messages}
+                    renderItem={({ item }) => (
+                        <Message item={item} loggedUser={loggedUser} />
+                    )}
+                    keyExtractor={item => String(item.id)}
+                    contentContainerStyle={Styles.MessagesListContainer}
+                    style={Styles.MessagesList}
+                />
+                <BackgroundTop style={Styles.BackgroundTopRight} />
+                <BackgroundBottom style={Styles.BackgroundBottomLeft} />
+            </View>
             <View style={Styles.WriteMessageSection}>
                 <TouchableOpacity style={Styles.MessageTouchable}>
                     <TextInput
                         style={Styles.MessageTextField}
                         placeholder={t('chats.type')}
+                        value={userMessage}
+                        onChangeText={setUserMessage}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity style={Styles.SendButton}>
+                <TouchableOpacity
+                    style={[
+                        Styles.SendButton,
+                        !canSendMessage && { backgroundColor: '#e5e5e5' },
+                    ]}
+                    onPress={handleSubmit}
+                    disabled={!canSendMessage}>
                     <Icon name={'send'} size={26} color={'#FFFFFF'} />
                 </TouchableOpacity>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 }
