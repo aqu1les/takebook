@@ -109,7 +109,7 @@ function SideBar(props) {
                             <Text style={Styles.Name}>{`${user.first_name} ${
                                 user.last_name
                             }`}</Text>
-                            <View style={Styles.RateSession}>
+                            {/* <View style={Styles.RateSession}>
                                 <Icon name="star" size={20} color="#fedf43" />
                                 <Text style={Styles.Rate}>4,8</Text>
                             </View>
@@ -117,7 +117,7 @@ function SideBar(props) {
                                 <Text style={Styles.ProfileLink}>
                                     Ver seu Perfil
                                 </Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
                     </View>
                     <View style={Styles.NavOptions}>
