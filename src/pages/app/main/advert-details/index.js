@@ -168,8 +168,11 @@ const AdvertDetails = ({ route }) => {
                                             source={{
                                                 uri: advert.owner.avatar_url,
                                             }}
-                                            height="90%"
-                                            width="90%"
+                                            style={{
+                                                width: '90%',
+                                                height: '90%',
+                                                borderRadius: 120,
+                                            }}
                                         />
                                     ) : (
                                         <DefaultProfile
@@ -188,7 +191,7 @@ const AdvertDetails = ({ route }) => {
                                     }}>{`${advert.owner.first_name} ${
                                     advert.owner.last_name
                                 }`}</Text>
-                                <View
+                                {/* <View
                                     style={{
                                         flexDirection: 'row',
                                         justifyContent: 'space-around',
@@ -201,14 +204,14 @@ const AdvertDetails = ({ route }) => {
                                         size={16}
                                     />
                                     <Text style={{}}>4.8</Text>
-                                </View>
-                                <TouchableOpacity
+                                </View> */}
+                                {/* <TouchableOpacity
                                     style={{}}
                                     onPress={() => console.log('Ver Perfil')}>
                                     <Text style={{}}>
                                         {t('advertDetails.profile.button')}
                                     </Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                                 <TouchableOpacity
                                     style={[
                                         Styles.MessageButton,
