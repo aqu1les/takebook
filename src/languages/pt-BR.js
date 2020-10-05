@@ -86,6 +86,7 @@ export default {
                 help1: 'Clique nos campos para as adicionar fotos desejadas',
                 help2:
                     '* Arraste para esquerda caso queira adicionar mais fotos para o seu anúncio',
+                help3: '** Adicione no mínimo 2 imagens (Capa e Pósfacio)!',
             },
             pageTwo: {
                 help1: 'Me fale sobre seu livro...',

@@ -51,6 +51,7 @@ export default function PageTwo({
                     onBlur={goToSecondSection}
                     value={title}
                     onChangeText={t => setTitle(t)}
+                    style={{ flex: 1 }}
                 />
             </TouchableOpacity>
             <TouchableOpacity style={Styles.FormGroup}>
@@ -59,6 +60,7 @@ export default function PageTwo({
                     onBlur={goToSecondSection}
                     value={author}
                     onChangeText={t => setAuthor(t)}
+                    style={{ flex: 1 }}
                 />
             </TouchableOpacity>
             <View
@@ -86,7 +88,8 @@ export default function PageTwo({
                             borderColor: '#000',
                         }}>
                         <Picker.Item label="Novo" value="1" />
-                        <Picker.Item label="Usado" value="2" />
+                        <Picker.Item label="Semi Novo" value="2" />
+                        <Picker.Item label="Usado" value="3" />
                     </Picker>
                 </View>
                 <TouchableOpacity
@@ -95,13 +98,41 @@ export default function PageTwo({
                         height: '100%',
                         paddingHorizontal: 5,
                         justifyContent: 'space-between',
+                        width: '50%',
                     }}>
                     <Text>{t('newBook.pageTwo.howMuch')}</Text>
-                    <TextInput
-                        placeholder="R$ 928"
-                        value={price}
-                        onChangeText={t => setPrice(t)}
-                    />
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            flex: 1,
+                            marginTop: 'auto',
+                            width: '100%',
+                        }}>
+                        <Text
+                            style={{
+                                height: 35,
+                                width: '10%',
+                                marginTop: 15,
+                            }}>
+                            R$
+                        </Text>
+                        <TextInput
+                            placeholder="928"
+                            value={price}
+                            onChangeText={t => setPrice(t)}
+                            keyboardType="numeric"
+                            style={{
+                                height: 35,
+                                width: '60%',
+                                marginLeft: 'auto',
+                                marginRight: 18,
+                                marginTop: 5,
+                                textAlign: 'right',
+                                borderBottomColor: '#e5e5e5',
+                                borderBottomWidth: 1,
+                            }}
+                        />
+                    </View>
                 </TouchableOpacity>
             </View>
             <TouchableOpacity

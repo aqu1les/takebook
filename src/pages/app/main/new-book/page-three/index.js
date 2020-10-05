@@ -25,18 +25,24 @@ export default function PageThree({
     canSubmit,
 }) {
     const { t } = useTranslation();
-    const [keyboardVisible, setKeyboardVisible] = useState(false);
     const categories = useSelector(state => state.categories.data);
+    const [keyboardVisible, setKeyboardVisible] = useState(false);
 
     useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
+        let isMounted = true;
+        Keyboard.addListener('keyboardDidShow', () => {
+            if (isMounted) {
+                setKeyboardVisible(true);
+            }
+        });
         Keyboard.addListener('keyboardDidHide', () => {
-            setKeyboardVisible(false);
-            goToThirdSection();
+            if (isMounted) {
+                setKeyboardVisible(false);
+                goToThirdSection();
+            }
         });
         return () => {
-            Keyboard.removeListener('keyboardDidShow');
-            Keyboard.removeListener('keyboardDidHide');
+            isMounted = false;
             Keyboard.removeAllListeners('keyboardDidShow');
             Keyboard.removeAllListeners('keyboardDidHide');
         };
@@ -44,7 +50,7 @@ export default function PageThree({
 
     return (
         <KeyboardAvoidingView
-            behavior="padding"
+            behavior="height"
             style={Styles.PageThree}
             ref={pageThree}
             onLayout={() => {}}>
@@ -85,13 +91,17 @@ export default function PageThree({
                 returnKeyLabel="Enter"
                 onChangeText={text => setDescription(text)}
                 value={description}
-                style={{
-                    height: 150,
-                    width: '100%',
-                    borderWidth: 0.5,
-                    borderColor: '#000',
-                    borderRadius: 8,
-                }}
+                style={[
+                    {
+                        height: 150,
+                        width: '100%',
+                        borderWidth: 0.5,
+                        borderColor: '#000',
+                        borderRadius: 8,
+                        textAlignVertical: 'top',
+                    },
+                    keyboardVisible && { marginBottom: 180 },
+                ]}
                 onSubmitEditing={() => setDescription(text => text + '\n')}
             />
 

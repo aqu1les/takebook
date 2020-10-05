@@ -60,7 +60,8 @@ export default function PageOne({
                 />
             </ScrollView>
             <Text style={Styles.TextCenter}>{t('newBook.pageOne.help1')}</Text>
-            <Text style={Styles.TextCenter}>{t('newBook.pageOne.help1')}</Text>
+            <Text style={Styles.TextCenter}>{t('newBook.pageOne.help2')}</Text>
+            <Text style={Styles.TextCenter}>{t('newBook.pageOne.help3')}</Text>
             <TouchableOpacity
                 style={Styles.NextSectionButton}
                 onPress={goToSecondSection}>
