@@ -58,7 +58,7 @@ export default function Login(props) {
     }, [redirectEmail]);
 
     useEffect(() => {
-        if (password.length > 3) {
+        if (password.length >= 1) {
             setPasswordError(false);
         } else {
             setPasswordError(true);
