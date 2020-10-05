@@ -80,7 +80,6 @@ export default function SignUp(props) {
         let data = reqBody;
 
         if (avatar) {
-            console.log('DATA WITH AVATAR');
             data = createFormData([avatar], 'avatar_file', reqBody);
         }
 
@@ -132,13 +131,16 @@ export default function SignUp(props) {
     }
 
     function handleNameInput(input) {
-        if (input.split(' ').length < 2) {
+        const cleanInput = input.replace(/[^a-zA-Z áàâãéèêíïóôõöúüçñ]/gi, '');
+        const names = cleanInput.split(' ');
+
+        if (names.length < 2 || names.some(n => !n)) {
             setNameError(true);
         } else {
             setNameError(false);
         }
 
-        setName(input);
+        setName(cleanInput);
     }
 
     function handleEmailInput(input) {
