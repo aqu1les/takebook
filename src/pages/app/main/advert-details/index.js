@@ -17,6 +17,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import { deleteAdvert } from '../../../../services/AdvertsService';
 import SuccessFeedback from '../../../core/success-feedback';
 import { createRoom } from './../../../../services/ChatService';
+import { onNewChat } from '../../../../redux/actions/chat';
 
 const AdvertDetails = ({ route }) => {
     const dispatch = useDispatch();
@@ -42,10 +43,11 @@ const AdvertDetails = ({ route }) => {
             return goToChat();
         } else {
             try {
-                await createRoom(
+                const response = await createRoom(
                     advert.owner.id,
                     'Olá :) Tenho interesse no seu livro!',
                 );
+                dispatch(onNewChat(response.data));
 
                 goToChat();
             } catch (error) {

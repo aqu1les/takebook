@@ -19,7 +19,7 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
             return { ...state, loading: true };
         }
         case NEW_CHAT: {
-            const chats = _.uniqBy([...state.chats, action.room], 'id');
+            const chats = _.uniqBy([...state.chats, action.room], 'room_id');
 
             return {
                 ...state,
@@ -27,13 +27,12 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
             };
         }
         case LOAD_CHAT_SUCCESS: {
-            const chats = _.uniqBy([...state.chats, ...action.chats], 'id')
+            const chats = _.uniqBy([...action.chats], 'room_id')
                 .map(chat => {
                     chat.loadingMessages = false;
                     chat.messages = chat.messages;
-                    chat.id = chat.room_id;
-                    delete chat.room_id;
-                    delete chat.message;
+                    chat.id = chat.room_id || chat.id;
+                    chat.room_id = chat.id;
                     return chat;
                 })
                 .filter(c => c.id !== undefined);
@@ -50,11 +49,11 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
                 }
                 return chat;
             });
-            return { ...state, chats: _.uniqBy(chats, 'id') };
+            return { ...state, chats: _.uniqBy(chats, 'room_id') };
         }
         case LOAD_MESSAGES_SUCCESS: {
             const newChats = state.chats.map(chat => {
-                if (chat.id === action.room_id) {
+                if (chat.room_id === action.room_id) {
                     chat.messages = _.uniqBy(action.messages, 'id');
                     chat.loadingMessages = false;
                 }
@@ -69,7 +68,7 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
         }
         case NEW_MESSAGE: {
             const chatsWithNewMessage = state.chats.map(chat => {
-                if (chat.id == action.room_id) {
+                if (chat.room_id == action.room_id) {
                     chat.messages = _.uniqBy(
                         [action.message, ...chat.messages],
                         'id',

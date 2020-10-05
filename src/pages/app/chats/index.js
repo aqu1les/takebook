@@ -26,18 +26,14 @@ export default function RoomList({ route, navigation }) {
     useEffect(() => {
         if (receiver) {
             let push;
-            if (chats.length > 0) {
-                const chat = chats.find(c => c.user.id === receiver.id);
-                if (chat) {
-                    push = StackActions.push('Room', { roomId: chat.id });
-                } else {
-                    push = StackActions.push('Room', { receiver });
-                }
-            } else {
-                push = StackActions.push('Room', { receiver });
+            const chat = chats.find(c => c.user.id === receiver.id);
+            if (chat) {
+                push = StackActions.push('Room', {
+                    roomId: chat.room_id || chat.id,
+                });
+                navigation.setParams({ user: null });
+                navigation.dispatch(push);
             }
-            navigation.dispatch(push);
-            navigation.setParams({ user: null });
         }
     }, [receiver, chats]);
 

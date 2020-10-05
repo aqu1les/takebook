@@ -19,19 +19,18 @@ import { sendNewMessage } from '../../../../services/ChatService';
 
 export default function Room({ navigation, route }) {
     const dispatch = useDispatch();
-    const { roomId, user: receiver } = route.params;
+    const { roomId } = route.params;
     const { t } = useTranslation();
     const loggedUser = useSelector(state => state.auth);
-    const user = useSelector(state => {
-        let chat = state.chats.chats.find(chat => chat.id == roomId);
-        return chat ? chat.user : receiver;
-    });
+    const user = useSelector(
+        state => state.chats.chats.find(chat => chat.room_id == roomId).user,
+    );
     const messages = useSelector(state => {
-        const chat = state.chats.chats.find(chat => chat.id == roomId);
+        const chat = state.chats.chats.find(chat => chat.room_id == roomId);
         return chat ? [...chat.messages].reverse() : [];
     });
     const loading = useSelector(state => {
-        const chat = state.chats.chats.find(chat => chat.id == roomId);
+        const chat = state.chats.chats.find(chat => chat.room_id == roomId);
         return chat ? chat.loadingMessages : false;
     });
     const messagesList = useRef();

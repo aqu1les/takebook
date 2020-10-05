@@ -63,7 +63,10 @@ function Main(props) {
         });
 
         privateChannel.bind('new-room', event => {
-            dispatch(onNewChat(event.room));
+            const room = event.room;
+            room.room_id = room.room_id || room.id;
+            room.id = room.room_id;
+            dispatch(onNewChat(room));
         });
 
         registerAppWithFCM();
@@ -94,7 +97,9 @@ function Main(props) {
     }
 
     function refreshAdverts() {
+        dispatch(loadCategoriesAction());
         dispatch(loadAdvertsAction());
+        dispatch(loadChatsAction());
     }
 
     function handleEndReached() {
