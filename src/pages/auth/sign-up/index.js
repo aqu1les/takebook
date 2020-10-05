@@ -20,6 +20,7 @@ import { registerUser } from '../../../services/UserService';
 import { createFormData } from '../../../services/FormDataService';
 import ImageEditor from '../../../services/ImageEditor';
 import { useTranslation } from 'react-i18next';
+import { EMAIL_REGEX } from './../../../validators/LoginValidator';
 
 export default function SignUp(props) {
     const { t } = useTranslation();
@@ -29,7 +30,7 @@ export default function SignUp(props) {
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [nameError, setNameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswrodError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
     const [passwordConfError, setPasswordConfError] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showFailModal, setShowFailModal] = useState(false);
@@ -43,17 +44,48 @@ export default function SignUp(props) {
         avatar,
     ]);
 
+    const formValid = useMemo(() => {
+        return (
+            [nameError, emailError, passwordError, passwordConfError].every(
+                invalid => !invalid,
+            ) &&
+            [name, email, password, passwordConfirmation].every(
+                input => !!input,
+            )
+        );
+    }, [
+        name,
+        email,
+        password,
+        passwordConfirmation,
+        nameError,
+        emailError,
+        passwordError,
+        passwordConfError,
+    ]);
+
     async function handleSubmit() {
+        const nameSplitted = name.split(' ');
+        const firstName = nameSplitted[0];
+        nameSplitted.splice(0, 1);
+
         const reqBody = {
-            first_name: name.split(' ')[0],
-            last_name: name.split(' ')[1] || ' ',
+            first_name: firstName,
+            last_name: nameSplitted.join(' ') || ' ',
             email,
             password,
             is_admin: '0',
         };
-        const data = createFormData([avatar], 'avatar_file', reqBody);
+
+        let data = reqBody;
+
+        if (avatar) {
+            console.log('DATA WITH AVATAR');
+            data = createFormData([avatar], 'avatar_file', reqBody);
+        }
+
         try {
-            const response = await registerUser(data).catch(console.log);
+            const response = await registerUser(data);
             if (response.data) {
                 setShowSuccessModal(true);
             } else {
@@ -99,6 +131,34 @@ export default function SignUp(props) {
         props.navigation.navigate('Login', { redirectEmail: email });
     }
 
+    function handleNameInput(input) {
+        if (input.split(' ').length < 2) {
+            setNameError(true);
+        } else {
+            setNameError(false);
+        }
+
+        setName(input);
+    }
+
+    function handleEmailInput(input) {
+        if (!EMAIL_REGEX.test(input)) {
+            setEmailError(true);
+        } else {
+            setEmailError(false);
+        }
+        setEmail(input);
+    }
+
+    function handlePasswordConfInput(input) {
+        if (input !== password) {
+            setPasswordConfError(true);
+        } else {
+            setPasswordConfError(false);
+        }
+        setPasswordConfirmation(input);
+    }
+
     const newHeader = avatarPreview ? (
         <TouchableOpacity
             style={Styles.HeaderClickable}
@@ -138,9 +198,9 @@ export default function SignUp(props) {
                         autoCapitalize="words"
                         autoCorrect={false}
                         underlineColorAndroid="transparent"
-                        style={Styles.Input}
+                        style={[Styles.Input, nameError && Styles.InputError]}
                         value={name}
-                        onChangeText={text => setName(text)}
+                        onChangeText={handleNameInput}
                         returnKeyType={'next'}
                         onSubmitEditing={() => emailField.current.focus()}
                         textContentType={'name'}
@@ -161,7 +221,7 @@ export default function SignUp(props) {
                         underlineColorAndroid="transparent"
                         style={Styles.Input}
                         value={email}
-                        onChangeText={text => setEmail(text)}
+                        onChangeText={handleEmailInput}
                         keyboardType="email-address"
                         returnKeyType={'next'}
                         onSubmitEditing={() => passwordField.current.focus()}
@@ -198,6 +258,7 @@ export default function SignUp(props) {
                     style={[
                         Styles.FormGroup,
                         passwordConfError && Styles.InputError,
+                        { paddingLeft: 14 },
                     ]}
                     onPress={() => passwordConfirmationField.current.focus()}>
                     <Password style={Styles.Icon} />
@@ -211,7 +272,7 @@ export default function SignUp(props) {
                         underlineColorAndroid="transparent"
                         style={Styles.Input}
                         value={passwordConfirmation}
-                        onChangeText={text => setPasswordConfirmation(text)}
+                        onChangeText={handlePasswordConfInput}
                         secureTextEntry={true}
                         returnKeyType={'send'}
                         onSubmitEditing={handleSubmit}
@@ -219,8 +280,12 @@ export default function SignUp(props) {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={Styles.RegisterButton}
-                    onPress={handleSubmit}>
+                    style={[
+                        Styles.RegisterButton,
+                        !formValid && { backgroundColor: '#e5e5e5' },
+                    ]}
+                    onPress={handleSubmit}
+                    disabled={!formValid}>
                     <Text style={Styles.RegisterText}>
                         {t('signUp.register')}
                     </Text>
@@ -241,8 +306,20 @@ export default function SignUp(props) {
             </SuccessFeedback>
             <FailedFeedback
                 isVisible={showFailModal}
-                handleModalHide={handleModalHide}
-            />
+                handleModalHide={() => setShowFailModal(false)}>
+                <Text style={[Styles.TextH1]}>{t('signUp.error.title')}</Text>
+                <Text style={Styles.TextP}>{t('signUp.error.content')}</Text>
+                <TouchableOpacity
+                    style={[
+                        Styles.ModalButton,
+                        { height: 45, paddingVertical: 5 },
+                    ]}
+                    onPress={navigateToLogin}>
+                    <Text style={Styles.ButtonText}>
+                        {t('signUp.error.button')}
+                    </Text>
+                </TouchableOpacity>
+            </FailedFeedback>
         </Template>
     );
 }

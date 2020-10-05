@@ -25,6 +25,7 @@ function FailedFeedback({ isVisible, handleModalHide, children }) {
                     onPress={handleModalHide}>
                     <CloseIcon />
                 </TouchableOpacity>
+                {children}
             </View>
         </Modal>
     );

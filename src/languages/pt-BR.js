@@ -22,7 +22,7 @@ export default {
         },
 
         signUp: {
-            name: 'Nome',
+            name: 'Nome completo',
             email: 'Digite seu melhor e-mail',
             password: 'Digite sua senha',
             confirmPassword: 'Digite sua senha novamente',
@@ -33,6 +33,11 @@ export default {
                 content:
                     'Sinta-se à vontade para publicar um livro ou adquirir novos!',
                 button: 'Começar',
+            },
+            error: {
+                title: 'Ocorreu algum erro :(',
+                content: 'Tente novamente mais tarde!',
+                button: 'Ok',
             },
         },
 

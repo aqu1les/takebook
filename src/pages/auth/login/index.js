@@ -29,11 +29,11 @@ import { loadCategoriesAction } from '../../../redux/actions/category';
 import { setNotificationsAction } from '../../../redux/actions/notification';
 import { loadFavoritesAction } from '../../../redux/actions/fav';
 import { useTranslation } from 'react-i18next';
+import { EMAIL_REGEX } from '../../../validators/LoginValidator';
 
 export default function Login(props) {
     const dispatch = useDispatch();
     const { redirectEmail } = props.route.params;
-    const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const loading = useSelector(state => state.auth.loading);
     const loginInput = useRef(null);
     const passwordInput = useRef(null);
@@ -64,9 +64,6 @@ export default function Login(props) {
 
     function handlePasswordChange(value) {
         setPassword(value);
-        return value.length < 5
-            ? setPasswordError(true)
-            : setPasswordError(false);
     }
 
     function navigateSignUp() {
@@ -185,9 +182,9 @@ export default function Login(props) {
                     accessibilityLabel={t('login.remindMe')}
                     onValueChange={value => setRemind(value)}
                 />
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                     <Text style={Styles.Forgot}>{t('login.forgot')}</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <TouchableOpacity
                 style={[Styles.Button, invalid && Styles.ButtonDisabled]}

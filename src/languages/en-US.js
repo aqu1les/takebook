@@ -21,7 +21,7 @@ export default {
         },
 
         signUp: {
-            name: 'Name',
+            name: 'Your full name',
             email: 'Your best e-mail',
             password: 'Type your password',
             confirmPassword: 'Confirm your password',
@@ -31,6 +31,12 @@ export default {
                 title: 'Registered successfully!',
                 content: 'Feel free to publish or purchase new books!',
                 button: 'Begin',
+            },
+
+            error: {
+                title: 'Something wrong happened :(',
+                content: 'Try again later!',
+                button: 'Ok',
             },
         },
 
