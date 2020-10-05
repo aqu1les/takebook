@@ -22,9 +22,12 @@ export default function Room({ navigation, route }) {
     const { roomId } = route.params;
     const { t } = useTranslation();
     const loggedUser = useSelector(state => state.auth);
-    const user = useSelector(
-        state => state.chats.chats.find(chat => chat.room_id == roomId).user,
-    );
+    const user = useSelector(state => {
+        const chat = state.chats.chats.find(
+            chat => chat.room_id == roomId || chat.id == roomId,
+        );
+        return chat.user;
+    });
     const messages = useSelector(state => {
         const chat = state.chats.chats.find(chat => chat.room_id == roomId);
         return chat ? [...chat.messages].reverse() : [];
@@ -60,7 +63,9 @@ export default function Room({ navigation, route }) {
 
     function scrollToBottom() {
         setTimeout(() => {
-            messagesList.current.scrollToEnd({ animated: true });
+            if (messagesList.current) {
+                messagesList.current.scrollToEnd({ animated: true });
+            }
         }, 500);
     }
 

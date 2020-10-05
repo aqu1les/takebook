@@ -34,6 +34,7 @@ function Advert({ item }) {
         viewer_liked = 0,
         owner,
         status_id,
+        created_at,
     } = item;
     let condition;
     let badgeColor;
@@ -131,14 +132,14 @@ function Advert({ item }) {
                             ]}>
                             <Text style={Styles.Condition}>{condition}</Text>
                         </Badge>
-                        <View style={Styles.Row}>
+                        {/* <View style={Styles.Row}>
                             <Text style={Styles.TextCategory}>
                                 {t('advertList.advert.locale')}:{' '}
                             </Text>
                             <Text style={Styles.Locale}>
                                 {owner.address_city} - {owner.address_state}
                             </Text>
-                        </View>
+                        </View> */}
                     </View>
                     <View style={Styles.PriceButton}>
                         <Text style={Styles.Price}>R$ {String(price)}</Text>
@@ -158,10 +159,14 @@ function Advert({ item }) {
                     )}
 
                     <Text style={Styles.CreationTime}>
-                        {formatDistance(new Date(approved_at), Date.now(), {
-                            addSuffix: true,
-                            locale: i18n.language === 'pt' ? pt : en,
-                        })}
+                        {formatDistance(
+                            new Date(approved_at || created_at),
+                            Date.now(),
+                            {
+                                addSuffix: true,
+                                locale: i18n.language === 'pt' ? pt : en,
+                            },
+                        )}
                     </Text>
                 </View>
             </View>

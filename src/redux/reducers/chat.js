@@ -27,7 +27,7 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
             };
         }
         case LOAD_CHAT_SUCCESS: {
-            const chats = _.uniqBy([...action.chats], 'room_id')
+            const chats = action.chats
                 .map(chat => {
                     chat.loadingMessages = false;
                     chat.messages = chat.messages;
@@ -39,36 +39,38 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 loading: false,
-                chats: chats,
+                chats: _.uniqBy([...chats], 'room_id'),
             };
         }
         case LOAD_MESSAGES: {
             const chats = state.chats.map(chat => {
-                if (chat.id === action.room_id) {
+                if (chat.room_id === action.room_id) {
                     chat.loadingMessages = true;
                 }
                 return chat;
             });
+
             return { ...state, chats: _.uniqBy(chats, 'room_id') };
         }
         case LOAD_MESSAGES_SUCCESS: {
             const newChats = state.chats.map(chat => {
                 if (chat.room_id === action.room_id) {
-                    chat.messages = _.uniqBy(action.messages, 'id');
+                    chat.messages = _.uniqBy([...action.messages], 'id');
                     chat.loadingMessages = false;
                 }
                 return chat;
             });
+
             return {
                 ...state,
                 loading: false,
-                chats: newChats,
+                chats: _.uniqBy([...newChats], 'room_id'),
                 loadingMessages: false,
             };
         }
         case NEW_MESSAGE: {
             const chatsWithNewMessage = state.chats.map(chat => {
-                if (chat.room_id == action.room_id) {
+                if (chat.room_id === action.room_id) {
                     chat.messages = _.uniqBy(
                         [action.message, ...chat.messages],
                         'id',

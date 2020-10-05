@@ -40,14 +40,14 @@ export default (Styles = StyleSheet.create({
         right: 7,
     },
     Title: {
-        fontSize: 28,
+        fontSize: 24,
         fontWeight: 'bold',
         marginTop: 20,
         color: '#000',
     },
     Author: {
         color: '#A5A5A5',
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: '600',
     },
     Categories: {

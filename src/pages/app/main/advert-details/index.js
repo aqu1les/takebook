@@ -145,7 +145,7 @@ const AdvertDetails = ({ route }) => {
                             <Text>{advert.description}</Text>
                         </View>
                     </Tab>
-                    <Tab
+                    {/* <Tab
                         heading={t('advertDetails.tabs.localization')}
                         textStyle={Styles.TabHeadingText}
                         tabStyle={Styles.TabHeading}
@@ -155,7 +155,7 @@ const AdvertDetails = ({ route }) => {
                             <View style={Styles.RowLeftSide} />
                             <View style={Styles.RowRightSide} />
                         </View>
-                    </Tab>
+                    </Tab> */}
                     <Tab
                         heading={t('advertDetails.tabs.contact')}
                         textStyle={Styles.TabHeadingText}
