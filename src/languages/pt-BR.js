@@ -7,7 +7,7 @@ export default {
         error: {
             noConnection: 'Não foi possível contactar o servidor!',
             invalidEmail: 'Email inválido',
-            wrongPassword: 'Senha errada',
+            wrongPassword: 'Senha inválida!',
             somethingWentWrong:
                 'Algo de errado aconteceu, tente novamente mais tarde.',
         },

@@ -57,9 +57,20 @@ export default function Login(props) {
         }
     }, [redirectEmail]);
 
+    useEffect(() => {
+        if (password.length > 3) {
+            setPasswordError(false);
+        } else {
+            setPasswordError(true);
+        }
+    }, [password]);
+
+    useEffect(() => {
+        !EMAIL_REGEX.test(login) ? setLoginError(true) : setLoginError(false);
+    }, [login]);
+
     function handleLoginChange(value) {
         setLogin(value);
-        !EMAIL_REGEX.test(value) ? setLoginError(true) : setLoginError(false);
     }
 
     function handlePasswordChange(value) {
@@ -88,18 +99,22 @@ export default function Login(props) {
             const response = await authenticateUser(login, password, remind);
             switch (response) {
                 case '':
+                    dispatch(loadAuthErrorAction());
                     return ToastAndroid.show(
                         t('error.noConnection'),
                         ToastAndroid.LONG,
                     );
                 case 'Senha Inválida!':
+                    dispatch(loadAuthErrorAction());
                     ToastAndroid.show(
                         t('error.wrongPassword'),
                         ToastAndroid.SHORT,
                     );
                     setPasswordError(true);
+                    setPassword('');
                     return passwordInput.current.focus();
                 case 'E-mail inválido!':
+                    dispatch(loadAuthErrorAction());
                     ToastAndroid.show(
                         t('error.invalidEmail'),
                         ToastAndroid.SHORT,
