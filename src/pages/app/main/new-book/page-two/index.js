@@ -52,6 +52,7 @@ export default function PageTwo({
                     value={title}
                     onChangeText={t => setTitle(t)}
                     style={{ flex: 1 }}
+                    maxLength={36}
                 />
             </TouchableOpacity>
             <TouchableOpacity style={Styles.FormGroup}>
@@ -61,6 +62,7 @@ export default function PageTwo({
                     value={author}
                     onChangeText={t => setAuthor(t)}
                     style={{ flex: 1 }}
+                    maxLength={24}
                 />
             </TouchableOpacity>
             <View
@@ -117,7 +119,7 @@ export default function PageTwo({
                             R$
                         </Text>
                         <TextInput
-                            placeholder="928"
+                            placeholder="150"
                             value={price}
                             onChangeText={t => setPrice(t)}
                             keyboardType="numeric"

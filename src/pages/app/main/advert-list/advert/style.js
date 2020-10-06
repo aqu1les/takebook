@@ -40,9 +40,9 @@ export default (Styles = StyleSheet.create({
         right: 7,
     },
     Title: {
-        fontSize: 24,
+        fontSize: 22,
         fontWeight: 'bold',
-        marginTop: 20,
+        marginTop: 0,
         color: '#000',
     },
     Author: {

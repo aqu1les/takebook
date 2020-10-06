@@ -128,7 +128,7 @@ function Advert({ item }) {
                         <Badge
                             style={[
                                 Styles.Badge,
-                                { backgroundColor: badgeColor },
+                                { backgroundColor: badgeColor, height: 20 },
                             ]}>
                             <Text style={Styles.Condition}>{condition}</Text>
                         </Badge>
