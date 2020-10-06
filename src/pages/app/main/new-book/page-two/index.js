@@ -89,9 +89,9 @@ export default function PageTwo({
                             borderWidth: 1,
                             borderColor: '#000',
                         }}>
-                        <Picker.Item label="Novo" value="1" />
-                        <Picker.Item label="Semi Novo" value="2" />
-                        <Picker.Item label="Usado" value="3" />
+                        <Picker.Item label="Novo" value={1} />
+                        <Picker.Item label="Semi Novo" value={2} />
+                        <Picker.Item label="Usado" value={3} />
                     </Picker>
                 </View>
                 <TouchableOpacity
