@@ -84,6 +84,7 @@ export default {
             pageOne: {
                 help1: 'Click on the fields to add your pictures',
                 help2: '* Drag to the left to add more pictures to your ad',
+                help3: '** Add at least 2 images (Front & Back)!',
             },
             pageTwo: {
                 help1: 'Tell me more about your book',
