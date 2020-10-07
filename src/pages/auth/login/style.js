@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export default Styles = StyleSheet.create({
+export default (Styles = StyleSheet.create({
     FormGroup: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -23,6 +23,7 @@ export default Styles = StyleSheet.create({
         padding: 5,
         flexGrow: 100,
         fontSize: 18,
+        fontFamily: 'Roboto',
     },
     Button: {
         width: 126,
@@ -72,4 +73,4 @@ export default Styles = StyleSheet.create({
         color: '#909090',
         marginVertical: 10,
     },
-});
+}));

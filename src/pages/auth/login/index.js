@@ -47,14 +47,23 @@ export default function Login(props) {
     const { t } = useTranslation();
 
     useEffect(() => {
+        let isMounted = true;
+
         async function getUserInfo() {
-            setLogin((await getUserEmail()) || '');
+            const storedEmail = await getUserEmail();
+            if (isMounted) {
+                setLogin(storedEmail || '');
+            }
         }
         if (redirectEmail) {
             return setLogin(redirectEmail);
         } else {
             getUserInfo();
         }
+
+        return () => {
+            isMounted = false;
+        };
     }, [redirectEmail]);
 
     useEffect(() => {

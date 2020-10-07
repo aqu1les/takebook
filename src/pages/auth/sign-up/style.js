@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 
-export default Styles = StyleSheet.create({
+export default (Styles = StyleSheet.create({
     Input: {
         marginLeft: 5,
         padding: 5,
         flexGrow: 100,
         fontSize: 18,
+        fontFamily: 'Roboto',
     },
     FormGroup: {
         flexDirection: 'row',
@@ -79,17 +80,17 @@ export default Styles = StyleSheet.create({
         height: '100%',
         borderRadius: 100,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     AvatarImage: {
         width: '100%',
         height: '100%',
         borderRadius: 100,
-        opacity: 0.6
+        opacity: 0.6,
     },
     CameraIcon: {
         height: 40,
-        width: 40
+        width: 40,
     },
     HeaderClickable: {
         width: '100%',
@@ -97,11 +98,11 @@ export default Styles = StyleSheet.create({
         borderRadius: 100,
         position: 'relative',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     ContentContainerStyle: {
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
+        justifyContent: 'center',
+    },
+}));
