@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { YellowBox } from 'react-native';
+import { LogBox } from 'react-native';
 import { Provider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
 import AppStore from './redux/store';
@@ -20,5 +20,4 @@ export default function App() {
     );
 }
 
-YellowBox.ignoreWarnings(['Setting a timer']);
-console.ignoredYellowBox = ['Setting a timer'];
+LogBox.ignoreLogs(['Setting a timer']);
