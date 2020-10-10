@@ -2,18 +2,22 @@ import { StyleSheet } from 'react-native';
 
 export default Styles = StyleSheet.create({
     PageThree: {
-        height: '33.3333%',
-        minHeight: 600,
-        width: '100%',
-        position: 'relative',
+        flex: 1,
         justifyContent: 'space-evenly',
         alignItems: 'center',
         paddingVertical: 30,
-        padding: 20
+        padding: 20,
+    },
+    ViewContainer: {
+        width: '100%',
+        alignItems: 'center',
+        flex: 1,
+        position: 'relative',
+        paddingTop: 40,
     },
     PreviousSectionButton: {
         position: 'absolute',
-        top: 5,
+        top: -20,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
@@ -39,5 +43,26 @@ export default Styles = StyleSheet.create({
     PostBookText: {
         fontSize: 20,
         color: '#FFFFFF',
+    },
+    CategoriesText: {
+        textAlign: 'center',
+        marginTop: 28,
+    },
+    CategoriesList: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 28,
+    },
+    DescriptionText: {
+        marginTop: 28,
+    },
+    DescriptionInput: {
+        height: 150,
+        width: '100%',
+        borderWidth: 0.5,
+        borderColor: '#000',
+        borderRadius: 8,
+        textAlignVertical: 'top',
+        marginVertical: 28,
     },
 });

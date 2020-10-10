@@ -3,13 +3,12 @@ import { StyleSheet } from 'react-native';
 export default Styles = StyleSheet.create({
     TextCenter: { textAlign: 'center' },
     PageOne: {
-        height: '33.3333%',
-        width: '100%',
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'space-evenly',
         position: 'relative',
         paddingVertical: 30,
-        padding: 20
+        padding: 20,
     },
     HeadingText: {
         color: '#000000',

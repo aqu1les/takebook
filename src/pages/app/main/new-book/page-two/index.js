@@ -10,7 +10,6 @@ export default function PageTwo({
     goToThirdSection,
     setBookStatus,
     bookStatus,
-    pageTwo,
     title,
     price,
     author,
@@ -20,7 +19,7 @@ export default function PageTwo({
 }) {
     const { t } = useTranslation();
     return (
-        <View style={Styles.PageTwo} ref={pageTwo} onLayout={() => {}}>
+        <View style={Styles.PageTwo} onLayout={() => {}}>
             <TouchableOpacity
                 style={Styles.PreviousSectionButton}
                 onPress={goToTop}>
@@ -50,7 +49,7 @@ export default function PageTwo({
                     placeholder={t('newBook.pageTwo.title')}
                     onBlur={goToSecondSection}
                     value={title}
-                    onChangeText={t => setTitle(t)}
+                    onChangeText={(t) => setTitle(t)}
                     style={{ flex: 1 }}
                     maxLength={36}
                 />
@@ -60,7 +59,7 @@ export default function PageTwo({
                     placeholder={t('newBook.pageTwo.author')}
                     onBlur={goToSecondSection}
                     value={author}
-                    onChangeText={t => setAuthor(t)}
+                    onChangeText={(t) => setAuthor(t)}
                     style={{ flex: 1 }}
                     maxLength={24}
                 />
@@ -79,7 +78,7 @@ export default function PageTwo({
                     <Text>{t('newBook.pageTwo.bookStatus')}</Text>
                     <Picker
                         selectedValue={bookStatus}
-                        onValueChange={value => setBookStatus(value)}
+                        onValueChange={(value) => setBookStatus(value)}
                         onBlur={goToSecondSection}
                         style={{
                             height: 54,
@@ -121,7 +120,7 @@ export default function PageTwo({
                         <TextInput
                             placeholder="150"
                             value={price}
-                            onChangeText={t => setPrice(t)}
+                            onChangeText={(t) => setPrice(t)}
                             keyboardType="numeric"
                             style={{
                                 height: 35,

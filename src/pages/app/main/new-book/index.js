@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useRef } from 'react';
-import { Text, Platform, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { ScrollView } from 'react-native-gesture-handler';
 import Styles from './style';
 import PageOne from './page-one';
 import PageTwo from './page-two';
@@ -12,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import SuccessFeedback from '../../../core/success-feedback';
 import { createFormData } from '../../../../services/FormDataService';
 
-export default props => {
+export default function NewBook(props) {
     const [cover, setCover] = useState(null);
     const [cover2, setCover2] = useState(null);
     const [cover3, setCover3] = useState(null);
@@ -24,12 +23,9 @@ export default props => {
     const [bookStatus, setBookStatus] = useState(1);
     const [bookCategories, setBookCategories] = useState([]);
     const [description, setDescription] = useState('');
-    const scrollView = useRef();
-    const pageOne = useRef();
-    const pageTwo = useRef();
-    const pageThree = useRef();
     const navigation = useNavigation();
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [currentStep, setCurrentStep] = useState(0);
 
     const previewCover = useMemo(() => (cover ? cover.path : null), [cover]);
     const previewCover2 = useMemo(() => (cover2 ? cover2.path : null), [
@@ -47,7 +43,7 @@ export default props => {
 
     const canSubmit = useMemo(() => {
         const filledCovers =
-            [cover, cover2, cover3, cover4, cover5].filter(c => c !== null)
+            [cover, cover2, cover3, cover4, cover5].filter((c) => c !== null)
                 .length > 1;
         return !!(
             title &&
@@ -73,7 +69,7 @@ export default props => {
     ]);
 
     function handleCoverPicker(index) {
-        ImagePicker.showImagePicker({ title: 'Camera' }, response => {
+        ImagePicker.showImagePicker({ title: 'Camera' }, (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             } else if (response.error) {
@@ -115,7 +111,7 @@ export default props => {
             case 1:
                 ImageEditor(
                     cover.path,
-                    path => {
+                    (path) => {
                         setCover({ ...cover, path });
                     },
                     onCancel,
@@ -125,7 +121,7 @@ export default props => {
             case 2:
                 ImageEditor(
                     cover2.path,
-                    path => {
+                    (path) => {
                         setCover2({ ...cover2, path });
                     },
                     onCancel,
@@ -135,7 +131,7 @@ export default props => {
             case 3:
                 ImageEditor(
                     cover3.path,
-                    path => {
+                    (path) => {
                         setCover3({ ...cover3, path });
                     },
                     onCancel,
@@ -145,7 +141,7 @@ export default props => {
             case 4:
                 ImageEditor(
                     cover4.path,
-                    path => {
+                    (path) => {
                         setCover4({ ...cover4, path });
                     },
                     onCancel,
@@ -155,7 +151,7 @@ export default props => {
             case 5:
                 ImageEditor(
                     cover5.path,
-                    path => {
+                    (path) => {
                         setCover5({ ...cover5, path });
                     },
                     onCancel,
@@ -189,48 +185,16 @@ export default props => {
         }
     }
 
+    function goToTop() {
+        setCurrentStep(0);
+    }
+
     function goToSecondSection() {
-        if (Platform.OS === 'android') {
-            pageOne.current.measure((x, y, width, height, pageX, pageY) => {
-                scrollView.current.scrollTo({
-                    x: 0,
-                    y: height,
-                    animated: true,
-                });
-            });
-        } else {
-            pageTwo.current.measure((x, y, width, height) => {
-                scrollView.current.scrollTo({
-                    x: 0,
-                    y: y,
-                    animated: true,
-                });
-            });
-        }
+        setCurrentStep(1);
     }
 
     function goToThirdSection() {
-        if (Platform.OS === 'android') {
-            pageTwo.current.measureInWindow((x, y, width, height) => {
-                scrollView.current.scrollTo({
-                    x: 0,
-                    y: height * 2,
-                    animated: true,
-                });
-            });
-        } else {
-            pageThree.current.measure((x, y, width, height) => {
-                scrollView.current.scrollTo({
-                    x: 0,
-                    y: y,
-                    animated: true,
-                });
-            });
-        }
-    }
-
-    function goToTop() {
-        scrollView.current.scrollTo({ x: 0, y: 0, animated: true });
+        setCurrentStep(2);
     }
 
     function handleCheckBox(checked, category) {
@@ -238,7 +202,7 @@ export default props => {
             setBookCategories([...bookCategories, category]);
         } else {
             setBookCategories(
-                bookCategories.filter(cat => cat.id !== category.id),
+                bookCategories.filter((cat) => cat.id !== category.id),
             );
         }
     }
@@ -250,11 +214,11 @@ export default props => {
             description: description,
             price: Number(price),
             condition_id: bookStatus,
-            categories: bookCategories.map(c => c.id),
+            categories: bookCategories.map((c) => c.id),
             images: [],
         };
         const bookImages = [];
-        [cover, cover2, cover3, cover4, cover5].forEach(image => {
+        [cover, cover2, cover3, cover4, cover5].forEach((image) => {
             if (image) {
                 bookImages.push({
                     uri: image.uri,
@@ -279,68 +243,67 @@ export default props => {
         navigation.navigate('Home');
     }
 
-    return (
-        <>
-            <ScrollView
-                ref={scrollView}
-                style={Styles.CardScrollView}
-                contentContainerStyle={Styles.CardContainer}
-                scrollEnabled={false}
-                nestedScrollEnabled={true}
-                showsVerticalScrollIndicator={false}>
-                <PageOne
-                    pageOne={pageOne}
-                    goToSecondSection={goToSecondSection}
-                    previewCover={previewCover}
-                    previewCover2={previewCover2}
-                    previewCover3={previewCover3}
-                    previewCover4={previewCover4}
-                    previewCover5={previewCover5}
-                    handleCoverPicker={handleCoverPicker}
-                    handleEditImage={handleEditImage}
-                    handleRemoveImage={handleRemoveImage}
-                />
-                <PageTwo
-                    pageTwo={pageTwo}
-                    goToTop={goToTop}
-                    goToSecondSection={goToSecondSection}
-                    goToThirdSection={goToThirdSection}
-                    setBookStatus={setBookStatus}
-                    bookStatus={bookStatus}
-                    title={title}
-                    setTitle={setTitle}
-                    author={author}
-                    setAuthor={setAuthor}
-                    price={price}
-                    setPrice={setPrice}
-                />
+    if (currentStep === 0) {
+        return (
+            <PageOne
+                goToSecondSection={goToSecondSection}
+                previewCover={previewCover}
+                previewCover2={previewCover2}
+                previewCover3={previewCover3}
+                previewCover4={previewCover4}
+                previewCover5={previewCover5}
+                handleCoverPicker={handleCoverPicker}
+                handleEditImage={handleEditImage}
+                handleRemoveImage={handleRemoveImage}
+            />
+        );
+    }
+
+    if (currentStep === 1) {
+        return (
+            <PageTwo
+                goToTop={goToTop}
+                goToSecondSection={goToSecondSection}
+                goToThirdSection={goToThirdSection}
+                setBookStatus={setBookStatus}
+                bookStatus={bookStatus}
+                title={title}
+                setTitle={setTitle}
+                author={author}
+                setAuthor={setAuthor}
+                price={price}
+                setPrice={setPrice}
+            />
+        );
+    }
+
+    if (currentStep === 2) {
+        return (
+            <>
                 <PageThree
-                    scrollView={scrollView}
                     handleCheckBox={handleCheckBox}
                     goToSecondSection={goToSecondSection}
                     goToThirdSection={goToThirdSection}
-                    pageThree={pageThree}
                     description={description}
                     bookCategories={bookCategories}
                     setDescription={setDescription}
                     handleSubmit={handleSubmit}
                     canSubmit={canSubmit}
                 />
-            </ScrollView>
-
-            <SuccessFeedback
-                isVisible={showSuccessModal}
-                handleModalHide={handleModalHide}>
-                <Text style={Styles.TextH1}>Sucesso!</Text>
-                <Text style={Styles.TextP}>
-                    O anúncio foi cadastrado com sucesso!
-                </Text>
-                <TouchableOpacity
-                    style={Styles.ModalButton}
-                    onPress={handleModalHide}>
-                    <Text style={Styles.ButtonText}>Voltar</Text>
-                </TouchableOpacity>
-            </SuccessFeedback>
-        </>
-    );
-};
+                <SuccessFeedback
+                    isVisible={showSuccessModal}
+                    handleModalHide={handleModalHide}>
+                    <Text style={Styles.TextH1}>Sucesso!</Text>
+                    <Text style={Styles.TextP}>
+                        O anúncio foi cadastrado com sucesso!
+                    </Text>
+                    <TouchableOpacity
+                        style={Styles.ModalButton}
+                        onPress={handleModalHide}>
+                        <Text style={Styles.ButtonText}>Voltar</Text>
+                    </TouchableOpacity>
+                </SuccessFeedback>
+            </>
+        );
+    }
+}

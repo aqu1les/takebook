@@ -6,7 +6,6 @@ import Styles from './style';
 import Cover from './cover';
 
 export default function PageOne({
-    pageOne,
     goToSecondSection,
     previewCover,
     previewCover2,
@@ -20,7 +19,7 @@ export default function PageOne({
     const { t } = useTranslation();
 
     return (
-        <View style={Styles.PageOne} ref={pageOne} onLayout={() => {}}>
+        <View style={Styles.PageOne}>
             <Text style={Styles.HeadingText}>Selecione as fotos</Text>
             <ScrollView
                 horizontal={true}

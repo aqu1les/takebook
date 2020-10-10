@@ -2,13 +2,12 @@ import { StyleSheet } from 'react-native';
 
 export default Styles = StyleSheet.create({
     PageTwo: {
-        height: '33.3333%',
-        width: '100%',
+        flex: 1,
         justifyContent: 'space-evenly',
         alignItems: 'center',
         position: 'relative',
         paddingVertical: 30,
-        padding: 20
+        padding: 20,
     },
     NextSectionButton: {
         position: 'absolute',
@@ -40,5 +39,5 @@ export default Styles = StyleSheet.create({
         paddingBottom: -6,
         marginTop: 5,
         marginBottom: 5,
-    }
+    },
 });
