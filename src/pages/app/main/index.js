@@ -8,137 +8,139 @@ import AdvertList from './advert-list';
 import Loading from '../components/loading';
 import Plus from '../../../assets/icons/add-book.svg';
 import {
-    subscribeToChannel,
-    unsubscribeChannel,
+	subscribeToChannel,
+	unsubscribeChannel,
 } from '../../../services/Pusher';
 import FirstModal from './onboard-modals/first-modal';
 import SecondModal from './onboard-modals/second-modal';
 import { registerAppWithFCM } from '../../../services/RemotePushController';
 import {
-    loadAdvertsAction,
-    loadNextPageAction,
-    addAdvertAction,
+	loadAdvertsAction,
+	loadNextPageAction,
+	addAdvertAction,
 } from '../../../redux/actions/advert';
 import {
-    loadChatsAction,
-    addNewMessage,
-    onNewChat,
+	loadChatsAction,
+	addNewMessage,
+	onNewChat,
 } from './../../../redux/actions/chat';
 import { addNotificationAction } from '../../../redux/actions/notification';
 import { loadCategoriesAction } from '../../../redux/actions/category';
 
 function Main(props) {
-    const dispatch = useDispatch();
-    const navigation = useNavigation();
-    const loading = useSelector(state => state.adverts.loading);
-    const [showFirstModal, setShowFirstModal] = useState(false);
-    const [showSecondModal, setShowSecondModal] = useState(false);
-    const user = useSelector(state => state.auth);
-    const hasMore = useSelector(state => state.adverts.nextPage);
+	const dispatch = useDispatch();
+	const navigation = useNavigation();
+	const loading = useSelector((state) => state.adverts.loading);
+	const [showFirstModal, setShowFirstModal] = useState(false);
+	const [showSecondModal, setShowSecondModal] = useState(false);
+	const user = useSelector((state) => state.auth);
+	const hasMore = useSelector((state) => state.adverts.nextPage);
 
-    /* LOAD USER INFOS */
-    useEffect(() => {
-        dispatch(loadCategoriesAction());
-        dispatch(loadAdvertsAction());
-        dispatch(loadChatsAction());
-    }, []);
+	/* LOAD USER INFOS */
+	useEffect(() => {
+		dispatch(loadCategoriesAction());
+		dispatch(loadAdvertsAction());
+		dispatch(loadChatsAction());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-    /* SUBSCRIBE TO WS  */
-    useEffect(() => {
-        const globalWS = 'all-clients';
-        const userWS = `userID${user.id}`;
-        const globalChannel = subscribeToChannel(globalWS);
-        const privateChannel = subscribeToChannel(userWS);
+	/* SUBSCRIBE TO WS  */
+	useEffect(() => {
+		const globalWS = 'all-clients';
+		const userWS = `userID${user.id}`;
+		const globalChannel = subscribeToChannel(globalWS);
+		const privateChannel = subscribeToChannel(userWS);
 
-        globalChannel.bind('book-accepted', event => {
-            dispatch(addAdvertAction(event.message));
-        });
+		globalChannel.bind('book-accepted', (event) => {
+			dispatch(addAdvertAction(event.message));
+		});
 
-        privateChannel.bind('new-notification', event => {
-            dispatch(addNotificationAction(event.message));
-        });
+		privateChannel.bind('new-notification', (event) => {
+			dispatch(addNotificationAction(event.message));
+		});
 
-        privateChannel.bind('new-message', event => {
-            dispatch(addNewMessage(event.message.room_id, event.message));
-        });
+		privateChannel.bind('new-message', (event) => {
+			dispatch(addNewMessage(event.message.room_id, event.message));
+		});
 
-        privateChannel.bind('new-room', event => {
-            const room = event.room;
-            room.room_id = room.room_id || room.id;
-            room.id = room.room_id;
-            dispatch(onNewChat(room));
-        });
+		privateChannel.bind('new-room', (event) => {
+			const room = event.room;
+			room.room_id = room.room_id || room.id;
+			room.id = room.room_id;
+			dispatch(onNewChat(room));
+		});
 
-        registerAppWithFCM();
+		registerAppWithFCM();
 
-        return function cleanup() {
-            unsubscribeChannel(globalWS);
-            unsubscribeChannel(userWS);
-        };
-    }, []);
+		return function cleanup() {
+			unsubscribeChannel(globalWS);
+			unsubscribeChannel(userWS);
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-    function handleHideModal() {
-        setShowFirstModal(false);
-        setShowSecondModal(false);
-    }
+	function handleHideModal() {
+		setShowFirstModal(false);
+		setShowSecondModal(false);
+	}
 
-    function handleOpenModal() {
-        setShowFirstModal(true);
-    }
+	function handleOpenModal() {
+		setShowFirstModal(true);
+	}
 
-    function nextModal() {
-        setShowFirstModal(false);
-        setShowSecondModal(true);
-    }
+	function nextModal() {
+		setShowFirstModal(false);
+		setShowSecondModal(true);
+	}
 
-    function navigateToForm() {
-        handleHideModal();
-        navigation.navigate('NewBook');
-    }
+	function navigateToForm() {
+		handleHideModal();
+		navigation.navigate('NewBook');
+	}
 
-    function refreshAdverts() {
-        dispatch(loadCategoriesAction());
-        dispatch(loadAdvertsAction());
-        dispatch(loadChatsAction());
-    }
+	function refreshAdverts() {
+		dispatch(loadCategoriesAction());
+		dispatch(loadAdvertsAction());
+		dispatch(loadChatsAction());
+	}
 
-    function handleEndReached() {
-        if (hasMore) {
-            dispatch(loadNextPageAction());
-        }
-    }
+	function handleEndReached() {
+		if (hasMore) {
+			dispatch(loadNextPageAction());
+		}
+	}
 
-    return (
-        <SafeAreaView style={Styles.Container}>
-            {!loading ? (
-                <>
-                    <CategoryList />
-                    <AdvertList
-                        navigation={props.navigation}
-                        refreshAdverts={refreshAdverts}
-                        onEndReached={handleEndReached}
-                    />
-                    <TouchableOpacity
-                        style={Styles.AddButton}
-                        onPress={handleOpenModal}>
-                        <Plus />
-                    </TouchableOpacity>
-                    <FirstModal
-                        isVisible={showFirstModal}
-                        handleHideModal={handleHideModal}
-                        nextModal={nextModal}
-                    />
-                    <SecondModal
-                        isVisible={showSecondModal}
-                        handleHideModal={handleHideModal}
-                        navigateToForm={navigateToForm}
-                    />
-                </>
-            ) : (
-                <Loading />
-            )}
-        </SafeAreaView>
-    );
+	return (
+		<SafeAreaView style={Styles.Container}>
+			{!loading ? (
+				<>
+					<CategoryList />
+					<AdvertList
+						navigation={props.navigation}
+						refreshAdverts={refreshAdverts}
+						onEndReached={handleEndReached}
+					/>
+					<TouchableOpacity
+						style={Styles.AddButton}
+						onPress={handleOpenModal}>
+						<Plus />
+					</TouchableOpacity>
+					<FirstModal
+						isVisible={showFirstModal}
+						handleHideModal={handleHideModal}
+						nextModal={nextModal}
+					/>
+					<SecondModal
+						isVisible={showSecondModal}
+						handleHideModal={handleHideModal}
+						navigateToForm={navigateToForm}
+					/>
+				</>
+			) : (
+				<Loading />
+			)}
+		</SafeAreaView>
+	);
 }
 
 export default memo(Main);

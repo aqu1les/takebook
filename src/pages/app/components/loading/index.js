@@ -5,16 +5,16 @@ import Styles from './style';
 import LoadingBook from '../../../../assets/animations/loading-book.json';
 
 function Loading() {
-    return (
-        <>
-            <Modal
-                style={Styles.LoadingContainer}
-                animationIn="flipInY"
-                isVisible={true}
-                coverScreen={true}>
-                <LottieView source={LoadingBook} loop autoPlay />
-            </Modal>
-        </>
-    );
+	return (
+		<>
+			<Modal
+				style={Styles.LoadingContainer}
+				animationIn="flipInY"
+				isVisible={true}
+				coverScreen={true}>
+				<LottieView source={LoadingBook} loop autoPlay />
+			</Modal>
+		</>
+	);
 }
 export default memo(Loading);

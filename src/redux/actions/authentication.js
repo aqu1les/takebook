@@ -13,25 +13,25 @@ export const CHECK_TOKEN_SUCCESS = 'CHECK_TOKEN_SUCCESS';
 export const LOG_OUT = 'LOG_OUT';
 
 export function loadAuthAction() {
-    return { type: LOAD_INFO };
+	return { type: LOAD_INFO };
 }
 
 export function loadAuthErrorAction() {
-    return { type: LOAD_INFO_ERROR };
+	return { type: LOAD_INFO_ERROR };
 }
 
 export function setUserAction(user) {
-    return { type: LOAD_INFO_SUCCESS, user };
+	return { type: LOAD_INFO_SUCCESS, user };
 }
 
 export function checkTokenAction() {
-    return { type: CHECK_TOKEN };
+	return { type: CHECK_TOKEN };
 }
 
 export function tokenValidated() {
-    return { type: CHECK_TOKEN_SUCCESS };
+	return { type: CHECK_TOKEN_SUCCESS };
 }
 
 export function logOutAction() {
-    return { type: LOG_OUT };
+	return { type: LOG_OUT };
 }

@@ -9,13 +9,13 @@ import favoritesReducer from './reducers/fav';
 import myAdvertsReducer from './reducers/myads';
 
 const reducers = combineReducers({
-    adverts: advertsReducer,
-    auth: authReducer,
-    categories: categoriesReducer,
-    notifications: notificationsReducer,
-    chats: chatsReducer,
-    likes: favoritesReducer,
-    myads: myAdvertsReducer,
+	adverts: advertsReducer,
+	auth: authReducer,
+	categories: categoriesReducer,
+	notifications: notificationsReducer,
+	chats: chatsReducer,
+	likes: favoritesReducer,
+	myads: myAdvertsReducer,
 });
 
 export default createStore(reducers, applyMiddleware(ReduxThunk));

@@ -6,32 +6,32 @@ import { loadFavoritesAction } from './../../../redux/actions/fav';
 import Advert from '../main/advert-list/advert';
 
 export default function AdList({ navigation }) {
-    const dispatch = useDispatch();
-    const likedAdverts = useSelector(state => state.likes.data);
-    const user = useSelector(state => state.auth);
+	const dispatch = useDispatch();
+	const likedAdverts = useSelector((state) => state.likes.data);
+	const user = useSelector((state) => state.auth);
 
-    useEffect(() => {
-        dispatch(loadFavoritesAction());
-    }, [dispatch]);
+	useEffect(() => {
+		dispatch(loadFavoritesAction());
+	}, [dispatch]);
 
-    return (
-        <View style={Styles.Container}>
-            {likedAdverts instanceof Array && (
-                <FlatList
-                    data={likedAdverts}
-                    renderItem={({ item }) => (
-                        <Advert
-                            item={item}
-                            navigation={navigation}
-                            owner={item.owner}
-                            user={user}
-                            liked={true}
-                        />
-                    )}
-                    keyExtractor={item => String(item.id)}
-                    showsVerticalScrollIndicator={false}
-                />
-            )}
-        </View>
-    );
+	return (
+		<View style={Styles.Container}>
+			{likedAdverts instanceof Array && (
+				<FlatList
+					data={likedAdverts}
+					renderItem={({ item }) => (
+						<Advert
+							item={item}
+							navigation={navigation}
+							owner={item.owner}
+							user={user}
+							liked={true}
+						/>
+					)}
+					keyExtractor={(item) => String(item.id)}
+					showsVerticalScrollIndicator={false}
+				/>
+			)}
+		</View>
+	);
 }

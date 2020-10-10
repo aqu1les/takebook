@@ -1,5 +1,5 @@
 import ApiService from './ApiService';
 
 export function getCategories() {
-    return ApiService.get('/categories');
+	return ApiService.get('/categories');
 }

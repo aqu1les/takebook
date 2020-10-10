@@ -12,13 +12,13 @@ import ApiService from './services/ApiService';
 enableScreens();
 
 export default function App() {
-    return (
-        <Provider store={AppStore}>
-            <PaperProvider>
-                <Routes />
-            </PaperProvider>
-        </Provider>
-    );
+	return (
+		<Provider store={AppStore}>
+			<PaperProvider>
+				<Routes />
+			</PaperProvider>
+		</Provider>
+	);
 }
 
 LogBox.ignoreLogs(['Setting a timer']);

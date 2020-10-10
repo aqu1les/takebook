@@ -5,37 +5,37 @@ import en from './en-US';
 import pt from './pt-BR';
 
 const normalizeTranslate = {
-    en_US: 'en',
-    pt_BR: 'pt',
-    en: 'en',
-    pt: 'pt',
+	en_US: 'en',
+	pt_BR: 'pt',
+	en: 'en',
+	pt: 'pt',
 };
 
 const languageDetector = {
-    type: 'languageDetector',
-    async: true,
-    detect: function(callback) {
-        const language =
-            Platform.OS === 'ios'
-                ? NativeModules.SettingsManager.settings.AppleLocale // Adquire o idioma no device iOS
-                : NativeModules.I18nManager.localeIdentifier;
-        callback(normalizeTranslate[language]);
-    },
-    init: () => {},
-    cacheUserLanguage: () => {},
+	type: 'languageDetector',
+	async: true,
+	detect: function (callback) {
+		const language =
+			Platform.OS === 'ios'
+				? NativeModules.SettingsManager.settings.AppleLocale // Adquire o idioma no device iOS
+				: NativeModules.I18nManager.localeIdentifier;
+		callback(normalizeTranslate[language]);
+	},
+	init: () => {},
+	cacheUserLanguage: () => {},
 };
 
 i18n.use(languageDetector)
-    .use(initReactI18next)
-    .init({
-        fallbackLng: 'en',
+	.use(initReactI18next)
+	.init({
+		fallbackLng: 'en',
 
-        resources: { pt, en },
+		resources: { pt, en },
 
-        debug: true,
-        react: {
-            wait: true,
-        },
-    });
+		debug: true,
+		react: {
+			wait: true,
+		},
+	});
 
 export default i18n;

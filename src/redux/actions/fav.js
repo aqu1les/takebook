@@ -9,53 +9,53 @@ export const LOAD_FAVORITES_NEXT_PAGE = 'LOAD_FAVORITES_NEXT_PAGE';
 export const HANDLE_LIKE = 'HANDLE_LIKE';
 
 export const LOAD_FAVORITES_NEXT_PAGE_SUCCESS =
-    'LOAD_FAVORITES_NEXT_PAGE_SUCCESS';
+	'LOAD_FAVORITES_NEXT_PAGE_SUCCESS';
 
 function loadFavorites() {
-    return { type: LOAD_FAVORITES };
+	return { type: LOAD_FAVORITES };
 }
 
 function loadedFavorites(favorites) {
-    return { type: LOAD_FAVORITES_SUCCESS, favorites };
+	return { type: LOAD_FAVORITES_SUCCESS, favorites };
 }
 
 export function loadFavoritesAction() {
-    return async dispatch => {
-        await dispatch(loadFavorites());
-        try {
-            const favorites = await loadUserLikes();
-            await dispatch(loadedFavorites(favorites));
-        } catch (e) {
-            console.log(e);
-        }
-    };
+	return async (dispatch) => {
+		await dispatch(loadFavorites());
+		try {
+			const favorites = await loadUserLikes();
+			await dispatch(loadedFavorites(favorites));
+		} catch (e) {
+			console.log(e);
+		}
+	};
 }
 
 export function handleLikeAction(advertId) {
-    return async dispatch => {
-        try {
-            const { data } = await likeBook(advertId);
+	return async (dispatch) => {
+		try {
+			const { data } = await likeBook(advertId);
 
-            dispatch({
-                type: HANDLE_LIKE,
-                advertId: data.id,
-                viewerLiked: data.viewer_liked,
-            });
+			dispatch({
+				type: HANDLE_LIKE,
+				advertId: data.id,
+				viewerLiked: data.viewer_liked,
+			});
 
-            dispatch(loadFavoritesAction());
-        } catch (e) {
-            console.log(e);
-        }
-    };
+			dispatch(loadFavoritesAction());
+		} catch (e) {
+			console.log(e);
+		}
+	};
 }
 
-function loadFavoritesNextPage() {
-    return { type: LOAD_FAVORITES_NEXT_PAGE };
-}
+// function loadFavoritesNextPage() {
+// 	return { type: LOAD_FAVORITES_NEXT_PAGE };
+// }
 
-function favoritesNextPageLoadedAction(favorites) {
-    return { type: LOAD_FAVORITES_NEXT_PAGE_SUCCESS, favorites };
-}
+// function favoritesNextPageLoadedAction(favorites) {
+// 	return { type: LOAD_FAVORITES_NEXT_PAGE_SUCCESS, favorites };
+// }
 
 // export function loadFavoritesNextPageAction(page) {
 //     return async dispatch => {
