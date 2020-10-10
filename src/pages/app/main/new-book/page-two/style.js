@@ -6,8 +6,9 @@ export default Styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         position: 'relative',
-        paddingVertical: 30,
-        padding: 20,
+        paddingTop: 5,
+        paddingHorizontal: 20,
+        paddingBottom: 35,
     },
     NextSectionButton: {
         position: 'absolute',
@@ -39,5 +40,15 @@ export default Styles = StyleSheet.create({
         paddingBottom: -6,
         marginTop: 5,
         marginBottom: 5,
+    },
+    SectionTitle: {
+        textAlign: 'center',
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    HelpText: {
+        textAlign: 'center',
+        fontSize: 16,
+        marginHorizontal: 30,
     },
 });

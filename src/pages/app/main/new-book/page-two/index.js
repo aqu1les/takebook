@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, TextInput, Picker } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { Picker } from '@react-native-community/picker';
 import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Styles from './style';
@@ -19,31 +20,19 @@ export default function PageTwo({
 }) {
     const { t } = useTranslation();
     return (
-        <View style={Styles.PageTwo} onLayout={() => {}}>
+        <View style={Styles.PageTwo}>
             <TouchableOpacity
                 style={Styles.PreviousSectionButton}
                 onPress={goToTop}>
                 <Icon name="chevron-up" size={32} color="#a5a5a5" />
             </TouchableOpacity>
-            <Text
-                style={{
-                    textAlign: 'center',
-                    fontSize: 24,
-                    fontWeight: 'bold',
-                }}>
+            <Text style={Styles.SectionTitle}>
                 {t('newBook.pageTwo.help1')}
             </Text>
-            <Text style={{ textAlign: 'center', fontSize: 16 }}>
+            <Text style={Styles.HelpText}>
                 {t('newBook.pageTwo.remember')}:
             </Text>
-            <Text
-                style={{
-                    textAlign: 'center',
-                    fontSize: 16,
-                    marginHorizontal: 30,
-                }}>
-                {t('newBook.pageTwo.help2')}
-            </Text>
+            <Text style={Styles.HelpText}>{t('newBook.pageTwo.help2')}</Text>
             <TouchableOpacity style={Styles.FormGroup}>
                 <TextInput
                     placeholder={t('newBook.pageTwo.title')}

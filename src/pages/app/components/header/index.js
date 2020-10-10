@@ -30,6 +30,7 @@ function Header(props) {
         Animated.timing(widthValue, {
             toValue: 0.9,
             duration: 250,
+            useNativeDriver: false,
         }).start();
     };
 
@@ -38,6 +39,7 @@ function Header(props) {
         Animated.timing(widthValue, {
             toValue: 0.75,
             duration: 250,
+            useNativeDriver: false,
         }).start();
     };
 
@@ -74,7 +76,7 @@ function Header(props) {
                     autoCorrect={false}
                     underlineColorAndroid="transparent"
                     value={searchName}
-                    onChangeText={value => setSearchName(value)}
+                    onChangeText={(value) => setSearchName(value)}
                     keyboardType="default"
                     returnKeyType="search"
                     onFocus={_widthAnimation}

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import Styles from './style';
@@ -28,15 +28,19 @@ export default function NewBook(props) {
     const [currentStep, setCurrentStep] = useState(0);
 
     const previewCover = useMemo(() => (cover ? cover.path : null), [cover]);
+
     const previewCover2 = useMemo(() => (cover2 ? cover2.path : null), [
         cover2,
     ]);
+
     const previewCover3 = useMemo(() => (cover3 ? cover3.path : null), [
         cover3,
     ]);
+
     const previewCover4 = useMemo(() => (cover4 ? cover4.path : null), [
         cover4,
     ]);
+
     const previewCover5 = useMemo(() => (cover5 ? cover5.path : null), [
         cover5,
     ]);
@@ -243,8 +247,10 @@ export default function NewBook(props) {
         navigation.navigate('Home');
     }
 
+    let currentComponent;
+
     if (currentStep === 0) {
-        return (
+        currentComponent = (
             <PageOne
                 goToSecondSection={goToSecondSection}
                 previewCover={previewCover}
@@ -260,7 +266,7 @@ export default function NewBook(props) {
     }
 
     if (currentStep === 1) {
-        return (
+        currentComponent = (
             <PageTwo
                 goToTop={goToTop}
                 goToSecondSection={goToSecondSection}
@@ -278,32 +284,36 @@ export default function NewBook(props) {
     }
 
     if (currentStep === 2) {
-        return (
-            <>
-                <PageThree
-                    handleCheckBox={handleCheckBox}
-                    goToSecondSection={goToSecondSection}
-                    goToThirdSection={goToThirdSection}
-                    description={description}
-                    bookCategories={bookCategories}
-                    setDescription={setDescription}
-                    handleSubmit={handleSubmit}
-                    canSubmit={canSubmit}
-                />
-                <SuccessFeedback
-                    isVisible={showSuccessModal}
-                    handleModalHide={handleModalHide}>
-                    <Text style={Styles.TextH1}>Sucesso!</Text>
-                    <Text style={Styles.TextP}>
-                        O anúncio foi cadastrado com sucesso!
-                    </Text>
-                    <TouchableOpacity
-                        style={Styles.ModalButton}
-                        onPress={handleModalHide}>
-                        <Text style={Styles.ButtonText}>Voltar</Text>
-                    </TouchableOpacity>
-                </SuccessFeedback>
-            </>
+        currentComponent = (
+            <PageThree
+                handleCheckBox={handleCheckBox}
+                goToSecondSection={goToSecondSection}
+                goToThirdSection={goToThirdSection}
+                description={description}
+                bookCategories={bookCategories}
+                setDescription={setDescription}
+                handleSubmit={handleSubmit}
+                canSubmit={canSubmit}
+            />
         );
     }
+
+    return (
+        <>
+            {currentComponent}
+            <SuccessFeedback
+                isVisible={showSuccessModal}
+                handleModalHide={handleModalHide}>
+                <Text style={Styles.TextH1}>Sucesso!</Text>
+                <Text style={Styles.TextP}>
+                    O anúncio foi cadastrado com sucesso!
+                </Text>
+                <TouchableOpacity
+                    style={Styles.ModalButton}
+                    onPress={handleModalHide}>
+                    <Text style={Styles.ButtonText}>Voltar</Text>
+                </TouchableOpacity>
+            </SuccessFeedback>
+        </>
+    );
 }
