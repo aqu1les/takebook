@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Styles from './style';
-import { View, TouchableOpacity, TextInput } from "react-native";
+import { View, TouchableOpacity, TextInput } from 'react-native';
 import { getInfoByCEP } from '../../../../services/IBGEService';
 import Geolocation from '@react-native-community/geolocation';
 import { getAddress } from '../../../../services/GeocoderService';
@@ -32,8 +32,10 @@ export default function AddressForm() {
     function getPosition() {
         Geolocation.getCurrentPosition(({ coords }) => {
             getAddress(coords.latitude, coords.longitude)
-                .then(json => {
-                    const addressArray = json.results[0].formatted_address.split(',');
+                .then((json) => {
+                    const addressArray = json.results[0].formatted_address.split(
+                        ',',
+                    );
                     const street = addressArray[0];
                     const neighborhood = addressArray[1].split('-')[1];
                     const city = addressArray[2].split('-')[0];
@@ -45,9 +47,8 @@ export default function AddressForm() {
                     setState(state);
                     setZipCode(zipCode);
                 })
-                .catch(error => console.warn(error));
+                .catch((error) => console.warn(error));
         });
-
     }
 
     return (
@@ -96,8 +97,7 @@ export default function AddressForm() {
                     />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity
-                onPress={() => nameField.current.focus()}>
+            <TouchableOpacity onPress={() => nameField.current.focus()}>
                 <TextInput
                     placeholder="Rua"
                     placeholderTextColor="#666666"
@@ -106,7 +106,7 @@ export default function AddressForm() {
                     underlineColorAndroid="transparent"
                     style={Styles.Input}
                     value={street}
-                    onChangeText={text => setStreet(text)}
+                    onChangeText={(text) => setStreet(text)}
                     returnKeyType={'done'}
                     textContentType={'streetAddressLine1'}
                     editable={false}

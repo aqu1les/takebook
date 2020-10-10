@@ -21,6 +21,7 @@ import { createFormData } from '../../../services/FormDataService';
 import ImageEditor from '../../../services/ImageEditor';
 import { useTranslation } from 'react-i18next';
 import { EMAIL_REGEX } from './../../../validators/LoginValidator';
+import { getCoords } from '../../../services/GeocoderService';
 
 export default function SignUp(props) {
     const { t } = useTranslation();
@@ -47,10 +48,10 @@ export default function SignUp(props) {
     const formValid = useMemo(() => {
         return (
             [nameError, emailError, passwordError, passwordConfError].every(
-                invalid => !invalid,
+                (invalid) => !invalid,
             ) &&
             [name, email, password, passwordConfirmation].every(
-                input => !!input,
+                (input) => !!input,
             )
         );
     }, [
@@ -77,6 +78,19 @@ export default function SignUp(props) {
             is_admin: '0',
         };
 
+        try {
+            const coords = await getCoords();
+
+            if (coords && coords.latitude && coords.longitude) {
+                reqBody.address = {
+                    latitude: coords.latitude,
+                    longitude: coords.longitude,
+                };
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
         let data = reqBody;
 
         if (avatar) {
@@ -85,7 +99,8 @@ export default function SignUp(props) {
 
         try {
             const response = await registerUser(data);
-            if (response.data) {
+
+            if (response.data && !response.data.error) {
                 setShowSuccessModal(true);
             } else {
                 setShowFailModal(true);
@@ -101,7 +116,7 @@ export default function SignUp(props) {
     }
 
     function handleAvatarPicker() {
-        ImagePicker.showImagePicker({ title: 'Camera' }, image => {
+        ImagePicker.showImagePicker({ title: 'Camera' }, (image) => {
             if (image.didCancel) {
                 console.log('User cancelled image picker');
             } else if (image.error) {
@@ -134,7 +149,7 @@ export default function SignUp(props) {
         const cleanInput = input.replace(/[^a-zA-Z áàâãéèêíïóôõöúüçñ]/gi, '');
         const names = cleanInput.split(' ');
 
-        if (names.length < 2 || names.some(n => !n)) {
+        if (names.length < 2 || names.some((n) => !n)) {
             setNameError(true);
         } else {
             setNameError(false);
@@ -247,7 +262,7 @@ export default function SignUp(props) {
                         underlineColorAndroid="transparent"
                         style={Styles.Input}
                         value={password}
-                        onChangeText={text => setPassword(text)}
+                        onChangeText={(text) => setPassword(text)}
                         secureTextEntry={true}
                         returnKeyType={'next'}
                         onSubmitEditing={() =>

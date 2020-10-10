@@ -7,6 +7,7 @@ import AppStore from './redux/store';
 import Routes from './routes';
 import i18n from './languages/i18n';
 import { enableScreens } from 'react-native-screens';
+import ApiService from './services/ApiService';
 
 enableScreens();
 
