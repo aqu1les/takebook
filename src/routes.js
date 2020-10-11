@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dimensions } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -158,15 +158,15 @@ function TakebookRoutes() {
 		dispatch(checkTokenAction());
 	}, [dispatch]);
 
+	const AppStack = useMemo(() => {
+		return authenticated ? <App /> : <AuthStack />;
+	}, [authenticated]);
+
 	if (loading && !checked) {
 		return <Loading />;
 	}
 
-	return (
-		<NavigationContainer>
-			{authenticated ? <App /> : <AuthStack />}
-		</NavigationContainer>
-	);
+	return <NavigationContainer>{AppStack}</NavigationContainer>;
 }
 
 export default TakebookRoutes;
