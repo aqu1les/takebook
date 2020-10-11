@@ -18,7 +18,7 @@ function SuccessFeedback({ children, isVisible, handleModalHide }) {
 					source={OkAnimation}
 					autoPlay
 					loop={false}
-					style={{ width: 150, height: 150 }}
+					style={Styles.Animation}
 				/>
 				<TouchableOpacity
 					style={Styles.ModalClose}

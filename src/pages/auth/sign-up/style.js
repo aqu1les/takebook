@@ -70,6 +70,10 @@ export default StyleSheet.create({
 		backgroundColor: '#3eb3e5',
 		alignItems: 'center',
 	},
+	ModalButtonError: {
+		height: 45,
+		paddingVertical: 5,
+	},
 	ButtonText: {
 		fontSize: 28,
 		textAlign: 'center',
@@ -104,5 +108,12 @@ export default StyleSheet.create({
 		width: '100%',
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	FAEdit: {
+		position: 'absolute',
+		alignSelf: 'center',
+	},
+	PasswordField: {
+		paddingLeft: 14,
 	},
 });

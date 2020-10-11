@@ -188,7 +188,7 @@ export default function SignUp(props) {
 				name="edit"
 				color="#000"
 				size={24}
-				style={{ position: 'absolute', alignSelf: 'center' }}
+				style={Styles.FAEdit}
 			/>
 		</TouchableOpacity>
 	) : (
@@ -274,8 +274,8 @@ export default function SignUp(props) {
 				<TouchableOpacity
 					style={[
 						Styles.FormGroup,
+						Styles.PasswordField,
 						passwordConfError && Styles.InputError,
-						{ paddingLeft: 14 },
 					]}
 					onPress={() => passwordConfirmationField.current.focus()}>
 					<Password style={Styles.Icon} />
@@ -327,10 +327,7 @@ export default function SignUp(props) {
 				<Text style={[Styles.TextH1]}>{t('signUp.error.title')}</Text>
 				<Text style={Styles.TextP}>{t('signUp.error.content')}</Text>
 				<TouchableOpacity
-					style={[
-						Styles.ModalButton,
-						{ height: 45, paddingVertical: 5 },
-					]}
+					style={[Styles.ModalButton, Styles.ModalButtonError]}
 					onPress={navigateToLogin}>
 					<Text style={Styles.ButtonText}>
 						{t('signUp.error.button')}

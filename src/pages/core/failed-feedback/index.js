@@ -18,7 +18,7 @@ function FailedFeedback({ isVisible, handleModalHide, children }) {
 					source={ErrorAnimation}
 					autoPlay
 					loop={false}
-					style={{ width: 150, height: 150 }}
+					style={Styles.Animation}
 				/>
 				<TouchableOpacity
 					style={Styles.ModalClose}

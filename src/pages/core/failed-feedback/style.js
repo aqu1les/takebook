@@ -23,4 +23,5 @@ export default StyleSheet.create({
 		top: 15,
 		right: 15,
 	},
+	Animation: { width: 150, height: 150 },
 });

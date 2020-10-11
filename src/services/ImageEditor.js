@@ -13,8 +13,8 @@ export default function (path, onDone, onCancel) {
 	RNPhotoEditor.Edit({
 		path: path,
 		hiddenControls: ['draw', 'share', 'sticker', 'text'],
-		onDone: (path) => {
-			onDone(path);
+		onDone: (imagePath) => {
+			onDone(imagePath);
 		},
 		onCancel: () => {
 			onCancel();
