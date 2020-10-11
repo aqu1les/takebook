@@ -7,6 +7,7 @@ import {
 	LOG_OUT,
 } from '../actions/authentication';
 import { removeToken, storeToken } from '../../services/UserService';
+import PushNotification from 'react-native-push-notification';
 
 const INITIAL_STATE = {
 	authenticated: false,
@@ -63,6 +64,8 @@ export default function authReducer(state = INITIAL_STATE, action) {
 			};
 		case LOG_OUT:
 			removeToken();
+			PushNotification.setApplicationIconBadgeNumber(0);
+			// Remove FCM
 			return { authenticated: false, loading: false };
 		default:
 			return state;
