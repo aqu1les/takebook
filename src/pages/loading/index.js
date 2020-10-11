@@ -14,7 +14,6 @@ import { setNotificationsAction } from '../../redux/actions/notification';
 import { loadFavoritesAction } from '../../redux/actions/fav';
 import { loadAuthErrorAction } from './../../redux/actions/authentication';
 import { getToken, getUser } from '../../services/UserService';
-import { loadChatsAction } from './../../redux/actions/chat';
 
 export default function Loading() {
 	const dispatch = useDispatch();

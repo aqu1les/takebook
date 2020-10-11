@@ -111,6 +111,7 @@ export default {
 			noChats_1: 'Você não possui nenhuma conversa no momento!',
 			noChats_2:
 				'Entre em contato com algum anunciante para negociar a compra de um livro!',
+			loadChats: 'Carregar conversas',
 		},
 	},
 };

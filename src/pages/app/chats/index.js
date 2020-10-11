@@ -7,6 +7,7 @@ import { loadChatsAction } from '../../../redux/actions/chat';
 import TalkItem from './talk-item';
 import EmptyList from '../../../assets/empty-chat.svg';
 import { useTranslation } from 'react-i18next';
+import { RectButton } from 'react-native-gesture-handler';
 
 export default function RoomList({ route, navigation }) {
 	const { t: trans } = useTranslation();
@@ -15,14 +16,13 @@ export default function RoomList({ route, navigation }) {
 	const chats = useSelector((state) => state.chats.chats);
 	const loading = useSelector((state) => state.chats.loading);
 
-	useEffect(() => {
-		getChats();
-	}, [getChats]);
+	const loadChats = useCallback(() => {
+		dispatch(loadChatsAction());
+	}, [dispatch]);
 
-	const getChats = useCallback(() => {
+	useEffect(() => {
 		loadChats();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [loadChats]);
 
 	useEffect(() => {
 		if (receiver) {
@@ -36,12 +36,7 @@ export default function RoomList({ route, navigation }) {
 				navigation.dispatch(push);
 			}
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [receiver, chats]);
-
-	function loadChats() {
-		dispatch(loadChatsAction());
-	}
+	}, [receiver, chats, navigation]);
 
 	function renderSeparator() {
 		return <View style={Styles.Divider} />;
@@ -61,9 +56,7 @@ export default function RoomList({ route, navigation }) {
 						/>
 					)}
 					keyExtractor={(item) => String(item.id)}
-					contentContainerStyle={{
-						width: '100%',
-					}}
+					contentContainerStyle={Styles.ListContainer}
 					refreshControl={
 						<RefreshControl
 							colors={['#fb8c00', '#38C2FF']}
@@ -82,6 +75,12 @@ export default function RoomList({ route, navigation }) {
 					<Text style={Styles.CenterText}>
 						{trans('chats.noChats_2')}
 					</Text>
+					<RectButton onPress={loadChats} style={Styles.LoadButton}>
+						<Text
+							style={[Styles.CenterText, Styles.LoadButtonText]}>
+							{trans('chats.loadChats')}
+						</Text>
+					</RectButton>
 				</View>
 			)}
 		</View>

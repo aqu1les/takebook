@@ -41,8 +41,7 @@ function Main(props) {
 		dispatch(loadCategoriesAction());
 		dispatch(loadAdvertsAction());
 		dispatch(loadChatsAction());
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch]);
 
 	/* SUBSCRIBE TO WS  */
 	useEffect(() => {
@@ -76,8 +75,7 @@ function Main(props) {
 			unsubscribeChannel(globalWS);
 			unsubscribeChannel(userWS);
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch, user.id]);
 
 	function handleHideModal() {
 		setShowFirstModal(false);

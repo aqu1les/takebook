@@ -13,27 +13,17 @@ function CategoryList(props) {
 
 	useEffect(() => {
 		let isMounted = true;
-		const unsubscribe = FilterService.subscribe(
-			({ category, searchTerm }) => {
-				if (isMounted) {
-					changeSelCat(category);
-				}
-			},
-		);
+		const unsubscribe = FilterService.subscribe(({ category }) => {
+			if (isMounted) {
+				setSelectedCat((v) => (v !== category ? category : v));
+			}
+		});
 
-		changeSelCat(FilterService.category);
+		setSelectedCat(FilterService.category);
 		return function cleanup() {
 			isMounted = false;
 			unsubscribe();
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	const changeSelCat = useCallback((category) => {
-		if (category !== selectedCat) {
-			setSelectedCat(category);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	function renderSeparator() {
@@ -56,10 +46,7 @@ function CategoryList(props) {
 				)}
 				keyExtractor={(item) => `cat-${item.id}`}
 				horizontal={true}
-				contentContainerStyle={{
-					justifyContent: 'space-around',
-					width: '100%',
-				}}
+				contentContainerStyle={Styles.CategoriesListContainer}
 				ItemSeparatorComponent={renderSeparator}
 			/>
 		</View>

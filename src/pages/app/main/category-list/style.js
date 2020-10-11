@@ -21,4 +21,8 @@ export default StyleSheet.create({
 		marginVertical: '15%',
 		marginHorizontal: 5,
 	},
+	CategoriesListContainer: {
+		justifyContent: 'space-around',
+		width: '100%',
+	},
 });

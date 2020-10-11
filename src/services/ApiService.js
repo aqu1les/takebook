@@ -1,11 +1,14 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import { API_URL } from 'react-native-dotenv';
-import { getToken } from './UserService';
 
 const ApiService = axios.create({
 	baseURL: API_URL || 'http://10.0.0.8:8000',
 });
+
+async function getToken() {
+	return await AsyncStorage.getItem('userToken:TB');
+}
 
 ApiService.interceptors.request.use(async (config) => {
 	console.log('requisição');

@@ -30,7 +30,6 @@ export default function chatsReducer(state = INITIAL_STATE, action) {
 			const chats = action.chats
 				.map((chat) => {
 					chat.loadingMessages = false;
-					chat.messages = chat.messages;
 					chat.id = chat.room_id || chat.id;
 					chat.room_id = chat.id;
 					return chat;

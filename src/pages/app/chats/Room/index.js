@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, {
+	useEffect,
+	useRef,
+	useState,
+	useMemo,
+	useCallback,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	View,
@@ -36,7 +42,7 @@ export default function Room({ navigation, route }) {
 		const chat = state.chats.chats.find((chat) => chat.room_id == roomId);
 		return chat ? chat.loadingMessages : false;
 	});
-	const messagesList = useRef();
+	const messagesList = useRef(null);
 	const [userMessage, setUserMessage] = useState('');
 
 	const [sendingMsg, setSendingMsg] = useState(false);
@@ -45,10 +51,13 @@ export default function Room({ navigation, route }) {
 		sendingMsg,
 	]);
 
+	const loadMessages = useCallback(() => {
+		dispatch(loadMessagesAction(roomId));
+	}, [dispatch, roomId]);
+
 	useEffect(() => {
-		loadChatMessages();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		loadMessages();
+	}, [loadMessages]);
 
 	useEffect(() => {
 		if (user) {
@@ -56,25 +65,19 @@ export default function Room({ navigation, route }) {
 				title: `${user.first_name} ${user.last_name}`,
 			});
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [user]);
+	}, [user, navigation]);
 
 	useEffect(() => {
-		scrollToBottom();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [messages]);
-
-	function scrollToBottom() {
-		setTimeout(() => {
-			if (messagesList.current) {
+		function scrollToBottom() {
+			setTimeout(() => {
 				messagesList.current.scrollToEnd({ animated: true });
-			}
-		}, 500);
-	}
+			}, 500);
+		}
 
-	function loadChatMessages() {
-		dispatch(loadMessagesAction(roomId));
-	}
+		if (messagesList.current) {
+			scrollToBottom();
+		}
+	}, [messages.length, messagesList]);
 
 	function handleSubmit() {
 		setSendingMsg(true);

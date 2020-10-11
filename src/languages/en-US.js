@@ -108,6 +108,7 @@ export default {
 			noChats_1: 'You currently have no conversations!',
 			noChats_2:
 				'Contact an advertiser to negotiate the purchase of a book!',
+			loadChats: 'Load chats',
 		},
 	},
 };

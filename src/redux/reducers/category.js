@@ -9,10 +9,15 @@ export default function categoriesReducer(state = INITIAL_STATE, action) {
 		case SET_CATEGORIES_INFO:
 			return { ...action.info, data: [...state.data] };
 		case ADD_CATEGORY:
-			const categories = state.data.filter(
-				(category) => category.id !== action.category.id,
-			);
-			return { ...state, data: [...categories, action.category] };
+			return {
+				...state,
+				data: [
+					...state.data.filter(
+						(category) => category.id !== action.category.id,
+					),
+					action.category,
+				],
+			};
 		default:
 			return state;
 	}
