@@ -50,6 +50,11 @@ export default StyleSheet.create({
 		fontSize: 14,
 		fontWeight: '600',
 	},
+	AuthorTitle: {
+		fontSize: 14,
+		color: '#555',
+		fontWeight: 'bold',
+	},
 	Categories: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -66,6 +71,7 @@ export default StyleSheet.create({
 	Badge: {
 		alignItems: 'center',
 		justifyContent: 'center',
+		height: 20,
 	},
 	Condition: {
 		color: '#FFFFFF',
@@ -93,12 +99,21 @@ export default StyleSheet.create({
 		fontSize: 18,
 		fontWeight: 'bold',
 	},
-	LikeBtn: {
+	TrashBtn: {
 		position: 'absolute',
-		top: 0,
-		right: 0,
+		top: -5,
+		right: -5,
 		padding: 12,
 		zIndex: 1000,
+	},
+	LikeBtn: {
+		position: 'absolute',
+		top: -5,
+		right: -5,
+		padding: 12,
+		zIndex: 1000,
+		marginRight: 6,
+		marginTop: 6,
 	},
 	CreationTime: {
 		position: 'absolute',

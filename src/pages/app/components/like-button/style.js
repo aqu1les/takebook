@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	Icon: {
-		width: 40,
-		height: 40,
+		width: 28,
+		height: 28,
 	},
 });

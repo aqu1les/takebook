@@ -88,10 +88,7 @@ function Advert({ item }) {
 						: { borderColor: bookBorder, borderWidth: 1 },
 				]}
 				activeOpacity={0.8}>
-				<TouchableOpacity
-					style={Styles.Cover}
-					onPress={handleClick}
-					disabled={status_id === 2 && loggedUser.id === owner.id}>
+				<TouchableOpacity style={Styles.Cover} onPress={handleClick}>
 					<FastImage
 						source={
 							covers_url.length > 0
@@ -104,15 +101,7 @@ function Advert({ item }) {
 				<View style={Styles.Infos}>
 					<Text style={Styles.Title}>{title}</Text>
 					<Text style={Styles.Author}>
-						<Text
-							style={[
-								Styles.Author,
-								{
-									fontSize: 14,
-									color: '#555',
-									fontWeight: 'bold',
-								},
-							]}>
+						<Text style={Styles.AuthorTitle}>
 							{t('advertList.advert.author') + ': '}
 						</Text>
 						{author}
@@ -128,7 +117,7 @@ function Advert({ item }) {
 						<Badge
 							style={[
 								Styles.Badge,
-								{ backgroundColor: badgeColor, height: 20 },
+								{ backgroundColor: badgeColor },
 							]}>
 							<Text style={Styles.Condition}>{condition}</Text>
 						</Badge>
@@ -147,8 +136,8 @@ function Advert({ item }) {
 					{loggedUser.id === owner.id ? (
 						<RectButton
 							onPress={handleDelete}
-							style={Styles.LikeBtn}>
-							<Icon size={28} name="trash" color="#666666" />
+							style={Styles.TrashBtn}>
+							<Icon size={20} name="trash" color="#666666" />
 						</RectButton>
 					) : (
 						<LikeButton
