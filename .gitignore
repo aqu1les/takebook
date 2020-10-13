@@ -61,3 +61,5 @@ buck-out/
 debug.log
 
 .env
+.vscode/
+.vscode
