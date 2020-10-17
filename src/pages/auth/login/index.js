@@ -90,6 +90,10 @@ export default function Login(props) {
 		return props.navigation.navigate('SignUp');
 	}
 
+	function navigateForgotPassword() {
+		return props.navigation.navigate('ForgotPassword');
+	}
+
 	async function submitForm() {
 		passwordInput.current.blur();
 		if (!login || !password || invalid) {
@@ -161,7 +165,10 @@ export default function Login(props) {
 	return (
 		<Template loading={loading}>
 			<TouchableOpacity
-				style={[Styles.FormGroup, loginError && Styles.InputError]}
+				style={[
+					Styles.FormGroup,
+					loginError && login !== '' && Styles.InputError,
+				]}
 				onPress={() => loginInput.current.focus()}>
 				<User style={Styles.Icon} />
 				<TextInput
@@ -180,7 +187,10 @@ export default function Login(props) {
 				/>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={[Styles.FormGroup, passwordError && Styles.InputError]}
+				style={[
+					Styles.FormGroup,
+					passwordError && password !== '' && Styles.InputError,
+				]}
 				onPress={() => passwordInput.current.focus()}>
 				<Password style={Styles.Icon} />
 				<TextInput
@@ -206,9 +216,9 @@ export default function Login(props) {
 					accessibilityLabel={t('login.remindMe')}
 					onValueChange={(value) => setRemind(value)}
 				/>
-				{/* <TouchableOpacity>
-                    <Text style={Styles.Forgot}>{t('login.forgot')}</Text>
-                </TouchableOpacity> */}
+				<TouchableOpacity onPress={() => navigateForgotPassword()}>
+					<Text style={Styles.Forgot}>{t('login.forgot')}</Text>
+				</TouchableOpacity>
 			</View>
 			<TouchableOpacity
 				style={[Styles.Button, invalid && Styles.ButtonDisabled]}

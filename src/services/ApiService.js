@@ -31,11 +31,11 @@ ApiService.interceptors.response.use(
 					return 'E-mail inválido!';
 				} else {
 					AsyncStorage.removeItem('userToken:TB');
-					return;
 				}
 			}
-			return err.response;
 		}
+
+		throw err.response;
 	},
 );
 

@@ -11,7 +11,7 @@ import PushNotification from 'react-native-push-notification';
 
 const INITIAL_STATE = {
 	authenticated: false,
-	loading: true,
+	loading: false,
 	checked: false,
 	id: null,
 	first_name: '',

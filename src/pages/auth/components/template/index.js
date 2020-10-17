@@ -15,6 +15,7 @@ function Template(props) {
 	useEffect(() => {
 		StatusBar.setBarStyle('dark-content');
 	});
+
 	return (
 		<>
 			<StatusBar backgroundColor="#EAEAEA" barStyle="dark-content" />
@@ -30,17 +31,19 @@ function Template(props) {
 					behavior="height"
 					keyboardVerticalOffset={400}
 					enabled>
-					<View
-						style={[
-							Styles.Header,
-							{ padding: props.newHeader ? 0 : 20 },
-						]}>
-						{props.newHeader ? (
-							props.newHeader
-						) : (
-							<Logo width="80%" height="80%" />
-						)}
-					</View>
+					{props.withLogo !== false && (
+						<View
+							style={[
+								Styles.Header,
+								{ padding: props.newHeader ? 0 : 20 },
+							]}>
+							{props.newHeader ? (
+								props.newHeader
+							) : (
+								<Logo width="80%" height="80%" />
+							)}
+						</View>
+					)}
 					{props.children}
 				</KeyboardAvoidingView>
 				{props.loading && (

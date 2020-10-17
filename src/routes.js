@@ -17,9 +17,44 @@ import Header from './pages/app/components/header';
 import AdList from './pages/app/bookmarks/index';
 import MyAdsList from './pages/app/myads/index';
 import { checkTokenAction } from './redux/actions/authentication';
+import ForgotPassword_1 from './pages/auth/forgot-password/step-1/index';
+import ForgotPassword_2 from './pages/auth/forgot-password/step-2/index';
+import ForgotPassword_3 from './pages/auth/forgot-password/step-3/index';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+
+function ForgotPasswordStack() {
+	const ScreenOptions = {
+		headerTransparent: true,
+		headerTintColor: '#000',
+		title: '',
+	};
+
+	return (
+		<Stack.Navigator
+			animationEnabled={true}
+			screenOptions={{ gestureDirection: 'horizontal' }}
+			initialRouteName="ForgotPassword_1"
+			headerMode="screen">
+			<Stack.Screen
+				name="ForgotPassword_1"
+				component={ForgotPassword_1}
+				options={{ ...ScreenOptions, headerShown: true }}
+			/>
+			<Stack.Screen
+				name="ForgotPassword_2"
+				component={ForgotPassword_2}
+				options={ScreenOptions}
+			/>
+			<Stack.Screen
+				name="ForgotPassword_3"
+				component={ForgotPassword_3}
+				options={ScreenOptions}
+			/>
+		</Stack.Navigator>
+	);
+}
 
 function AuthStack() {
 	return (
@@ -29,6 +64,16 @@ function AuthStack() {
 				component={Login}
 				options={{ headerShown: false }}
 				initialParams={{ redirectEmail: '' }}
+			/>
+			<Stack.Screen
+				name="ForgotPassword"
+				component={ForgotPasswordStack}
+				options={{
+					headerTransparent: true,
+					headerTintColor: '#000',
+					title: '',
+					headerShown: false,
+				}}
 			/>
 			<Stack.Screen
 				name="SignUp"
