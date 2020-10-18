@@ -18,6 +18,7 @@ import AdList from './pages/app/bookmarks/index';
 import MyAdsList from './pages/app/myads/index';
 import ForgotPassword from './pages/auth/forgot-password/index';
 import { checkTokenAction } from './redux/actions/authentication';
+import { useTranslation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -54,6 +55,8 @@ function AuthStack() {
 }
 
 function Main() {
+	const { t } = useTranslation();
+
 	return (
 		<Stack.Navigator initialRouteName="Home">
 			<Stack.Screen
@@ -79,7 +82,7 @@ function Main() {
 						backgroundColor: '#3ac2fe',
 					},
 					headerTintColor: '#FFF',
-					headerTitle: 'Cadastrar Livro',
+					headerTitle: t('global.createBook'),
 				}}
 			/>
 		</Stack.Navigator>
@@ -87,13 +90,17 @@ function Main() {
 }
 
 function Chats() {
+	const { t } = useTranslation();
+
 	return (
 		<Stack.Navigator initialRouteName="RoomList">
 			<Stack.Screen
 				name="RoomList"
 				component={RoomList}
 				options={{
-					header: (props) => <Header {...props} title="Conversas" />,
+					header: (props) => (
+						<Header {...props} title={t('global.chats')} />
+					),
 				}}
 				initialParams={{ user: null }}
 			/>
@@ -114,13 +121,17 @@ function Chats() {
 }
 
 function Bookmarks() {
+	const { t } = useTranslation();
+
 	return (
 		<Stack.Navigator initialRouteName="AdList">
 			<Stack.Screen
 				name="AdList"
 				component={AdList}
 				options={{
-					header: (props) => <Header {...props} title="Favoritos" />,
+					header: (props) => (
+						<Header {...props} title={t('global.bookmarks')} />
+					),
 				}}
 			/>
 		</Stack.Navigator>
@@ -128,6 +139,8 @@ function Bookmarks() {
 }
 
 function MyAds() {
+	const { t } = useTranslation();
+
 	return (
 		<Stack.Navigator initialRouteName="MyAdverts">
 			<Stack.Screen
@@ -135,7 +148,7 @@ function MyAds() {
 				component={MyAdsList}
 				options={{
 					header: (props) => (
-						<Header {...props} title="Meus Anúncios" />
+						<Header {...props} title={t('global.myads')} />
 					),
 				}}
 			/>

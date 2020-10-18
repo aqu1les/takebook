@@ -2,6 +2,10 @@ export default {
 	translation: {
 		global: {
 			welcome: 'Welcome to Takebook',
+			createBook: 'Register Book',
+			chats: 'Chats',
+			bookmarks: 'Bookmarks',
+			myads: 'My books',
 		},
 
 		error: {
@@ -138,6 +142,13 @@ export default {
 				button: 'Update',
 				successFeedback: 'Password changed successfully!',
 			},
+		},
+
+		favorites: {
+			text1: "You haven't liked any books yet",
+			text2:
+				'Access the main menu and see the books available for purchase',
+			button: 'Reload my favorites list',
 		},
 	},
 };

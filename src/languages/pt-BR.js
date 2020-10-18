@@ -2,6 +2,10 @@ export default {
 	translation: {
 		global: {
 			welcome: 'Bem vindo ao Takebook !',
+			createBook: 'Cadastrar Livro',
+			chats: 'Conversas',
+			bookmarks: 'Favoritos',
+			myads: 'Meus Anúncios',
 		},
 
 		error: {
@@ -142,6 +146,13 @@ export default {
 				button: 'Alterar',
 				successFeedback: 'Senha alterada com sucesso!',
 			},
+		},
+
+		favorites: {
+			text1: 'Você ainda não favoritou nenhum livro',
+			text2:
+				'Acesse o menu principal e veja os livros disponíveis para compra',
+			button: 'Recarregar lista de favoritos',
 		},
 	},
 };

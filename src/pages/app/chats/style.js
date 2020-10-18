@@ -25,9 +25,9 @@ export default StyleSheet.create({
 	},
 	LoadButton: {
 		marginTop: 15,
-		width: 150,
-		height: 35,
-		backgroundColor: '#f98b0d',
+		width: '90%',
+		height: 40,
+		backgroundColor: '#EB6339',
 		alignItems: 'center',
 		justifyContent: 'center',
 		elevation: 1,
