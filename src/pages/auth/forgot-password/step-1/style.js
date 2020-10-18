@@ -6,6 +6,7 @@ export default StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		width: '80%',
+		maxHeight: '95%',
 	},
 	PageTitle: {
 		textAlign: 'center',
@@ -33,6 +34,7 @@ export default StyleSheet.create({
 		height: 54,
 		padding: 5,
 		paddingBottom: 0,
+		fontSize: 16,
 	},
 	InputError: {
 		borderBottomColor: 'red',

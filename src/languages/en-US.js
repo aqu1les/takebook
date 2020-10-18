@@ -110,5 +110,34 @@ export default {
 				'Contact an advertiser to negotiate the purchase of a book!',
 			loadChats: 'Load chats',
 		},
+
+		forgotPassword: {
+			step_1: {
+				title: 'Recover password',
+				helpText:
+					'Type your registered e-mail so we can send you the PIN to recover your password',
+				input: 'Type your e-mail',
+				button: 'Send',
+				successFeedback: 'E-mail sent!',
+				errorFeedback: 'The e-mail is not registered in our database',
+			},
+			step_2: {
+				title: 'Type in the PIN',
+				helpText:
+					'We sent a 6 digit PIN to your e-mail, type it so we can continue the password recovery process',
+				button: 'Continue',
+				successFeedback: 'PIN validated',
+				errorFeedback: 'Invalid PIN',
+			},
+			step_3: {
+				title: 'Update password',
+				helpText:
+					'Now that we finished the previous steps, type in your new password! =D',
+				firstInput: 'Type your new passwrod',
+				secondInput: 'Confirm your new password',
+				button: 'Update',
+				successFeedback: 'Password changed successfully!',
+			},
+		},
 	},
 };

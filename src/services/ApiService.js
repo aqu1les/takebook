@@ -11,7 +11,7 @@ async function getToken() {
 }
 
 ApiService.interceptors.request.use(async (config) => {
-	console.log('requisição');
+	console.log('request');
 	const token = await getToken();
 	if (token) {
 		config.headers.Authorization = `Bearer ${token}`;
@@ -22,6 +22,7 @@ ApiService.interceptors.request.use(async (config) => {
 ApiService.interceptors.response.use(
 	(response) => response,
 	(err) => {
+		console.log('response');
 		if (err.response) {
 			const { status, data } = err.response;
 			if (status === 401) {

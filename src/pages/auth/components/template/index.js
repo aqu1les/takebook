@@ -29,7 +29,11 @@ function Template(props) {
 				<KeyboardAvoidingView
 					style={Styles.Card}
 					behavior="height"
-					keyboardVerticalOffset={400}
+					keyboardVerticalOffset={
+						props.keyboardOffset !== undefined
+							? props.keyboardOffset
+							: 400
+					}
 					enabled>
 					{props.withLogo !== false && (
 						<View

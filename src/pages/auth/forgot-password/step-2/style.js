@@ -25,14 +25,14 @@ export default StyleSheet.create({
 		marginTop: 'auto',
 		marginBottom: 'auto',
 	},
+	FormRow: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
 	Input: {
-		width: '100%',
-		borderRadius: 8,
+		width: '15%',
+		borderColor: '#3ac2fe',
 		borderBottomWidth: 1,
-		borderBottomColor: '#EAEAEA',
-		height: 54,
-		padding: 5,
-		paddingBottom: 0,
 	},
 	InputError: {
 		borderBottomColor: 'red',

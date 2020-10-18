@@ -113,5 +113,35 @@ export default {
 				'Entre em contato com algum anunciante para negociar a compra de um livro!',
 			loadChats: 'Carregar conversas',
 		},
+
+		forgotPassword: {
+			step_1: {
+				title: 'Recuperar a senha',
+				helpText:
+					'Digite o e-mail registrado para que possamos enviar o PIN para recuperar a sua senha.',
+				input: 'Digite o seu e-mail',
+				button: 'Enviar',
+				successFeedback: 'E-mail enviado!',
+				errorFeedback:
+					'O e-mail não está registrado no nosso banco de dados',
+			},
+			step_2: {
+				title: 'Digite o PIN',
+				helpText:
+					'Enviamos um número de 6 dígitos para o seu e-mail, digite-o abaixo para continuar o processo de recuperação de senha',
+				button: 'Continuar',
+				successFeedback: 'PIN validado',
+				errorFeedback: 'O PIN digitado é inválido',
+			},
+			step_3: {
+				title: 'Atualizar a senha',
+				helpText:
+					'Agora que finalizamos todos os passos, digite uma nova senha para a sua conta! =D',
+				firstInput: 'Digite sua nova a senha',
+				secondInput: 'Confirme a sua nova senha',
+				button: 'Alterar',
+				successFeedback: 'Senha alterada com sucesso!',
+			},
+		},
 	},
 };

@@ -33,6 +33,7 @@ export default StyleSheet.create({
 		height: 54,
 		padding: 5,
 		paddingBottom: 0,
+		fontSize: 16,
 	},
 	InputError: {
 		borderBottomColor: 'red',

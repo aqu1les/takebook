@@ -31,7 +31,7 @@ export default function Loading() {
 						dispatch(
 							setNotificationsAction(response.data.notifications),
 						);
-						await dispatch(
+						dispatch(
 							setUserAction({
 								...response.data,
 								token,

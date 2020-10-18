@@ -7,7 +7,6 @@ import {
 	ToastAndroid,
 } from 'react-native';
 import Styles from './style';
-import Template from './../../components/template/index';
 import { useTranslation } from 'react-i18next';
 import { EMAIL_REGEX } from '../../../../validators/LoginValidator';
 import {
@@ -15,7 +14,7 @@ import {
 	storeEmailToRecover,
 } from './../../../../services/AuthService';
 
-function ForgotPassword_1({ navigation }) {
+function ForgotPassword_1({ setTypedEmail, next }) {
 	const { t } = useTranslation();
 	const [loading, setLoading] = useState(false);
 	const [emailInput, setEmailInput] = useState('');
@@ -32,62 +31,56 @@ function ForgotPassword_1({ navigation }) {
 				.then(() => {
 					storeEmailToRecover(emailInput);
 					ToastAndroid.show(
-						'O e-mail foi enviado!',
+						t('forgotPassword.step_1.successFeedback'),
 						ToastAndroid.SHORT,
 					);
-
-					navigation.navigate('ForgotPassword_2');
+					setTypedEmail(emailInput);
+					next();
 				})
 				.catch(() => {
 					ToastAndroid.show(
-						'Deu algo de errado, tente novamente mais tarde!',
+						t('forgotPassword.step_1.errorFeedback'),
 						ToastAndroid.LONG,
 					);
-				})
-				.finally(() => {
 					setLoading(false);
 				});
 		}
 	}
 
 	return (
-		<Template withLogo={false}>
-			<View style={Styles.Wrapper}>
-				<Text style={Styles.PageTitle}>Recuperar a senha</Text>
-				<Text style={Styles.HelpText}>
-					Digite o e-mail registrado para que possamos enviar o PIN
-					para recuperar a sua senha.
-				</Text>
-				<View style={Styles.FormGroup}>
-					<TextInput
-						style={[
-							Styles.Input,
-							!emailValid &&
-								emailInput !== '' &&
-								Styles.InputError,
-						]}
-						placeholder={t('login.email')}
-						placeholderTextColor="#666666"
-						autoCapitalize="none"
-						autoCorrect={false}
-						underlineColorAndroid="transparent"
-						value={emailInput}
-						onChangeText={(text) => setEmailInput(text)}
-						keyboardType="email-address"
-						returnKeyType={'next'}
-					/>
-				</View>
-				<TouchableOpacity
+		<View style={Styles.Wrapper}>
+			<Text style={Styles.PageTitle}>
+				{t('forgotPassword.step_1.title')}
+			</Text>
+			<Text style={Styles.HelpText}>
+				{t('forgotPassword.step_1.helpText')}
+			</Text>
+			<View style={Styles.FormGroup}>
+				<TextInput
 					style={[
-						Styles.Button,
-						!emailValid && Styles.ButtonDisabled,
+						Styles.Input,
+						!emailValid && emailInput !== '' && Styles.InputError,
 					]}
-					onPress={sendForm}
-					disabled={!emailValid}>
-					<Text style={Styles.ButtonText}>Enviar</Text>
-				</TouchableOpacity>
+					placeholder={t('forgotPassword.step_1.input')}
+					placeholderTextColor="#666666"
+					autoCapitalize="none"
+					autoCorrect={false}
+					underlineColorAndroid="transparent"
+					value={emailInput}
+					onChangeText={(text) => setEmailInput(text)}
+					keyboardType="email-address"
+					returnKeyType={'next'}
+				/>
 			</View>
-		</Template>
+			<TouchableOpacity
+				style={[Styles.Button, !emailValid && Styles.ButtonDisabled]}
+				onPress={sendForm}
+				disabled={!emailValid}>
+				<Text style={Styles.ButtonText}>
+					{t('forgotPassword.step_1.button')}
+				</Text>
+			</TouchableOpacity>
+		</View>
 	);
 }
 
