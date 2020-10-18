@@ -23,11 +23,7 @@ function TalkItem({ user, room_id, lastMessage }) {
 				{user.avatar_url ? (
 					<Image
 						source={{ uri: user.avatar_url }}
-						style={{
-							height: '90%',
-							width: '90%',
-							borderRadius: 100,
-						}}
+						style={Styles.ProfilePic}
 					/>
 				) : (
 					<DefaultProfile height="90%" width="90%" />

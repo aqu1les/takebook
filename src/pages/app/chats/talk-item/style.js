@@ -41,4 +41,9 @@ export default StyleSheet.create({
 		fontSize: 14,
 		color: '#A5A5A5',
 	},
+	ProfilePic: {
+		height: '90%',
+		width: '90%',
+		borderRadius: 100,
+	},
 });
