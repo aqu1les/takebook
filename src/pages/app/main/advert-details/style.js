@@ -65,6 +65,10 @@ export default StyleSheet.create({
 		fontSize: 20,
 		color: '#9E9E9E',
 	},
+	AuthorRow: {
+		flex: 1,
+		flexDirection: 'row',
+	},
 	Price: {
 		fontSize: 28,
 		fontWeight: 'bold',
@@ -147,6 +151,9 @@ export default StyleSheet.create({
 		borderRadius: 5,
 		padding: 5,
 	},
+	MessageButtonDisabled: {
+		backgroundColor: '#E5E5E5',
+	},
 	ButtonText: {
 		color: '#FFFFFF',
 		fontSize: 16,
@@ -180,5 +187,23 @@ export default StyleSheet.create({
 		fontSize: 28,
 		textAlign: 'center',
 		color: '#FFFFFF',
+	},
+	Chip: {
+		fontSize: 12,
+		height: 10,
+	},
+	TabUnderline: {
+		backgroundColor: '#FB8C00',
+		borderRadius: 10,
+	},
+	UserAvatar: {
+		width: '90%',
+		height: '90%',
+		borderRadius: 120,
+	},
+	UserName: {
+		fontSize: 20,
+		color: '#ff7719',
+		fontWeight: 'bold',
 	},
 });

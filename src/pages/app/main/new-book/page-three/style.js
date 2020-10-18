@@ -44,6 +44,9 @@ export default StyleSheet.create({
 		fontSize: 20,
 		color: '#FFFFFF',
 	},
+	CategoriesContainer: {
+		flexDirection: 'column',
+	},
 	CategoriesText: {
 		textAlign: 'center',
 		marginTop: 28,
@@ -64,5 +67,8 @@ export default StyleSheet.create({
 		borderRadius: 8,
 		textAlignVertical: 'top',
 		marginVertical: 28,
+	},
+	End: {
+		height: 60,
 	},
 });

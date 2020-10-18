@@ -8,6 +8,21 @@ export default {
 			myads: 'My books',
 		},
 
+		new: 'New',
+		semiNew: 'Semi New',
+		used: 'Second hand',
+
+		success: 'Success',
+		back: 'Go back',
+
+		routes: {
+			home: 'Home',
+			myAds: 'My Books',
+			chats: 'Chats',
+			bookmarks: 'Bookmarks',
+			logout: 'Log out',
+		},
+
 		error: {
 			noConnection: "We're unable to contact the server",
 			invalidEmail: 'Invalid email',
@@ -49,11 +64,9 @@ export default {
 			noBooks: 'No books registered!',
 			advert: {
 				locale: 'Locale',
-				new: 'New',
-				semi: 'Semi-New',
-				used: 'Used',
 				author: 'Author',
 			},
+			onRemoveSuccessText: 'The book was successfully removed!',
 		},
 
 		advertDetails: {
@@ -70,6 +83,10 @@ export default {
 
 		categories: {
 			highlights: 'Highlights',
+			horror: 'Horror',
+			comedy: 'Comedy',
+			mistery: 'Mistery',
+			adventure: 'Adventure',
 		},
 
 		onboardModals: {
@@ -79,13 +96,18 @@ export default {
 				button: "Let's go",
 			},
 			second: {
+				header: 'Take pictures!',
 				textplanation:
 					'You will need a photo of the cover and back cover. Use your best techniques as a photographer to make your ad more attractive: D',
 			},
 		},
 
 		newBook: {
+			successFeedbackTitle: 'Success!',
+			successFeedbackText: 'Your book was registered successfully!',
+			successFeedbackButton: 'Go back',
 			pageOne: {
+				title: 'Choose your pictures',
 				help1: 'Click on the fields to add your pictures',
 				help2: '* Drag to the left to add more pictures to your ad',
 				help3: '** Add at least 2 images (Front & Back)!',
@@ -113,6 +135,7 @@ export default {
 			noChats_2:
 				'Contact an advertiser to negotiate the purchase of a book!',
 			loadChats: 'Load chats',
+			firstMessage: "Hello :) I'm interested on your book!",
 		},
 
 		forgotPassword: {

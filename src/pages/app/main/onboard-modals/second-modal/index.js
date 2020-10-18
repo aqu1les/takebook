@@ -20,25 +20,20 @@ export default function SecondModal({
 			isVisible={isVisible}
 			animationIn="slideInRight"
 			animationOut="zoomOut">
-			<View style={[Styles.ModalCard, { height: 490 }]}>
+			<View style={Styles.ModalCard}>
 				<TouchableOpacity
 					style={Styles.ModalClose}
 					onPress={handleHideModal}>
 					<CloseIcon />
 				</TouchableOpacity>
-				<Text style={Styles.TextHeader}>Tire fotos!</Text>
+				<Text style={Styles.TextHeader}>
+					{t('onboardModals.second.header')}
+				</Text>
 				<View style={Styles.Divider} />
 				<Text style={Styles.Texplanation}>
 					{t('onboardModals.second.textplanation')}
 				</Text>
-				<Image
-					source={DefaultBook}
-					style={{
-						width: 140,
-						height: 210,
-						borderRadius: 8,
-					}}
-				/>
+				<Image source={DefaultBook} style={Styles.Book} />
 				<TouchableOpacity
 					style={Styles.Modal2Button}
 					onPress={navigateToForm}>

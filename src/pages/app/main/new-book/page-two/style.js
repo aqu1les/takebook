@@ -51,4 +51,52 @@ export default StyleSheet.create({
 		fontSize: 16,
 		marginHorizontal: 30,
 	},
+	Picker: {
+		height: 54,
+		width: '100%',
+		padding: 0,
+		margin: 0,
+		borderWidth: 1,
+		borderColor: '#000',
+	},
+	PriceContainer: {
+		flexDirection: 'column',
+		height: '100%',
+		paddingHorizontal: 5,
+		justifyContent: 'space-between',
+		width: '50%',
+	},
+	PriceRow: {
+		flexDirection: 'row',
+		flex: 1,
+		marginTop: 'auto',
+		width: '100%',
+	},
+	PriceInput: {
+		height: 35,
+		width: '60%',
+		marginLeft: 'auto',
+		marginRight: 18,
+		marginTop: 5,
+		textAlign: 'right',
+		borderBottomColor: '#e5e5e5',
+		borderBottomWidth: 1,
+	},
+	PriceCurrency: {
+		height: 35,
+		width: '10%',
+		marginTop: 15,
+	},
+	StatusRow: {
+		flexDirection: 'row',
+		height: 54,
+	},
+	StatusContainer: {
+		flexDirection: 'column',
+		width: '50%',
+		height: '100%',
+	},
+	fullFlex: {
+		flex: 1,
+	},
 });

@@ -45,7 +45,7 @@ const AdvertDetails = ({ route }) => {
 			try {
 				const response = await createRoom(
 					advert.owner.id,
-					'Olá :) Tenho interesse no seu livro!',
+					t('chats.firstMessage'),
 				);
 				dispatch(onNewChat(response.data));
 
@@ -115,15 +115,13 @@ const AdvertDetails = ({ route }) => {
 				</View>
 				<View style={Styles.InfoContainer}>
 					<Text style={Styles.Title}>{advert.title}</Text>
-					<View style={{ flex: 1, flexDirection: 'row' }}>
+					<View style={Styles.AuthorRow}>
 						<Text style={Styles.Author}>{advert.author}</Text>
 						<Text style={Styles.Price}>R$ {advert.price}</Text>
 					</View>
 					<View style={Styles.Row}>
 						{advert.categories.map((cat, index) => (
-							<Chip
-								key={cat.id}
-								textStyle={{ fontSize: 12, height: 10 }}>
+							<Chip key={cat.id} textStyle={Styles.Chip}>
 								{cat.name}
 							</Chip>
 						))}
@@ -131,10 +129,7 @@ const AdvertDetails = ({ route }) => {
 				</View>
 				<Tabs
 					initialPage={0}
-					tabBarUnderlineStyle={{
-						backgroundColor: '#FB8C00',
-						borderRadius: 10,
-					}}>
+					tabBarUnderlineStyle={Styles.TabUnderline}>
 					<Tab
 						heading={t('advertDetails.tabs.description')}
 						textStyle={Styles.TabHeadingText}
@@ -170,11 +165,7 @@ const AdvertDetails = ({ route }) => {
 											source={{
 												uri: advert.owner.avatar_url,
 											}}
-											style={{
-												width: '90%',
-												height: '90%',
-												borderRadius: 120,
-											}}
+											style={Styles.UserAvatar}
 										/>
 									) : (
 										<DefaultProfile
@@ -186,11 +177,9 @@ const AdvertDetails = ({ route }) => {
 							</View>
 							<View style={Styles.RowRightSide}>
 								<Text
-									style={{
-										fontSize: 20,
-										color: '#ff7719',
-										fontWeight: 'bold',
-									}}>{`${advert.owner.first_name} ${advert.owner.last_name}`}</Text>
+									style={
+										Styles.UserName
+									}>{`${advert.owner.first_name} ${advert.owner.last_name}`}</Text>
 								{/* <View
                                     style={{
                                         flexDirection: 'row',
@@ -215,9 +204,8 @@ const AdvertDetails = ({ route }) => {
 								<TouchableOpacity
 									style={[
 										Styles.MessageButton,
-										loggedUser.id === advert.owner.id && {
-											backgroundColor: '#E5E5E5',
-										},
+										loggedUser.id === advert.owner.id &&
+											Styles.MessageButtonDisabled,
 									]}
 									onPress={contactSeller}
 									disabled={
@@ -235,14 +223,14 @@ const AdvertDetails = ({ route }) => {
 			<SuccessFeedback
 				isVisible={showSuccessModal}
 				handleModalHide={handleModalHide}>
-				<Text style={Styles.TextH1}>Sucesso!</Text>
+				<Text style={Styles.TextH1}>{t('success')}</Text>
 				<Text style={Styles.TextP}>
-					O anúncio foi removido com sucesso!
+					{t('advertList.onRemoveSuccessText')}
 				</Text>
 				<TouchableOpacity
 					style={Styles.ModalButton}
 					onPress={handleModalHide}>
-					<Text style={Styles.ButtonTextModal}>Voltar</Text>
+					<Text style={Styles.ButtonTextModal}>{t('back')}</Text>
 				</TouchableOpacity>
 			</SuccessFeedback>
 		</>

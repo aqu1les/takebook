@@ -20,10 +20,10 @@ export default function PageOne({
 
 	return (
 		<View style={Styles.PageOne}>
-			<Text style={Styles.HeadingText}>Selecione as fotos</Text>
+			<Text style={Styles.HeadingText}>{t('newBook.pageOne.title')}</Text>
 			<ScrollView
 				horizontal={true}
-				style={{ height: 230, maxHeight: 230 }}
+				style={Styles.Scroll}
 				contentContainerStyle={Styles.CoverContainer}
 				alwaysBounceHorizontal={true}
 				showsHorizontalScrollIndicator={false}>

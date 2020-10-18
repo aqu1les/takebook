@@ -38,8 +38,8 @@ export default function PageTwo({
 					placeholder={t('newBook.pageTwo.title')}
 					onBlur={goToSecondSection}
 					value={title}
-					onChangeText={(t) => setTitle(t)}
-					style={{ flex: 1 }}
+					onChangeText={(value) => setTitle(value)}
+					style={Styles.fullFlex}
 					maxLength={36}
 				/>
 			</TouchableOpacity>
@@ -48,79 +48,34 @@ export default function PageTwo({
 					placeholder={t('newBook.pageTwo.author')}
 					onBlur={goToSecondSection}
 					value={author}
-					onChangeText={(t) => setAuthor(t)}
-					style={{ flex: 1 }}
+					onChangeText={(a) => setAuthor(a)}
+					style={Styles.fullFlex}
 					maxLength={24}
 				/>
 			</TouchableOpacity>
-			<View
-				style={{
-					flexDirection: 'row',
-					height: 54,
-				}}>
-				<View
-					style={{
-						flexDirection: 'column',
-						width: '50%',
-						height: '100%',
-					}}>
+			<View style={Styles.StatusRow}>
+				<View style={Styles.StatusContainer}>
 					<Text>{t('newBook.pageTwo.bookStatus')}</Text>
 					<Picker
 						selectedValue={bookStatus}
 						onValueChange={(value) => setBookStatus(value)}
 						onBlur={goToSecondSection}
-						style={{
-							height: 54,
-							width: '100%',
-							padding: 0,
-							margin: 0,
-							borderWidth: 1,
-							borderColor: '#000',
-						}}>
-						<Picker.Item label="Novo" value={1} />
-						<Picker.Item label="Semi Novo" value={2} />
-						<Picker.Item label="Usado" value={3} />
+						style={Styles.Picker}>
+						<Picker.Item label={t('new')} value={1} />
+						<Picker.Item label={t('semiNew')} value={2} />
+						<Picker.Item label={t('used')} value={3} />
 					</Picker>
 				</View>
-				<TouchableOpacity
-					style={{
-						flexDirection: 'column',
-						height: '100%',
-						paddingHorizontal: 5,
-						justifyContent: 'space-between',
-						width: '50%',
-					}}>
+				<TouchableOpacity style={Styles.PriceContainer}>
 					<Text>{t('newBook.pageTwo.howMuch')}</Text>
-					<View
-						style={{
-							flexDirection: 'row',
-							flex: 1,
-							marginTop: 'auto',
-							width: '100%',
-						}}>
-						<Text
-							style={{
-								height: 35,
-								width: '10%',
-								marginTop: 15,
-							}}>
-							R$
-						</Text>
+					<View style={Styles.PriceRow}>
+						<Text style={Styles.PriceCurrency}>R$</Text>
 						<TextInput
 							placeholder="150"
 							value={price}
-							onChangeText={(t) => setPrice(t)}
+							onChangeText={(p) => setPrice(p)}
 							keyboardType="numeric"
-							style={{
-								height: 35,
-								width: '60%',
-								marginLeft: 'auto',
-								marginRight: 18,
-								marginTop: 5,
-								textAlign: 'right',
-								borderBottomColor: '#e5e5e5',
-								borderBottomWidth: 1,
-							}}
+							style={Styles.PriceInput}
 						/>
 					</View>
 				</TouchableOpacity>

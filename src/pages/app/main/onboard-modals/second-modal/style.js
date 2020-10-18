@@ -11,7 +11,7 @@ export default StyleSheet.create({
 		right: 15,
 	},
 	ModalCard: {
-		height: 450,
+		height: 490,
 		minHeight: 450,
 		width: '80%',
 		minWidth: 350,
@@ -78,5 +78,10 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#fb8c00',
+	},
+	Book: {
+		width: 140,
+		height: 210,
+		borderRadius: 8,
 	},
 });

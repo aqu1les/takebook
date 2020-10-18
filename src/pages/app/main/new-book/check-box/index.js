@@ -1,6 +1,7 @@
 import React, { useState, memo } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { Checkbox } from 'react-native-paper';
+import Styles from './style';
 
 function CheckboxRow({ value, handleCheckBox, category }) {
 	const [checked, setChecked] = useState(value);
@@ -13,9 +14,7 @@ function CheckboxRow({ value, handleCheckBox, category }) {
 	}
 
 	return (
-		<TouchableOpacity
-			style={{ flexDirection: 'row', alignItems: 'center' }}
-			onPress={onPress}>
+		<TouchableOpacity style={Styles.Box} onPress={onPress}>
 			<Checkbox
 				status={checked ? 'checked' : 'unchecked'}
 				onPress={onPress}

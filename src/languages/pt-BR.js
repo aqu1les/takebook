@@ -8,6 +8,21 @@ export default {
 			myads: 'Meus Anúncios',
 		},
 
+		new: 'Novo',
+		semiNew: 'Semi Novo',
+		used: 'Usado',
+
+		success: 'Sucesso',
+		back: 'Voltar',
+
+		routes: {
+			home: 'Início',
+			myAds: 'Meus Anúncios',
+			chats: 'Mensagens',
+			bookmarks: 'Meus Favoritos',
+			logout: 'Desconectar-se',
+		},
+
 		error: {
 			noConnection: 'Não foi possível contactar o servidor!',
 			invalidEmail: 'Email inválido',
@@ -50,11 +65,9 @@ export default {
 			noBooks: 'Nenhum livro foi encontrado!',
 			advert: {
 				locale: 'Local',
-				new: 'Novo',
-				semi: 'Semi-Novo',
-				used: 'Usado',
 				author: 'Autor',
 			},
+			onRemoveSuccessText: 'O anúncio foi removido com sucesso!',
 		},
 
 		advertDetails: {
@@ -71,6 +84,10 @@ export default {
 
 		categories: {
 			highlights: 'Destaques',
+			horror: 'Terror',
+			comedy: 'Comédia',
+			mistery: 'Mistério',
+			adventure: 'Aventura',
 		},
 
 		onboardModals: {
@@ -80,13 +97,18 @@ export default {
 				button: 'Vamos lá',
 			},
 			second: {
+				header: 'Tire fotos!',
 				textplanation:
 					'Será necessário a foto da capa e contracapa. Utilize suas melhores técnicas como fotógrafo para o seu anúncio ficar mais atraente :D',
 			},
 		},
 
 		newBook: {
+			successFeedbackTitle: 'Sucesso!',
+			successFeedbackText: 'O anúncio foi cadastrado com sucesso!',
+			successFeedbackButton: 'Voltar',
 			pageOne: {
+				title: 'Selecione as fotos',
 				help1: 'Clique nos campos para as adicionar fotos desejadas',
 				help2:
 					'* Arraste para esquerda caso queira adicionar mais fotos para o seu anúncio',
@@ -116,6 +138,7 @@ export default {
 			noChats_2:
 				'Entre em contato com algum anunciante para negociar a compra de um livro!',
 			loadChats: 'Carregar conversas',
+			firstMessage: 'Olá :) Tenho interesse no seu livro!',
 		},
 
 		forgotPassword: {

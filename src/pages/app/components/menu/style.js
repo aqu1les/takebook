@@ -87,4 +87,14 @@ export default StyleSheet.create({
 		justifyContent: 'flex-start',
 		padding: 10,
 	},
+	UserPic: {
+		height: '90%',
+		width: '90%',
+		borderRadius: 100,
+	},
+	GuestContentContainer: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		flex: 1,
+	},
 });

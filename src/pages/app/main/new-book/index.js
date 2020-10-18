@@ -10,8 +10,10 @@ import { createAdvert } from '../../../../services/AdvertsService';
 import { useNavigation } from '@react-navigation/native';
 import SuccessFeedback from '../../../core/success-feedback';
 import { createFormData } from '../../../../services/FormDataService';
+import { useTranslation } from 'react-i18next';
 
 export default function NewBook(props) {
+	const { t } = useTranslation();
 	const [cover, setCover] = useState(null);
 	const [cover2, setCover2] = useState(null);
 	const [cover3, setCover3] = useState(null);
@@ -304,14 +306,18 @@ export default function NewBook(props) {
 			<SuccessFeedback
 				isVisible={showSuccessModal}
 				handleModalHide={handleModalHide}>
-				<Text style={Styles.TextH1}>Sucesso!</Text>
+				<Text style={Styles.TextH1}>
+					{t('newBook.successFeedbackTitle')}
+				</Text>
 				<Text style={Styles.TextP}>
-					O anúncio foi cadastrado com sucesso!
+					{t('newBook.successFeedbackText')}
 				</Text>
 				<TouchableOpacity
 					style={Styles.ModalButton}
 					onPress={handleModalHide}>
-					<Text style={Styles.ButtonText}>Voltar</Text>
+					<Text style={Styles.ButtonText}>
+						{t('newBook.successFeedbackButton')}
+					</Text>
 				</TouchableOpacity>
 			</SuccessFeedback>
 		</>

@@ -43,15 +43,15 @@ function Advert({ item }) {
 
 	switch (condition_id) {
 		case 1:
-			condition = t('advertList.advert.new');
+			condition = t('new');
 			badgeColor = '#00cc09';
 			break;
 		case 2:
-			condition = t('advertList.advert.semi');
+			condition = t('semi');
 			badgeColor = '#38c2ff';
 			break;
 		case 3:
-			condition = t('advertList.advert.used');
+			condition = t('used');
 			badgeColor = '#ff3d00';
 			break;
 		default:
@@ -162,14 +162,14 @@ function Advert({ item }) {
 			<SuccessFeedback
 				isVisible={showSuccessModal}
 				handleModalHide={handleModalHide}>
-				<Text style={Styles.TextH1}>Sucesso!</Text>
+				<Text style={Styles.TextH1}>{t('success')}</Text>
 				<Text style={Styles.TextP}>
-					O anúncio foi removido com sucesso!
+					{t('advertList.onRemoveSuccessText')}
 				</Text>
 				<TouchableOpacity
 					style={Styles.ModalButton}
 					onPress={handleModalHide}>
-					<Text style={Styles.ButtonText}>Voltar</Text>
+					<Text style={Styles.ButtonText}>{t('back')}</Text>
 				</TouchableOpacity>
 			</SuccessFeedback>
 		</>

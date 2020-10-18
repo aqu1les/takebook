@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import {
 	View,
@@ -31,7 +31,7 @@ export default function PageThree({
 			contentContainerStyle={Styles.ViewContainer}
 			enabled
 			style={Styles.PageThree}>
-			<View style={{ flexDirection: 'column' }}>
+			<View style={Styles.CategoriesContainer}>
 				<Text style={Styles.CategoriesText}>
 					{t('newBook.pageThree.categories')}
 				</Text>
@@ -81,7 +81,7 @@ export default function PageThree({
 					{t('newBook.pageThree.button')}
 				</Text>
 			</TouchableOpacity>
-			<View style={{ height: 60 }} />
+			<View style={Styles.End} />
 		</KeyboardAvoidingView>
 	);
 }

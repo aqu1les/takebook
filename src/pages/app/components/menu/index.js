@@ -16,15 +16,17 @@ import MenuBG from '../../../../assets/background/menubg.svg';
 import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import Book from '../../../../assets/open-book.png';
 import { logOutAction } from '../../../../redux/actions/authentication';
+import { useTranslation } from 'react-i18next';
 
 function SideBar(props) {
+	const { t } = useTranslation();
 	const dispatch = useDispatch();
 	const isDrawerOpen = useIsDrawerOpen();
 	const user = useSelector((state) => state.auth);
 
 	const menuItens = [
 		{
-			title: 'Início',
+			title: t('routes.home'),
 			icon: 'home-outline',
 			active: props.state.index === 0 ? true : false,
 			route: 'Main',
@@ -36,19 +38,19 @@ function SideBar(props) {
 		//     route: 'App',
 		// },
 		{
-			title: 'Meus Anúncios',
+			title: t('routes.myAds'),
 			icon: 'book-open-page-variant',
 			active: props.state.index === 1 ? true : false,
 			route: 'MyAds',
 		},
 		{
-			title: 'Mensagens',
+			title: t('routes.chats'),
 			icon: 'forum-outline',
 			active: props.state.index === 2 ? true : false,
 			route: 'Chats',
 		},
 		{
-			title: 'Meus Favoritos',
+			title: t('routes.bookmarks'),
 			icon: 'heart-outline',
 			active: props.state.index === 3 ? true : false,
 			route: 'Bookmarks',
@@ -95,11 +97,7 @@ function SideBar(props) {
 							{user.avatar_url ? (
 								<Image
 									source={{ uri: user.avatar_url }}
-									style={{
-										height: '90%',
-										width: '90%',
-										borderRadius: 100,
-									}}
+									style={Styles.UserPic}
 								/>
 							) : (
 								<DefaultProfile height="100%" width="100%" />
@@ -139,17 +137,14 @@ function SideBar(props) {
 							disabled={!user.authenticated}
 							style={Styles.ListItem}>
 							<Icon name="logout" size={26} color="#000" />
-							<Text style={Styles.ItemText}>Desconectar-se</Text>
+							<Text style={Styles.ItemText}>
+								{t('routes.logout')}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</>
 			) : (
-				<View
-					style={{
-						alignItems: 'center',
-						justifyContent: 'center',
-						flex: 1,
-					}}>
+				<View style={Styles.GuestContentContainer}>
 					<TouchableOpacity onPress={() => navigateByRoute('Auth')}>
 						<Image source={Book} />
 						<Text>Clique aqui para fazer login</Text>

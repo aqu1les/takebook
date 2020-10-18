@@ -2,6 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	TextCenter: { textAlign: 'center' },
+	Scroll: {
+		height: 230,
+		maxHeight: 230,
+	},
 	PageOne: {
 		flex: 1,
 		alignItems: 'center',
