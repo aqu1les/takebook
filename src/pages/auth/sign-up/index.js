@@ -36,6 +36,7 @@ export default function SignUp(props) {
 	const [showSuccessModal, setShowSuccessModal] = useState(false);
 	const [showFailModal, setShowFailModal] = useState(false);
 	const [avatar, setAvatar] = useState(null);
+	const [loading, setLoading] = useState(false);
 	const nameField = useRef(null);
 	const emailField = useRef(null);
 	const passwordField = useRef(null);
@@ -66,10 +67,13 @@ export default function SignUp(props) {
 	]);
 
 	async function handleSubmit() {
+		if (loading) {
+			return;
+		}
+
 		const nameSplitted = name.split(' ');
 		const firstName = nameSplitted[0];
 		nameSplitted.splice(0, 1);
-
 		const reqBody = {
 			first_name: firstName,
 			last_name: nameSplitted.join(' ') || ' ',
@@ -77,6 +81,8 @@ export default function SignUp(props) {
 			password,
 			is_admin: '0',
 		};
+
+		setLoading(true);
 
 		try {
 			const coords = await getCoords();
@@ -96,10 +102,9 @@ export default function SignUp(props) {
 		if (avatar) {
 			data = createFormData([avatar], 'avatar_file', reqBody);
 		}
-
 		try {
 			const response = await registerUser(data);
-
+			setLoading(false);
 			if (response.data && !response.data.error) {
 				setShowSuccessModal(true);
 			} else {
@@ -107,7 +112,10 @@ export default function SignUp(props) {
 			}
 		} catch (error) {
 			setShowFailModal(true);
+			setLoading(false);
 		}
+
+		setLoading(false);
 	}
 
 	function handleModalHide() {
