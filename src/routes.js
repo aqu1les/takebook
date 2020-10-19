@@ -7,6 +7,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Loading from './pages/loading';
 import Login from './pages/auth/login';
 import Home from './pages/app/main';
+import MyProfile from './pages/app/my-profile/index';
 import AdvertDetails from './pages/app/main/advert-details';
 import NewBook from './pages/app/main/new-book';
 import SignUp from './pages/auth/sign-up';
@@ -89,6 +90,24 @@ function Main() {
 	);
 }
 
+function ProfileStack() {
+	const { t } = useTranslation();
+
+	return (
+		<Stack.Navigator initialRouteName="MyProfile">
+			<Stack.Screen
+				name="MyProfile"
+				component={MyProfile}
+				options={{
+					header: (props) => (
+						<Header {...props} title={t('global.profile')} />
+					),
+				}}
+			/>
+		</Stack.Navigator>
+	);
+}
+
 function Chats() {
 	const { t } = useTranslation();
 
@@ -164,6 +183,7 @@ function App() {
 			drawerStyle={{ width: Dimensions.get('window').width - 100 }}
 			openByDefault={false}>
 			<Drawer.Screen name="Main" component={Main} />
+			<Drawer.Screen name="Profile" component={ProfileStack} />
 			<Drawer.Screen name="MyAds" component={MyAds} />
 			<Drawer.Screen name="Chats" component={Chats} />
 			<Drawer.Screen name="Bookmarks" component={Bookmarks} />

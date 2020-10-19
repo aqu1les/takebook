@@ -31,28 +31,28 @@ function SideBar(props) {
 			active: props.state.index === 0 ? true : false,
 			route: 'Main',
 		},
-		// {
-		//     title: 'Perfil',
-		//     icon: 'clipboard-account-outline',
-		//     active: props.state.index === 1 ? true : false,
-		//     route: 'App',
-		// },
+		{
+			title: t('routes.profile'),
+			icon: 'clipboard-account-outline',
+			active: props.state.index === 1 ? true : false,
+			route: 'Profile',
+		},
 		{
 			title: t('routes.myAds'),
 			icon: 'book-open-page-variant',
-			active: props.state.index === 1 ? true : false,
+			active: props.state.index === 2 ? true : false,
 			route: 'MyAds',
 		},
 		{
 			title: t('routes.chats'),
 			icon: 'forum-outline',
-			active: props.state.index === 2 ? true : false,
+			active: props.state.index === 3 ? true : false,
 			route: 'Chats',
 		},
 		{
 			title: t('routes.bookmarks'),
 			icon: 'heart-outline',
-			active: props.state.index === 3 ? true : false,
+			active: props.state.index === 4 ? true : false,
 			route: 'Bookmarks',
 		},
 	];

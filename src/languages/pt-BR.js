@@ -2,6 +2,7 @@ export default {
 	translation: {
 		global: {
 			welcome: 'Bem vindo ao Takebook !',
+			profile: 'Perfil',
 			createBook: 'Cadastrar Livro',
 			chats: 'Conversas',
 			bookmarks: 'Favoritos',
@@ -17,6 +18,7 @@ export default {
 
 		routes: {
 			home: 'Início',
+			profile: 'Perfil',
 			myAds: 'Meus Anúncios',
 			chats: 'Mensagens',
 			bookmarks: 'Meus Favoritos',
