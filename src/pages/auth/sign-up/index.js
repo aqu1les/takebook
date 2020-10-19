@@ -1,11 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react';
-import {
-	Text,
-	TouchableOpacity,
-	TextInput,
-	ScrollView,
-	Image,
-} from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Styles from './style';
@@ -21,7 +15,9 @@ import { createFormData } from '../../../services/FormDataService';
 import ImageEditor from '../../../services/ImageEditor';
 import { useTranslation } from 'react-i18next';
 import { EMAIL_REGEX } from './../../../validators/LoginValidator';
-import { getCoords } from '../../../services/GeocoderService';
+import BottomSheet from 'reanimated-bottom-sheet';
+import AddressForm from './address-form/index';
+import { RectButton } from 'react-native-gesture-handler';
 
 export default function SignUp(props) {
 	const { t } = useTranslation();
@@ -41,6 +37,9 @@ export default function SignUp(props) {
 	const emailField = useRef(null);
 	const passwordField = useRef(null);
 	const passwordConfirmationField = useRef(null);
+	const sheetRef = useRef(null);
+	const [isAddressFormOpen, setAddFormOpen] = useState(false);
+	const [addressInfo, setAddressInfo] = useState({});
 
 	const avatarPreview = useMemo(() => (avatar ? avatar.path : null), [
 		avatar,
@@ -80,22 +79,13 @@ export default function SignUp(props) {
 			email,
 			password,
 			is_admin: '0',
+			address: {
+				...addressInfo,
+			},
 		};
+		console.log(reqBody);
 
 		setLoading(true);
-
-		try {
-			const coords = await getCoords();
-
-			if (coords && coords.latitude && coords.longitude) {
-				reqBody.address = {
-					latitude: coords.latitude,
-					longitude: coords.longitude,
-				};
-			}
-		} catch (error) {
-			console.log(error);
-		}
 
 		let data = reqBody;
 
@@ -207,141 +197,224 @@ export default function SignUp(props) {
 		</TouchableOpacity>
 	);
 
+	function openGetLocation() {
+		setAddFormOpen(true);
+		sheetRef.current.snapTo(2);
+	}
+
+	function appendAddressToForm(address) {
+		closeAddressForm();
+		setAddressInfo(address);
+	}
+
+	function closeAddressForm() {
+		sheetRef.current.snapTo(0);
+		setAddFormOpen(false);
+	}
+
 	return (
-		<Template newHeader={newHeader}>
-			<ScrollView
-				contentContainerStyle={Styles.ContentContainerStyle}
-				showsVerticalScrollIndicator={false}>
-				<TouchableOpacity
-					style={[Styles.FormGroup, nameError && Styles.InputError]}
-					onPress={() => nameField.current.focus()}>
-					<User style={Styles.Icon} />
-					<TextInput
-						ref={nameField}
-						placeholder={t('signUp.name')}
-						placeholderTextColor="#666666"
-						autoCapitalize="words"
-						autoCorrect={false}
-						underlineColorAndroid="transparent"
-						style={[Styles.Input, nameError && Styles.InputError]}
-						value={name}
-						onChangeText={handleNameInput}
-						returnKeyType={'next'}
-						onSubmitEditing={() => emailField.current.focus()}
-						textContentType={'name'}
-						autoFocus
-					/>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={[Styles.FormGroup, emailError && Styles.InputError]}
-					onPress={() => emailField.current.focus()}>
-					<Email style={Styles.Icon} />
-					<TextInput
-						ref={emailField}
-						placeholder={t('signUp.email')}
-						placeholderTextColor="#666666"
-						autoCapitalize="none"
-						autoCorrect={false}
-						autoCompleteType={'email'}
-						underlineColorAndroid="transparent"
-						style={Styles.Input}
-						value={email}
-						onChangeText={handleEmailInput}
-						keyboardType="email-address"
-						returnKeyType={'next'}
-						onSubmitEditing={() => passwordField.current.focus()}
-						textContentType={'emailAddress'}
-					/>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={[
-						Styles.FormGroup,
-						passwordError && Styles.InputError,
-					]}
-					onPress={() => passwordField.current.focus()}>
-					<Password style={Styles.Icon} />
-					<TextInput
-						ref={passwordField}
-						placeholder={t('signUp.password')}
-						placeholderTextColor="#666666"
-						autoCapitalize="none"
-						autoCorrect={false}
-						autoCompleteType={'password'}
-						underlineColorAndroid="transparent"
-						style={Styles.Input}
-						value={password}
-						onChangeText={(text) => setPassword(text)}
-						secureTextEntry={true}
-						returnKeyType={'next'}
-						onSubmitEditing={() =>
+		<>
+			<Template newHeader={newHeader}>
+				<View style={[Styles.ContentContainerStyle]}>
+					<RectButton
+						style={Styles.LocationButton}
+						onPress={openGetLocation}>
+						<FontAwesome
+							color="#fb8c00"
+							name="map-marker"
+							size={32}
+						/>
+					</RectButton>
+					<TouchableOpacity
+						style={[
+							Styles.FormGroup,
+							nameError && Styles.InputError,
+						]}
+						onPress={() => nameField.current.focus()}>
+						<User style={Styles.Icon} />
+						<TextInput
+							ref={nameField}
+							placeholder={t('signUp.name')}
+							placeholderTextColor="#666666"
+							autoCapitalize="words"
+							autoCorrect={false}
+							underlineColorAndroid="transparent"
+							style={[
+								Styles.Input,
+								nameError && Styles.InputError,
+							]}
+							value={name}
+							onChangeText={handleNameInput}
+							returnKeyType={'next'}
+							onSubmitEditing={() => emailField.current.focus()}
+							textContentType={'name'}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={[
+							Styles.FormGroup,
+							emailError && Styles.InputError,
+						]}
+						onPress={() => emailField.current.focus()}>
+						<Email style={Styles.Icon} />
+						<TextInput
+							ref={emailField}
+							placeholder={t('signUp.email')}
+							placeholderTextColor="#666666"
+							autoCapitalize="none"
+							autoCorrect={false}
+							autoCompleteType={'email'}
+							underlineColorAndroid="transparent"
+							style={Styles.Input}
+							value={email}
+							onChangeText={handleEmailInput}
+							keyboardType="email-address"
+							returnKeyType={'next'}
+							onSubmitEditing={() =>
+								passwordField.current.focus()
+							}
+							textContentType={'emailAddress'}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={[
+							Styles.FormGroup,
+							passwordError && Styles.InputError,
+						]}
+						onPress={() => passwordField.current.focus()}>
+						<Password style={Styles.Icon} />
+						<TextInput
+							ref={passwordField}
+							placeholder={t('signUp.password')}
+							placeholderTextColor="#666666"
+							autoCapitalize="none"
+							autoCorrect={false}
+							autoCompleteType={'password'}
+							underlineColorAndroid="transparent"
+							style={Styles.Input}
+							value={password}
+							onChangeText={(text) => setPassword(text)}
+							secureTextEntry={true}
+							returnKeyType={'next'}
+							onSubmitEditing={() =>
+								passwordConfirmationField.current.focus()
+							}
+							textContentType={'password'}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={[
+							Styles.FormGroup,
+							Styles.PasswordField,
+							passwordConfError && Styles.InputError,
+						]}
+						onPress={() =>
 							passwordConfirmationField.current.focus()
-						}
-						textContentType={'password'}
-					/>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={[
-						Styles.FormGroup,
-						Styles.PasswordField,
-						passwordConfError && Styles.InputError,
-					]}
-					onPress={() => passwordConfirmationField.current.focus()}>
-					<Password style={Styles.Icon} />
-					<TextInput
-						ref={passwordConfirmationField}
-						placeholder={t('signUp.confirmPassword')}
-						placeholderTextColor="#666666"
-						autoCapitalize="none"
-						autoCorrect={false}
-						autoCompleteType={'password'}
-						underlineColorAndroid="transparent"
-						style={Styles.Input}
-						value={passwordConfirmation}
-						onChangeText={handlePasswordConfInput}
-						secureTextEntry={true}
-						returnKeyType={'send'}
-						onSubmitEditing={handleSubmit}
-						textContentType={'password'}
-					/>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={[
-						Styles.RegisterButton,
-						!formValid && { backgroundColor: '#e5e5e5' },
-					]}
-					onPress={handleSubmit}
-					disabled={!formValid}>
-					<Text style={Styles.RegisterText}>
-						{t('signUp.register')}
+						}>
+						<Password style={Styles.Icon} />
+						<TextInput
+							ref={passwordConfirmationField}
+							placeholder={t('signUp.confirmPassword')}
+							placeholderTextColor="#666666"
+							autoCapitalize="none"
+							autoCorrect={false}
+							autoCompleteType={'password'}
+							underlineColorAndroid="transparent"
+							style={Styles.Input}
+							value={passwordConfirmation}
+							onChangeText={handlePasswordConfInput}
+							secureTextEntry={true}
+							returnKeyType={'send'}
+							onSubmitEditing={handleSubmit}
+							textContentType={'password'}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={[
+							Styles.RegisterButton,
+							!formValid && { backgroundColor: '#e5e5e5' },
+						]}
+						onPress={handleSubmit}
+						disabled={!formValid}>
+						<Text style={Styles.RegisterText}>
+							{t('signUp.register')}
+						</Text>
+					</TouchableOpacity>
+				</View>
+				<SuccessFeedback
+					isVisible={showSuccessModal}
+					handleModalHide={handleModalHide}>
+					<Text style={Styles.TextH1}>
+						{t('signUp.success.title')}
 					</Text>
-				</TouchableOpacity>
-			</ScrollView>
-			<SuccessFeedback
-				isVisible={showSuccessModal}
-				handleModalHide={handleModalHide}>
-				<Text style={Styles.TextH1}>{t('signUp.success.title')}</Text>
-				<Text style={Styles.TextP}>{t('signUp.success.content')}</Text>
-				<TouchableOpacity
-					style={Styles.ModalButton}
-					onPress={navigateToLogin}>
-					<Text style={Styles.ButtonText}>
-						{t('signUp.success.button')}
+					<Text style={Styles.TextP}>
+						{t('signUp.success.content')}
 					</Text>
-				</TouchableOpacity>
-			</SuccessFeedback>
-			<FailedFeedback
-				isVisible={showFailModal}
-				handleModalHide={() => setShowFailModal(false)}>
-				<Text style={[Styles.TextH1]}>{t('signUp.error.title')}</Text>
-				<Text style={Styles.TextP}>{t('signUp.error.content')}</Text>
-				<TouchableOpacity
-					style={[Styles.ModalButton, Styles.ModalButtonError]}
-					onPress={navigateToLogin}>
-					<Text style={Styles.ButtonText}>
-						{t('signUp.error.button')}
+					<TouchableOpacity
+						style={Styles.ModalButton}
+						onPress={navigateToLogin}>
+						<Text style={Styles.ButtonText}>
+							{t('signUp.success.button')}
+						</Text>
+					</TouchableOpacity>
+				</SuccessFeedback>
+				<FailedFeedback
+					isVisible={showFailModal}
+					handleModalHide={() => setShowFailModal(false)}>
+					<Text style={[Styles.TextH1]}>
+						{t('signUp.error.title')}
 					</Text>
-				</TouchableOpacity>
-			</FailedFeedback>
-		</Template>
+					<Text style={Styles.TextP}>
+						{t('signUp.error.content')}
+					</Text>
+					<TouchableOpacity
+						style={[Styles.ModalButton, Styles.ModalButtonError]}
+						onPress={navigateToLogin}>
+						<Text style={Styles.ButtonText}>
+							{t('signUp.error.button')}
+						</Text>
+					</TouchableOpacity>
+				</FailedFeedback>
+			</Template>
+			<BottomSheet
+				ref={sheetRef}
+				initialSnap={0}
+				snapPoints={[0, 250, 350, 500]}
+				borderRadius={10}
+				onCloseEnd={() => {
+					setAddFormOpen(false);
+				}}
+				renderContent={() => (
+					<View style={Styles.BottomSheet}>
+						{isAddressFormOpen && (
+							<View>
+								<View style={Styles.BottomSheetTracker} />
+								<View style={[Styles.Row, Styles.SheetHeader]}>
+									<Text style={Styles.SheetHeaderText}>
+										{t('signUp.addressFormHeader')}
+									</Text>
+								</View>
+								<AddressForm
+									currentZipcode={addressInfo.zip_code}
+									currentStreet={addressInfo.street}
+									currentNeighborhood={
+										addressInfo.neighborhood
+									}
+									currentCity={addressInfo.city}
+									currentState={addressInfo.state}
+									currentLatitude={addressInfo.latitude}
+									currentLongitude={addressInfo.longitude}
+									onDismiss={() => {
+										closeAddressForm();
+										setAddressInfo({});
+									}}
+									onSubmit={appendAddressToForm}
+								/>
+							</View>
+						)}
+					</View>
+				)}
+			/>
+		</>
 	);
 }

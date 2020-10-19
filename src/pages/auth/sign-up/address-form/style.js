@@ -4,13 +4,13 @@ export default StyleSheet.create({
 	Input: {
 		marginLeft: 5,
 		padding: 5,
-		flexGrow: 100,
+		width: '100%',
 		fontSize: 18,
 	},
 	FormGroup: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		width: '85%',
+		width: '100%',
 		borderRadius: 8,
 		borderBottomWidth: 1,
 		borderBottomColor: '#EAEAEA',
@@ -23,7 +23,7 @@ export default StyleSheet.create({
 	FormGroupRow: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		width: '50%',
+		width: '46%',
 		borderRadius: 8,
 		borderBottomWidth: 1,
 		borderBottomColor: '#EAEAEA',
@@ -35,7 +35,36 @@ export default StyleSheet.create({
 	},
 	Row: {
 		flexDirection: 'row',
-		width: '85%',
-		justifyContent: 'space-around',
+		width: '100%',
+		justifyContent: 'space-between',
+	},
+	ButtonText: {
+		color: '#fff',
+		fontSize: 20,
+	},
+	Button: {
+		elevation: 2,
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: 0,
+	},
+	ButtonsRow: {
+		marginTop: 20,
+	},
+	SecondaryButton: {
+		borderWidth: 1,
+		borderColor: '#727272',
+		backgroundColor: '#fff',
+	},
+	SecondaryButtonText: {
+		color: '#727272',
+		fontSize: 20,
+	},
+	ActionButton: {
+		backgroundColor: '#3eb3e5',
+	},
+	ActionButtonDisabled: {
+		opacity: 0.3,
+		elevation: 0,
 	},
 });

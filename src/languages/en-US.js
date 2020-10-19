@@ -57,6 +57,8 @@ export default {
 				content: 'Try again later!',
 				button: 'Ok',
 			},
+
+			addressFormHeader: 'Fill in the fields to register your address',
 		},
 
 		advertList: {
@@ -172,6 +174,16 @@ export default {
 			text2:
 				'Access the main menu and see the books available for purchase',
 			button: 'Reload my favorites list',
+		},
+
+		addressForm: {
+			zipcode: 'Zipcode',
+			neighborhood: 'Neighborhood',
+			city: 'City',
+			state: 'State',
+			street: 'Street',
+			secondaryButton: 'Cancel',
+			actionButton: 'Apply',
 		},
 	},
 };

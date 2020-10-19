@@ -58,6 +58,9 @@ export default {
 				content: 'Tente novamente mais tarde!',
 				button: 'Ok',
 			},
+
+			addressFormHeader:
+				'Preencha os campos para cadastrarmos o seu endereço',
 		},
 
 		advertList: {
@@ -176,6 +179,16 @@ export default {
 			text2:
 				'Acesse o menu principal e veja os livros disponíveis para compra',
 			button: 'Recarregar lista de favoritos',
+		},
+
+		addressForm: {
+			zipcode: 'CEP',
+			neighborhood: 'Bairro',
+			city: 'Cidade',
+			state: 'Estado',
+			street: 'Rua',
+			secondaryButton: 'Cancelar',
+			actionButton: 'Aplicar',
 		},
 	},
 };

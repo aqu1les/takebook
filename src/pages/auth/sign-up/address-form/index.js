@@ -1,16 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Styles from './style';
-import { View, TouchableOpacity, TextInput } from 'react-native';
+import { View, TouchableOpacity, TextInput, Text } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 import { getInfoByCEP } from '../../../../services/IBGEService';
-import Geolocation from '@react-native-community/geolocation';
-import { getAddress } from '../../../../services/GeocoderService';
+import { getAddress, getCoords } from '../../../../services/GeocoderService';
+import { useTranslation } from 'react-i18next';
 
-export default function AddressForm() {
-	const [zipCode, setZipCode] = useState('');
-	const [street, setStreet] = useState('');
-	const [neighborhood, setNeighborhood] = useState('');
-	const [city, setCity] = useState('');
-	const [state, setState] = useState('');
+export default function AddressForm({
+	onSubmit,
+	onDismiss,
+	currentZipcode,
+	currentStreet,
+	currentNeighborhood,
+	currentCity,
+	currentState,
+	currentLatitude,
+	currentLongitude,
+}) {
+	const { t } = useTranslation();
+	const [zipCode, setZipCode] = useState(currentZipcode || '');
+	const [street, setStreet] = useState(currentStreet || '');
+	const [neighborhood, setNeighborhood] = useState(currentNeighborhood || '');
+	const [city, setCity] = useState(currentCity || '');
+	const [state, setState] = useState(currentState || '');
+	const [latitude, setLatitude] = useState(currentLatitude || null);
+	const [longitude, setLongitude] = useState(currentLongitude || null);
+
+	useEffect(() => {
+		function getPosition() {
+			getCoords()
+				.then((result) => {
+					console.log({ result });
+					if (result) {
+						setLatitude(result.latitude);
+						setLongitude(result.longitude);
+					}
+				})
+				.catch((err) => console.log({ err }));
+			// 	getAddress(coords.latitude, coords.longitude)
+			// 		.then((json) => {
+			// 			const addressArray = json.results[0].formatted_address.split(
+			// 				',',
+			// 			);
+			// 			const street = addressArray[0];
+			// 			const neighborhood = addressArray[1].split('-')[1];
+			// 			const city = addressArray[2].split('-')[0];
+			// 			const state = addressArray[2].split('-')[1];
+			// 			const zipCode = addressArray[3].replace('-', '');
+			// 			setStreet(street);
+			// 			setNeighborhood(neighborhood);
+			// 			setCity(city);
+			// 			setState(state);
+			// 			setZipCode(zipCode);
+			// 		})
+			// 		.catch((error) => console.warn(error));
+		}
+
+		getPosition();
+	}, []);
 
 	async function handleCepChange(value) {
 		if (value.length === 5) {
@@ -20,36 +67,60 @@ export default function AddressForm() {
 		} else {
 			setZipCode(value);
 			if (value.length === 9) {
-				const addressInfo = await getInfoByCEP(value);
-				setStreet(addressInfo.logradouro);
-				setCity(addressInfo.localidade);
-				setState(addressInfo.uf);
-				setNeighborhood(addressInfo.bairro);
+				try {
+					const addressInfo = await getInfoByCEP(value);
+					if (addressInfo.erro) {
+						throw new Error('Not found');
+					}
+					setStreet(addressInfo.logradouro);
+					setCity(addressInfo.localidade);
+					setState(addressInfo.uf);
+					setNeighborhood(addressInfo.bairro);
+				} catch (error) {
+					console.log(error);
+				}
 			}
 		}
 	}
 
-	// function getPosition() {
-	// 	Geolocation.getCurrentPosition(({ coords }) => {
-	// 		getAddress(coords.latitude, coords.longitude)
-	// 			.then((json) => {
-	// 				const addressArray = json.results[0].formatted_address.split(
-	// 					',',
-	// 				);
-	// 				const street = addressArray[0];
-	// 				const neighborhood = addressArray[1].split('-')[1];
-	// 				const city = addressArray[2].split('-')[0];
-	// 				const state = addressArray[2].split('-')[1];
-	// 				const zipCode = addressArray[3].replace('-', '');
-	// 				setStreet(street);
-	// 				setNeighborhood(neighborhood);
-	// 				setCity(city);
-	// 				setState(state);
-	// 				setZipCode(zipCode);
-	// 			})
-	// 			.catch((error) => console.warn(error));
-	// 	});
-	// }
+	const isFormValid = useMemo(() => {
+		return (
+			zipCode.length >= 8 &&
+			street !== '' &&
+			neighborhood !== '' &&
+			city !== '' &&
+			state !== ''
+		);
+	}, [zipCode, street, neighborhood, city, state]);
+
+	function onCancel() {
+		if (onDismiss) {
+			onDismiss();
+		}
+	}
+
+	function onAction() {
+		if (!isFormValid) {
+			return;
+		}
+
+		if (onSubmit) {
+			const formValue = {
+				zip_code: zipCode,
+				street,
+				neighborhood,
+				city,
+				state,
+			};
+
+			if (latitude && longitude) {
+				formValue.latitude = latitude;
+				formValue.longitude = longitude;
+			}
+
+			onSubmit(formValue);
+		}
+	}
 
 	return (
 		<>
@@ -57,7 +128,7 @@ export default function AddressForm() {
 				<TouchableOpacity style={Styles.FormGroupRow}>
 					<TextInput
 						placeholderTextColor="#666666"
-						placeholder="CEP"
+						placeholder={t('addressForm.zipcode')}
 						value={zipCode}
 						onChangeText={handleCepChange}
 						maxLength={9}
@@ -67,7 +138,7 @@ export default function AddressForm() {
 				</TouchableOpacity>
 				<TouchableOpacity style={Styles.FormGroupRow}>
 					<TextInput
-						placeholder="Bairro"
+						placeholder={t('addressForm.neighborhood')}
 						placeholderTextColor="#666666"
 						value={neighborhood}
 						editable={false}
@@ -78,28 +149,28 @@ export default function AddressForm() {
 			<View style={Styles.Row}>
 				<TouchableOpacity style={Styles.FormGroupRow}>
 					<TextInput
-						placeholder="Cidade"
+						placeholder={t('addressForm.city')}
 						placeholderTextColor="#666666"
 						value={city}
-						editable={false}
+						editable={true}
 						style={Styles.Input}
 						textContentType={'addressCity'}
 					/>
 				</TouchableOpacity>
 				<TouchableOpacity style={Styles.FormGroupRow}>
 					<TextInput
-						placeholder="Estado"
+						placeholder={t('addressForm.state')}
 						placeholderTextColor="#666666"
 						value={state}
-						editable={false}
+						editable={true}
 						style={Styles.Input}
 						textContentType={'addressState'}
 					/>
 				</TouchableOpacity>
 			</View>
-			<TouchableOpacity>
+			<TouchableOpacity style={Styles.FormGroup}>
 				<TextInput
-					placeholder="Rua"
+					placeholder={t('addressForm.street')}
 					placeholderTextColor="#666666"
 					autoCapitalize="words"
 					autoCorrect={false}
@@ -109,10 +180,36 @@ export default function AddressForm() {
 					onChangeText={(text) => setStreet(text)}
 					returnKeyType={'done'}
 					textContentType={'streetAddressLine1'}
-					editable={false}
+					editable={true}
 					enablesReturnKeyAutomatically={true}
 				/>
 			</TouchableOpacity>
+			<View style={[Styles.Row, Styles.ButtonsRow]}>
+				<RectButton
+					onPress={onCancel}
+					style={[
+						Styles.FormGroupRow,
+						Styles.Button,
+						Styles.SecondaryButton,
+					]}>
+					<Text style={Styles.SecondaryButtonText}>
+						{t('addressForm.secondaryButton')}
+					</Text>
+				</RectButton>
+				<RectButton
+					enabled={isFormValid}
+					onPress={onAction}
+					style={[
+						Styles.FormGroupRow,
+						Styles.Button,
+						Styles.ActionButton,
+						!isFormValid && Styles.ActionButtonDisabled,
+					]}>
+					<Text style={Styles.ButtonText}>
+						{t('addressForm.actionButton')}
+					</Text>
+				</RectButton>
+			</View>
 		</>
 	);
 }

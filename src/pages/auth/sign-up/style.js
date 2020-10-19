@@ -116,4 +116,37 @@ export default StyleSheet.create({
 	PasswordField: {
 		paddingLeft: 14,
 	},
+	LocationButton: {
+		position: 'absolute',
+		top: -80,
+		right: 20,
+		borderRadius: 100,
+		width: 45,
+		height: 45,
+		elevation: 2,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	BottomSheet: {
+		elevation: 1,
+		backgroundColor: 'white',
+		padding: 16,
+		height: '100%',
+	},
+	BottomSheetTracker: {
+		width: 45,
+		height: 4,
+		backgroundColor: '#e5e5e5',
+		borderRadius: 12,
+		marginLeft: 'auto',
+		marginRight: 'auto',
+	},
+	SheetHeader: {
+		marginVertical: 15,
+	},
+	SheetHeaderText: {
+		width: '100%',
+		textAlign: 'center',
+	},
 });
