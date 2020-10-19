@@ -39,3 +39,11 @@ export function registerUser(body) {
 export function registerUserDevice(token) {
 	return ApiService.post('/users/mobile-token', { token });
 }
+
+export async function storeLanguage(value) {
+	return await AsyncStorage.setItem('language:TB', value);
+}
+
+export async function getStoredLanguage() {
+	return await AsyncStorage.getItem('language:TB');
+}
