@@ -36,8 +36,10 @@ export default function authReducer(state = INITIAL_STATE, action) {
 				loading: true,
 			};
 		case LOAD_INFO_SUCCESS:
-			storeToken(action.user.token);
-			delete action.notifications;
+			if (action.user.token) {
+				storeToken(action.user.token);
+			}
+
 			return {
 				...state,
 				...action.user,

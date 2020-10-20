@@ -47,3 +47,16 @@ export async function storeLanguage(value) {
 export async function getStoredLanguage() {
 	return await AsyncStorage.getItem('language:TB');
 }
+
+export function updateUserInfo(data) {
+	return ApiService.put('/users/me', data);
+}
+
+export function updateUserAvatar(formData, uploadProgress = null) {
+	const config = {};
+
+	if (uploadProgress) {
+		config.onUploadProgress = uploadProgress;
+	}
+	return ApiService.post('/users/me/avatar', formData, config);
+}

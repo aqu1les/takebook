@@ -75,38 +75,41 @@ export default function NewBook(props) {
 	]);
 
 	function handleCoverPicker(index) {
-		ImagePicker.showImagePicker({ title: 'Camera' }, (response) => {
-			if (response.didCancel) {
-				console.log('User cancelled image picker');
-			} else if (response.error) {
-				console.log('ImagePicker Error: ', response.error);
-			} else if (response.customButton) {
-				console.log(
-					'User tapped custom button: ',
-					response.customButton,
-				);
-			} else {
-				switch (index) {
-					case 1:
-						setCover(response);
-						return;
-					case 2:
-						setCover2(response);
-						return;
-					case 3:
-						setCover3(response);
-						return;
-					case 4:
-						setCover4(response);
-						return;
-					case 5:
-						setCover5(response);
-						return;
-					default:
-						break;
+		ImagePicker.showImagePicker(
+			{ title: 'Camera', mediaType: 'photo' },
+			(response) => {
+				if (response.didCancel) {
+					console.log('User cancelled image picker');
+				} else if (response.error) {
+					console.log('ImagePicker Error: ', response.error);
+				} else if (response.customButton) {
+					console.log(
+						'User tapped custom button: ',
+						response.customButton,
+					);
+				} else {
+					switch (index) {
+						case 1:
+							setCover(response);
+							return;
+						case 2:
+							setCover2(response);
+							return;
+						case 3:
+							setCover3(response);
+							return;
+						case 4:
+							setCover4(response);
+							return;
+						case 5:
+							setCover5(response);
+							return;
+						default:
+							break;
+					}
 				}
-			}
-		});
+			},
+		);
 	}
 
 	function handleEditImage(index) {

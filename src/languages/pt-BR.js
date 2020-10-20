@@ -7,7 +7,16 @@ export default {
 			chats: 'Conversas',
 			bookmarks: 'Favoritos',
 			myads: 'Meus Anúncios',
+			cancel: 'Cancelar',
 		},
+
+		imagePicker: {
+			chooseLibrary: 'Escolher da galeria',
+			takePicture: 'Tirar uma foto nova',
+		},
+
+		english: 'Inglês',
+		portuguese: 'Português',
 
 		new: 'Novo',
 		semiNew: 'Semi Novo',
@@ -191,6 +200,19 @@ export default {
 			street: 'Rua',
 			secondaryButton: 'Cancelar',
 			actionButton: 'Aplicar',
+		},
+
+		profile: {
+			name: 'Nome',
+			email: 'E-mail',
+			language: 'Idioma',
+			address: 'Endereço',
+			deleteAccount: 'Apagar conta',
+			pickLanguage: 'Selecione o idioma desejado',
+			updateFeedback: 'Campo atualizado com sucesso!',
+			updatePic: 'Editar foto',
+			deletePic: 'Apagar foto',
+			selectNewPicture: 'Selecionar nova foto',
 		},
 	},
 };

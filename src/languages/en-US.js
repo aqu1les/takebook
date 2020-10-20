@@ -7,7 +7,16 @@ export default {
 			chats: 'Chats',
 			bookmarks: 'Bookmarks',
 			myads: 'My books',
+			cancel: 'Cancel',
 		},
+
+		imagePicker: {
+			chooseLibrary: 'Choose from library',
+			takePicture: 'Take a new picture',
+		},
+
+		english: 'English',
+		portuguese: 'Portuguese',
 
 		new: 'New',
 		semiNew: 'Semi New',
@@ -186,6 +195,19 @@ export default {
 			street: 'Street',
 			secondaryButton: 'Cancel',
 			actionButton: 'Apply',
+		},
+
+		profile: {
+			name: 'Name',
+			email: 'E-mail',
+			language: 'Language',
+			address: 'Address',
+			deleteAccount: 'Delete account',
+			pickLanguage: 'Select the wanted language',
+			updateFeedback: 'Field updated successfully!',
+			updatePic: 'Edit picture',
+			deletePic: 'Delete picture',
+			selectNewPicture: 'Select new picture',
 		},
 	},
 };

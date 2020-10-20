@@ -114,17 +114,23 @@ export default function SignUp(props) {
 	}
 
 	function handleAvatarPicker() {
-		ImagePicker.showImagePicker({ title: 'Camera' }, (image) => {
-			if (image.didCancel) {
-				console.log('User cancelled image picker');
-			} else if (image.error) {
-				console.log('ImagePicker Error: ', image.error);
-			} else if (image.customButton) {
-				console.log('User tapped custom button: ', image.customButton);
-			} else {
-				setAvatar(image);
-			}
-		});
+		ImagePicker.showImagePicker(
+			{ title: 'Camera', mediaType: 'photo' },
+			(image) => {
+				if (image.didCancel) {
+					console.log('User cancelled image picker');
+				} else if (image.error) {
+					console.log('ImagePicker Error: ', image.error);
+				} else if (image.customButton) {
+					console.log(
+						'User tapped custom button: ',
+						image.customButton,
+					);
+				} else {
+					setAvatar(image);
+				}
+			},
+		);
 	}
 
 	function handleEditImage() {
