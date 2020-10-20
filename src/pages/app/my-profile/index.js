@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
 	View,
 	Text,
@@ -22,6 +22,8 @@ import { getUser, updateUserAvatar } from './../../../services/UserService';
 import ImageEditor from '../../../services/ImageEditor';
 import ImagePicker from 'react-native-image-picker';
 import { createFormData } from './../../../services/FormDataService';
+import BottomSheet from 'reanimated-bottom-sheet';
+import AddressForm from './../../auth/sign-up/address-form/index';
 
 function MyProfile() {
 	const { t, i18n } = useTranslation();
@@ -31,15 +33,12 @@ function MyProfile() {
 	const [isUpdating, setIsUpdating] = useState(false);
 	const [newAvatar, setNewAvatar] = useState(null);
 	const [isUpdatingAvatar, setIsUpdatingAvatar] = useState(false);
+	const sheetRef = useRef(null);
+	const [isAddressFormOpen, setAddFormOpen] = useState(false);
 
 	function deleteAccount() {
 		console.log('tem ctz?');
 		console.log('delete account');
-	}
-
-	function openAddressForm() {
-		console.log('open address form');
-		console.log('to edit');
 	}
 
 	function onLanguageUpdate(value) {
@@ -178,154 +177,223 @@ function MyProfile() {
 		}
 	}
 
+	function openAddressForm() {
+		setAddFormOpen(true);
+		sheetRef.current.snapTo(2);
+	}
+
+	function updateUserAddress(data) {
+		updateUserField({
+			address: data,
+		});
+		closeAddressForm();
+	}
+
+	function closeAddressForm() {
+		sheetRef.current.snapTo(0);
+		setAddFormOpen(false);
+	}
+
 	return (
-		<ScrollView
-			style={Styles.Container}
-			contentContainerStyle={Styles.ScrollContainer}
-			refreshControl={
-				<RefreshControl
-					colors={['#fb8c00', '#38C2FF']}
-					refreshing={loadingInfo}
-					onRefresh={reloadUserInfo}
-				/>
-			}
-			scrollEnabled={true}
-			bounces={true}>
-			<View style={Styles.AvatarContainer}>
-				<View style={Styles.UserAvatar}>
-					{user.avatar_url || newAvatar ? (
-						<FastImage
-							source={{
-								uri: newAvatar
-									? newAvatar.uri
-									: user.avatar_url,
-							}}
-							style={Styles.UserPic}
-						/>
-					) : (
-						<DefaultProfile height="100%" width="100%" />
-					)}
-					{!newAvatar && (
+		<>
+			<ScrollView
+				style={Styles.Container}
+				contentContainerStyle={Styles.ScrollContainer}
+				refreshControl={
+					<RefreshControl
+						colors={['#fb8c00', '#38C2FF']}
+						refreshing={loadingInfo}
+						onRefresh={reloadUserInfo}
+					/>
+				}
+				scrollEnabled={true}
+				bounces={true}>
+				<View style={Styles.AvatarContainer}>
+					<View style={Styles.UserAvatar}>
+						{user.avatar_url || newAvatar ? (
+							<FastImage
+								source={{
+									uri: newAvatar
+										? newAvatar.uri
+										: user.avatar_url,
+								}}
+								style={Styles.UserPic}
+							/>
+						) : (
+							<DefaultProfile height="100%" width="100%" />
+						)}
+						{!newAvatar && (
+							<RectButton
+								onPress={selectPicture}
+								style={Styles.PicOverlay}>
+								<MCI name="image-plus" color="#fff" size={30} />
+							</RectButton>
+						)}
+					</View>
+					{newAvatar && (
 						<RectButton
-							onPress={selectPicture}
-							style={Styles.PicOverlay}>
-							<MCI name="image-plus" color="#fff" size={30} />
+							onPress={updateImage}
+							style={Styles.UploadButton}>
+							<MCI
+								name="file-upload-outline"
+								color="#fff"
+								size={30}
+							/>
 						</RectButton>
 					)}
+					<View style={Styles.PicActionsContainer}>
+						<RectButton
+							enabled={!!newAvatar}
+							onPress={editPicture}
+							style={[
+								Styles.EditButton,
+								Styles.PicButton,
+								Styles.EditPicButton,
+								!newAvatar && Styles.PicButtonDisabled,
+							]}>
+							<FontAwesome name="edit" size={20} color="#fff" />
+							<Text style={Styles.PicButtonText}>
+								{t('profile.updatePic')}
+							</Text>
+						</RectButton>
+						<RectButton
+							enabled={!!newAvatar}
+							onPress={removeUserPicture}
+							style={[
+								Styles.EditButton,
+								Styles.PicButton,
+								Styles.DeletePicButton,
+								!newAvatar && Styles.PicButtonDisabled,
+							]}>
+							<FontAwesome
+								name="trash-o"
+								size={20}
+								color="#fff"
+							/>
+							<Text style={Styles.PicButtonText}>
+								{t('profile.deletePic')}
+							</Text>
+						</RectButton>
+					</View>
 				</View>
-				{newAvatar && (
+
+				<FieldText
+					label={t('profile.name')}
+					value={user.full_name}
+					editable={true}
+					onSubmit={onNameChange}
+				/>
+
+				<FieldText
+					label={t('profile.email')}
+					value={user.email}
+					editable={true}
+					onSubmit={(newEmail) =>
+						updateUserField({ email: newEmail })
+					}
+				/>
+
+				<View style={Styles.PickerContainer}>
+					<Text style={Styles.InputLabel}>
+						{t('profile.language')}
+					</Text>
+					<Picker
+						style={Styles.Picker}
+						prompt={t('profile.pickLanguage')}
+						selectedValue={i18n.languages[0]}
+						onValueChange={onLanguageUpdate}>
+						<Picker.Item label={t('english')} value="en" />
+						<Picker.Item label={t('portuguese')} value="pt" />
+					</Picker>
+				</View>
+
+				<View style={Styles.HeadingRow}>
+					<Text style={Styles.HeadingText}>
+						{t('profile.address')}
+					</Text>
 					<RectButton
-						onPress={updateImage}
-						style={Styles.UploadButton}>
-						<MCI
-							name="file-upload-outline"
-							color="#fff"
-							size={30}
-						/>
-					</RectButton>
-				)}
-				<View style={Styles.PicActionsContainer}>
-					<RectButton
-						enabled={!!newAvatar}
-						onPress={editPicture}
-						style={[
-							Styles.EditButton,
-							Styles.PicButton,
-							Styles.EditPicButton,
-							!newAvatar && Styles.PicButtonDisabled,
-						]}>
-						<FontAwesome name="edit" size={20} color="#fff" />
-						<Text style={Styles.PicButtonText}>
-							{t('profile.updatePic')}
-						</Text>
-					</RectButton>
-					<RectButton
-						enabled={!!newAvatar}
-						onPress={removeUserPicture}
-						style={[
-							Styles.EditButton,
-							Styles.PicButton,
-							Styles.DeletePicButton,
-							!newAvatar && Styles.PicButtonDisabled,
-						]}>
-						<FontAwesome name="trash-o" size={20} color="#fff" />
-						<Text style={Styles.PicButtonText}>
-							{t('profile.deletePic')}
-						</Text>
+						onPress={openAddressForm}
+						style={Styles.EditButton}>
+						<FontAwesome name="edit" size={20} color="#000000" />
 					</RectButton>
 				</View>
-			</View>
 
-			<FieldText
-				label={t('profile.name')}
-				value={user.full_name}
-				editable={true}
-				onSubmit={onNameChange}
-			/>
+				<FieldText
+					label={t('addressForm.street')}
+					value={user.address.street}
+					editable={false}
+				/>
 
-			<FieldText
-				label={t('profile.email')}
-				value={user.email}
-				editable={true}
-				onSubmit={(newEmail) => updateUserField({ email: newEmail })}
-			/>
+				<FieldText
+					label={t('addressForm.neighborhood')}
+					value={user.address.neighborhood}
+					editable={false}
+				/>
 
-			<View style={Styles.PickerContainer}>
-				<Text style={Styles.InputLabel}>{t('profile.language')}</Text>
-				<Picker
-					style={Styles.Picker}
-					prompt={t('profile.pickLanguage')}
-					selectedValue={i18n.languages[0]}
-					onValueChange={onLanguageUpdate}>
-					<Picker.Item label={t('english')} value="en" />
-					<Picker.Item label={t('portuguese')} value="pt" />
-				</Picker>
-			</View>
+				<FieldText
+					label={t('addressForm.city')}
+					value={user.address.city}
+					editable={false}
+				/>
 
-			<View style={Styles.HeadingRow}>
-				<Text style={Styles.HeadingText}>{t('profile.address')}</Text>
-				<RectButton onPress={openAddressForm} style={Styles.EditButton}>
-					<FontAwesome name="edit" size={20} color="#000000" />
+				<FieldText
+					label={t('addressForm.state')}
+					value={user.address.state}
+					editable={false}
+				/>
+
+				<FieldText
+					label={t('addressForm.zipcode')}
+					value={user.address.zip_code}
+					editable={false}
+				/>
+
+				<RectButton onPress={deleteAccount} style={Styles.DeleteButton}>
+					<FontAwesome name="trash-o" size={24} color="#FFF" />
+					<Text style={Styles.DeleteButtonText}>
+						{t('profile.deleteAccount')}
+					</Text>
 				</RectButton>
-			</View>
-
-			<FieldText
-				label={t('addressForm.street')}
-				value={user.address.street}
-				editable={false}
+			</ScrollView>
+			<BottomSheet
+				ref={sheetRef}
+				initialSnap={0}
+				snapPoints={[0, 250, 350, 500]}
+				borderRadius={10}
+				onCloseEnd={() => {
+					setAddFormOpen(false);
+				}}
+				renderContent={() => (
+					<View style={Styles.BottomSheet}>
+						{isAddressFormOpen && (
+							<View>
+								<View style={Styles.BottomSheetTracker} />
+								<View style={[Styles.Row, Styles.SheetHeader]}>
+									<Text style={Styles.SheetHeaderText}>
+										{t('signUp.addressFormHeader')}
+									</Text>
+								</View>
+								<AddressForm
+									currentZipcode={user.address.zip_code}
+									currentStreet={user.address.street}
+									currentNeighborhood={
+										user.address.neighborhood
+									}
+									currentCity={user.address.city}
+									currentState={user.address.state}
+									currentLatitude={user.address.latitude}
+									currentLongitude={user.address.longitude}
+									onDismiss={() => {
+										setAddFormOpen(false);
+									}}
+									onSubmit={updateUserAddress}
+								/>
+							</View>
+						)}
+					</View>
+				)}
 			/>
-
-			<FieldText
-				label={t('addressForm.neighborhood')}
-				value={user.address.neighborhood}
-				editable={false}
-			/>
-
-			<FieldText
-				label={t('addressForm.city')}
-				value={user.address.city}
-				editable={false}
-			/>
-
-			<FieldText
-				label={t('addressForm.state')}
-				value={user.address.state}
-				editable={false}
-			/>
-
-			<FieldText
-				label={t('addressForm.zipcode')}
-				value={user.address.zip_code}
-				editable={false}
-			/>
-
-			<RectButton onPress={deleteAccount} style={Styles.DeleteButton}>
-				<FontAwesome name="trash-o" size={24} color="#FFF" />
-				<Text style={Styles.DeleteButtonText}>
-					{t('profile.deleteAccount')}
-				</Text>
-			</RectButton>
-		</ScrollView>
+		</>
 	);
 }
 

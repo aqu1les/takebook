@@ -141,4 +141,25 @@ export default StyleSheet.create({
 		marginLeft: 10,
 		elevation: 5,
 	},
+	BottomSheet: {
+		elevation: 1,
+		backgroundColor: 'white',
+		padding: 16,
+		height: '100%',
+	},
+	BottomSheetTracker: {
+		width: 45,
+		height: 4,
+		backgroundColor: '#e5e5e5',
+		borderRadius: 12,
+		marginLeft: 'auto',
+		marginRight: 'auto',
+	},
+	SheetHeader: {
+		marginVertical: 15,
+	},
+	SheetHeaderText: {
+		width: '100%',
+		textAlign: 'center',
+	},
 });
