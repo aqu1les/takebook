@@ -50,10 +50,17 @@ export default function Room({ navigation, route }) {
 		userMessage,
 		sendingMsg,
 	]);
+	const isMounted = useRef(true);
 
 	const loadMessages = useCallback(() => {
 		dispatch(loadMessagesAction(roomId));
 	}, [dispatch, roomId]);
+
+	useEffect(() => {
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
 	useEffect(() => {
 		loadMessages();
@@ -70,7 +77,9 @@ export default function Room({ navigation, route }) {
 	useEffect(() => {
 		function scrollToBottom() {
 			setTimeout(() => {
-				messagesList.current.scrollToEnd({ animated: true });
+				if (isMounted.current) {
+					messagesList.current.scrollToEnd({ animated: true });
+				}
 			}, 500);
 		}
 
@@ -85,13 +94,17 @@ export default function Room({ navigation, route }) {
 		if (!sendingMsg) {
 			sendNewMessage(roomId, userMessage)
 				.then(() => {
-					setUserMessage('');
+					if (isMounted.current) {
+						setUserMessage('');
+					}
 				})
 				.catch(() => {
 					console.log('err');
 				})
 				.finally(() => {
-					setSendingMsg(false);
+					if (isMounted.current) {
+						setSendingMsg(false);
+					}
 				});
 		}
 	}

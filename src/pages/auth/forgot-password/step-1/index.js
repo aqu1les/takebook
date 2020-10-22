@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import {
 	View,
 	Text,
@@ -22,6 +22,13 @@ function ForgotPassword_1({ setTypedEmail, next }) {
 	const emailValid = useMemo(() => {
 		return EMAIL_REGEX.test(emailInput);
 	}, [emailInput]);
+	const isMounted = useRef(true);
+
+	useEffect(() => {
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
 	function sendForm() {
 		if (!loading) {
@@ -29,20 +36,24 @@ function ForgotPassword_1({ setTypedEmail, next }) {
 
 			forgotPassword(emailInput)
 				.then(() => {
-					storeEmailToRecover(emailInput);
-					ToastAndroid.show(
-						t('forgotPassword.step_1.successFeedback'),
-						ToastAndroid.SHORT,
-					);
-					setTypedEmail(emailInput);
-					next();
+					if (isMounted.current) {
+						storeEmailToRecover(emailInput);
+						ToastAndroid.show(
+							t('forgotPassword.step_1.successFeedback'),
+							ToastAndroid.SHORT,
+						);
+						setTypedEmail(emailInput);
+						next();
+					}
 				})
 				.catch(() => {
-					ToastAndroid.show(
-						t('forgotPassword.step_1.errorFeedback'),
-						ToastAndroid.LONG,
-					);
-					setLoading(false);
+					if (isMounted.current) {
+						ToastAndroid.show(
+							t('forgotPassword.step_1.errorFeedback'),
+							ToastAndroid.LONG,
+						);
+						setLoading(false);
+					}
 				});
 		}
 	}

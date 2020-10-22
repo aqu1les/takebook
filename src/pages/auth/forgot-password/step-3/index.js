@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
 	View,
 	Text,
@@ -15,6 +15,7 @@ function ForgotPassword_3({ email, token, next }) {
 	const [loading, setLoading] = useState(false);
 	const [password, setPassword] = useState('');
 	const [passwordConfirmation, setPasswordConfirmation] = useState('');
+	const isMounted = useRef(true);
 
 	const passwordValid = useMemo(() => password !== '', [password]);
 
@@ -22,6 +23,12 @@ function ForgotPassword_3({ email, token, next }) {
 		() => passwordValid && password === passwordConfirmation,
 		[passwordValid, password, passwordConfirmation],
 	);
+
+	useEffect(() => {
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
 	function submitPasswords() {
 		if (loading || !email || !token || !confirmationValid) {
@@ -36,18 +43,22 @@ function ForgotPassword_3({ email, token, next }) {
 			password_confirmation: passwordConfirmation,
 		})
 			.then(() => {
-				ToastAndroid.show(
-					t('forgotPassword.step_3.successFeedback'),
-					ToastAndroid.SHORT,
-				);
-				next();
+				if (isMounted.current) {
+					ToastAndroid.show(
+						t('forgotPassword.step_3.successFeedback'),
+						ToastAndroid.SHORT,
+					);
+					next();
+				}
 			})
 			.catch(() => {
-				ToastAndroid.show(
-					t('error.somethingWentWrong'),
-					ToastAndroid.LONG,
-				);
-				setLoading(false);
+				if (isMounted.current) {
+					ToastAndroid.show(
+						t('error.somethingWentWrong'),
+						ToastAndroid.LONG,
+					);
+					setLoading(false);
+				}
 			});
 	}
 

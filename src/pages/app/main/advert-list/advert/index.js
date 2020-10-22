@@ -47,7 +47,7 @@ function Advert({ item }) {
 			badgeColor = '#00cc09';
 			break;
 		case 2:
-			condition = t('semi');
+			condition = t('semiNew');
 			badgeColor = '#38c2ff';
 			break;
 		case 3:

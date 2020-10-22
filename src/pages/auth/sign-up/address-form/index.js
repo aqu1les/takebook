@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Styles from './style';
 import { View, TouchableOpacity, TextInput, Text } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
@@ -25,15 +25,23 @@ export default function AddressForm({
 	const [state, setState] = useState(currentState || '');
 	const [latitude, setLatitude] = useState(currentLatitude || null);
 	const [longitude, setLongitude] = useState(currentLongitude || null);
+	const isMounted = useRef(true);
+
+	useEffect(() => {
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
 	useEffect(() => {
 		function getPosition() {
 			getCoords()
 				.then((result) => {
-					console.log({ result });
-					if (result) {
-						setLatitude(result.latitude);
-						setLongitude(result.longitude);
+					if (isMounted.current) {
+						if (result) {
+							setLatitude(result.latitude);
+							setLongitude(result.longitude);
+						}
 					}
 				})
 				.catch((err) => console.log({ err }));

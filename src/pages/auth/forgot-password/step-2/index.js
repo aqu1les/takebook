@@ -30,6 +30,7 @@ function ForgotPassword_2({ next, setTypedToken, email }) {
 	const input_4 = useRef(null);
 	const input_5 = useRef(null);
 	const input_6 = useRef(null);
+	const isMounted = useRef(true);
 
 	const inputsArray = useMemo(() => {
 		return [input_1, input_2, input_3, input_4, input_5, input_6];
@@ -40,6 +41,12 @@ function ForgotPassword_2({ next, setTypedToken, email }) {
 	}, []);
 
 	const tokenValid = useMemo(() => token.length === 6, [token]);
+
+	useEffect(() => {
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
 	useEffect(() => {
 		const newToken = digits.reduce(
@@ -69,13 +76,15 @@ function ForgotPassword_2({ next, setTypedToken, email }) {
 		setLoading(true);
 		checkTypedToken(token, email)
 			.then(() => {
-				storeTokenToRecover(token);
-				ToastAndroid.show(
-					t('forgotPassword.step_2.successFeedback'),
-					ToastAndroid.SHORT,
-				);
-				setTypedToken(token);
-				next();
+				if (isMounted.current) {
+					storeTokenToRecover(token);
+					ToastAndroid.show(
+						t('forgotPassword.step_2.successFeedback'),
+						ToastAndroid.SHORT,
+					);
+					setTypedToken(token);
+					next();
+				}
 			})
 			.catch((err) => {
 				if (err.status === 422) {
@@ -89,7 +98,9 @@ function ForgotPassword_2({ next, setTypedToken, email }) {
 						ToastAndroid.LONG,
 					);
 				}
-				setLoading(false);
+				if (isMounted.current) {
+					setLoading(false);
+				}
 			});
 	}
 
