@@ -8,6 +8,7 @@ export default {
 			bookmarks: 'Bookmarks',
 			myads: 'My books',
 			cancel: 'Cancel',
+			update: 'Update',
 		},
 
 		imagePicker: {
@@ -83,6 +84,7 @@ export default {
 		},
 
 		advertDetails: {
+			status: 'Status',
 			tabs: {
 				description: 'Description',
 				localization: 'Localization',
@@ -92,6 +94,26 @@ export default {
 				button: 'See Profile',
 				talk: 'Get in touch',
 			},
+			aditionalInfo: 'Aditional info',
+
+			pending: {
+				warning: "Once the book is approved, it can't be edited!",
+				reviewing: 'In review',
+				reviewHelp:
+					'Your book is under review, please wait for feedback from the Administrators team :)',
+			},
+
+			declined: {
+				declined: 'Declined',
+			},
+
+			approved: {
+				approved: 'Approved',
+			},
+
+			title: 'Title',
+			author: 'Author',
+			description: 'Description',
 		},
 
 		categories: {

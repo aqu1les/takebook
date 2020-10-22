@@ -19,9 +19,11 @@ export default StyleSheet.create({
 		top: 0,
 	},
 	IconButton: {
-		position: 'absolute',
-		top: 10,
-		right: 10,
+		width: 40,
+		height: 40,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 100,
 	},
 	ImgCoverContainer: {
 		width: '45%',
@@ -55,6 +57,11 @@ export default StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
+	},
+	ActionButtonsContainer: {
+		position: 'absolute',
+		right: 0,
+		top: 5,
 	},
 	Title: {
 		fontSize: 26,
@@ -188,9 +195,19 @@ export default StyleSheet.create({
 		textAlign: 'center',
 		color: '#FFFFFF',
 	},
+	TitleRow: {
+		flexDirection: 'row',
+		width: '100%',
+		justifyContent: 'space-between',
+	},
 	Chip: {
+		height: 28,
+		marginRight: 5,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	ChipText: {
 		fontSize: 12,
-		height: 10,
 	},
 	TabUnderline: {
 		backgroundColor: '#FB8C00',
@@ -205,5 +222,37 @@ export default StyleSheet.create({
 		fontSize: 20,
 		color: '#ff7719',
 		fontWeight: 'bold',
+	},
+	BottomSheet: {
+		elevation: 1,
+		backgroundColor: '#FFF',
+		padding: 16,
+		height: '100%',
+	},
+	BottomSheetTracker: {
+		width: 45,
+		height: 4,
+		backgroundColor: '#e5e5e5',
+		borderRadius: 12,
+		marginLeft: 'auto',
+		marginRight: 'auto',
+	},
+	HorizontalDivider: {
+		width: '90%',
+		height: 2,
+		backgroundColor: '#e5e5e5',
+		marginVertical: 10,
+		marginLeft: 'auto',
+		marginRight: 'auto',
+	},
+	SheetHeaderContainer: {
+		flex: 1,
+		padding: 20,
+	},
+	SheetHeading: {
+		marginBottom: 16,
+	},
+	SheetHeadText: {
+		fontSize: 24,
 	},
 });

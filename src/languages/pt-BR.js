@@ -8,6 +8,7 @@ export default {
 			bookmarks: 'Favoritos',
 			myads: 'Meus Anúncios',
 			cancel: 'Cancelar',
+			update: 'Atualizar',
 		},
 
 		imagePicker: {
@@ -85,6 +86,7 @@ export default {
 		},
 
 		advertDetails: {
+			status: 'Situação',
 			tabs: {
 				description: 'Descrição',
 				localization: 'Localização',
@@ -94,6 +96,26 @@ export default {
 				button: 'Ver Perfil',
 				talk: 'Entrar em contato',
 			},
+			aditionalInfo: 'Informações adicionais',
+
+			pending: {
+				warning: 'O Livro quando aprovado não poderá ser alterado!',
+				reviewing: 'Em análise',
+				reviewHelp:
+					'O anúncio está em análise, favor aguardar feedback da equipe de Administradores :)',
+			},
+
+			declined: {
+				declined: 'Reprovado',
+			},
+
+			approved: {
+				approved: 'Aprovado',
+			},
+
+			title: 'Título',
+			author: 'Autor',
+			description: 'Descrição',
 		},
 
 		categories: {
