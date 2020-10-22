@@ -116,6 +116,7 @@ export default {
 			title: 'Título',
 			author: 'Autor',
 			description: 'Descrição',
+			price: 'Preço',
 		},
 
 		categories: {

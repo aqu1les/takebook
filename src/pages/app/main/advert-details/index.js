@@ -32,9 +32,6 @@ const AdvertDetails = ({ route }) => {
 		(state) =>
 			state.adverts.data.find((ad) => ad.id === advertId) ||
 			state.myads.data.find((ad) => ad.id === advertId),
-		(prev, n) => {
-			return false;
-		},
 	);
 	const loggedUser = useSelector((state) => state.auth);
 	const chats = useSelector((state) => state.chats.chats);

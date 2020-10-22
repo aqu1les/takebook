@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import Styles from './style';
@@ -19,4 +19,4 @@ function CheckboxRow({ value, handleCheckBox, category }) {
 	);
 }
 
-export default memo(CheckboxRow);
+export default CheckboxRow;

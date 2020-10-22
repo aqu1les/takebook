@@ -81,4 +81,7 @@ export default StyleSheet.create({
 	SecondaryAction: {
 		backgroundColor: '#ddd',
 	},
+	DisabledAction: {
+		backgroundColor: '#e5e5e5',
+	},
 });

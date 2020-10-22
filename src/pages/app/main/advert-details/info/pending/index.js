@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 
 function Pending({ advert }) {
 	const { t } = useTranslation();
-	const [infoOpen, setInfoOpen] = useState(false);
+	const [helpOpen, setHelpOpen] = useState(false);
 
 	function showInfo() {
-		setInfoOpen((v) => !v);
+		setHelpOpen((v) => !v);
 	}
 
 	return (
@@ -40,7 +40,7 @@ function Pending({ advert }) {
 					</Chip>
 				</RectButton>
 			</View>
-			{infoOpen && (
+			{helpOpen && (
 				<View style={[Styles.InfoContainer, Styles.Info]}>
 					<Text style={Styles.InfoText}>
 						{t('advertDetails.pending.reviewHelp')}
