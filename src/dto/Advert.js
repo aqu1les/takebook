@@ -19,7 +19,7 @@ export function createAdvertToUpdate(
 	if (price) {
 		price = price.replace(/[,]/gm, '.');
 		if (originalBook.price != price) {
-			data.price = parseInt(price, 10);
+			data.price = parseFloat(price);
 		}
 	}
 

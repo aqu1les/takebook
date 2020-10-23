@@ -30,7 +30,6 @@ function BookInfoForm({ advert }) {
 	const [isLoading, setIsLoading] = useState(false);
 	const isMounted = useRef(true);
 	const dispatch = useDispatch();
-
 	useEffect(() => {
 		return () => {
 			isMounted.current = false;
@@ -44,6 +43,7 @@ function BookInfoForm({ advert }) {
 			setDescriptionUpdated(advert.description);
 			setPriceUpdated(advert.price);
 			setNewCategories(advert.categories);
+			originalBook.current = advert;
 		}
 	}, [advert]);
 
