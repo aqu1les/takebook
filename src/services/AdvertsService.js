@@ -91,3 +91,7 @@ export function createAdvert(body) {
 export function updateAdvert(bookId, data) {
 	return ApiService.put(`books/${bookId}`, data);
 }
+
+export function markAdvertAsSold(bookId) {
+	return ApiService.put(`books/${bookId}/sold`);
+}

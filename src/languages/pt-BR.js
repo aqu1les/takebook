@@ -117,6 +117,19 @@ export default {
 			author: 'Autor',
 			description: 'Descrição',
 			price: 'Preço',
+
+			approvedSection: {
+				info: 'Seu livro foi aceito pelos nossos administradores',
+				help:
+					'Você pode pressionar o botão abaixo para marcar o seu anúncio como vendido.',
+				markAsSold: 'Marcar como vendido',
+			},
+
+			soldSection: {
+				congrats: 'Parabéns! Você vendeu o seu livro',
+				info:
+					'Você marcou o seu anúncio como vendido no dia {{date}} às {{hours}}',
+			},
 		},
 
 		categories: {

@@ -115,6 +115,17 @@ export default {
 			author: 'Author',
 			description: 'Description',
 			price: 'Price',
+
+			approvedSection: {
+				info: 'Your book was approved by our administrators',
+				help: 'You can press the button below to set your book as sold',
+				markAsSold: 'Mark as sold',
+			},
+
+			soldSection: {
+				congrats: 'Congratulations! You sold your book',
+				info: 'You set your book as sold on {{date}} at {{hours}}',
+			},
 		},
 
 		categories: {
