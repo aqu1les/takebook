@@ -1,5 +1,5 @@
 import ApiService from './ApiService';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function forgotPassword(email) {
 	return ApiService.post('auth/forgot', { email });
