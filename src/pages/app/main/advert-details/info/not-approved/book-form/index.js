@@ -114,9 +114,16 @@ function BookInfoForm({ advert }) {
 			}
 
 			dispatch(loadSingleAdvert(originalBook.current.id));
-			ToastAndroid.show('Livro editado com sucesso!', ToastAndroid.SHORT);
+			ToastAndroid.show(
+				t('advertDetails.update.successFeedback'),
+				ToastAndroid.SHORT,
+			);
 		} catch (error) {
 			console.log({ error });
+			ToastAndroid.show(
+				t('advertDetails.update.errorFeedback'),
+				ToastAndroid.LONG,
+			);
 		} finally {
 			if (isMounted.current) {
 				setIsLoading(false);

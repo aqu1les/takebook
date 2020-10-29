@@ -40,9 +40,15 @@ function ApprovedInfo({ advert }) {
 			await markAdvertAsSold(advert.id);
 
 			dispatch(loadSingleAdvert(advert.id));
-			ToastAndroid.show('Livro editado com sucesso!', ToastAndroid.SHORT);
+			ToastAndroid.show(
+				t('advertDetails.update.successFeedback'),
+				ToastAndroid.SHORT,
+			);
 		} catch (error) {
-			ToastAndroid.show('Erro atualizando o livro', ToastAndroid.LONG);
+			ToastAndroid.show(
+				t('advertDetails.update.errorFeedback'),
+				ToastAndroid.LONG,
+			);
 		} finally {
 			if (isMounted.current) {
 				setIsLoading(false);

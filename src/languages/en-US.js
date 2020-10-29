@@ -116,6 +116,12 @@ export default {
 			description: 'Description',
 			price: 'Price',
 
+			update: {
+				successFeedback: 'Updated book successfully!',
+				errorFeedback:
+					'Something went wrong editing yout book :( Try again later',
+			},
+
 			approvedSection: {
 				info: 'Your book was approved by our administrators',
 				help: 'You can press the button below to set your book as sold',

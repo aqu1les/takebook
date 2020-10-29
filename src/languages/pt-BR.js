@@ -118,6 +118,12 @@ export default {
 			description: 'Descrição',
 			price: 'Preço',
 
+			update: {
+				successFeedback: 'Seu livro foi editado com sucesso!',
+				errorFeedback:
+					'Deu algum erro editando o livro :( Tente mais tarde',
+			},
+
 			approvedSection: {
 				info: 'Seu livro foi aceito pelos nossos administradores',
 				help:
