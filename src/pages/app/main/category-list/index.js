@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -6,22 +6,22 @@ import CategoryItem from './category-item';
 import Styles from './style';
 import FilterService from '../../../../services/FilterService';
 
-function CategoryList(props) {
+function CategoryList() {
 	const { t } = useTranslation();
 	const categories = useSelector((state) => state.categories.data);
 	const [selectedCat, setSelectedCat] = useState(null);
+	const isMounted = useRef(true);
 
 	useEffect(() => {
-		let isMounted = true;
 		const unsubscribe = FilterService.subscribe(({ category }) => {
-			if (isMounted) {
+			if (isMounted.current) {
 				setSelectedCat((v) => (v !== category ? category : v));
 			}
 		});
 
 		setSelectedCat(FilterService.category);
-		return function cleanup() {
-			isMounted = false;
+		return () => {
+			isMounted.current = false;
 			unsubscribe();
 		};
 	}, []);

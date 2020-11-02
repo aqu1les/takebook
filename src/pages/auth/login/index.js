@@ -45,25 +45,27 @@ export default function Login(props) {
 	const invalid =
 		loginError || passwordError || login === '' || password === '';
 	const { t } = useTranslation();
+	const isMounted = useRef(true);
 
 	useEffect(() => {
-		let isMounted = true;
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
+	useEffect(() => {
 		async function getUserInfo() {
 			const storedEmail = await getUserEmail();
-			if (isMounted) {
+			if (isMounted.current) {
 				setLogin(storedEmail || '');
 			}
 		}
+
 		if (redirectEmail) {
 			return setLogin(redirectEmail);
 		} else {
 			getUserInfo();
 		}
-
-		return () => {
-			isMounted = false;
-		};
 	}, [redirectEmail]);
 
 	useEffect(() => {

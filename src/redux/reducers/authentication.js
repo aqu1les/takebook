@@ -17,12 +17,14 @@ const INITIAL_STATE = {
 	first_name: '',
 	last_name: '',
 	email: '',
-	address_street: null,
-	address_number: null,
-	address_neighborhood: null,
-	address_city: null,
-	address_state: null,
-	address_zip_code: null,
+	address: {
+		number: null,
+		street: '',
+		neighborhood: '',
+		city: '',
+		state: '',
+		zip_code: '',
+	},
 	created_at: null,
 	updated_at: null,
 	avatar_url: null,
@@ -38,6 +40,16 @@ export default function authReducer(state = INITIAL_STATE, action) {
 		case LOAD_INFO_SUCCESS:
 			if (action.user.token) {
 				storeToken(action.user.token);
+			}
+
+			if (!action.user.address) {
+				action.user.address = {
+					street: '',
+					neighborhood: '',
+					city: '',
+					state: '',
+					zip_code: '',
+				};
 			}
 
 			return {
