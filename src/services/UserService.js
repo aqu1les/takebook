@@ -60,3 +60,9 @@ export function updateUserAvatar(formData, uploadProgress = null) {
 	}
 	return ApiService.post('/users/me/avatar', formData, config);
 }
+
+export function confirmBookPurchase(bookId, answer = true) {
+	return ApiService.put(`/users/me/sale-confirmation/${bookId}`, {
+		answer,
+	});
+}

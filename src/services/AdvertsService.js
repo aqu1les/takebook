@@ -92,6 +92,7 @@ export function updateAdvert(bookId, data) {
 	return ApiService.put(`books/${bookId}`, data);
 }
 
-export function markAdvertAsSold(bookId) {
-	return ApiService.put(`books/${bookId}/sold`);
+export function markAdvertAsSold(bookId, userId = null) {
+	const data = userId ? { user_id: userId } : {};
+	return ApiService.put(`books/${bookId}/owner/status`, data);
 }

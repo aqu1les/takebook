@@ -1,19 +1,22 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ActivityIndicator, ToastAndroid } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Styles from './style';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { RectButton } from 'react-native-gesture-handler';
 import { markAdvertAsSold } from './../../../../../../services/AdvertsService';
 import { loadSingleAdvert } from './../../../../../../redux/actions/advert';
-import { formatToLocale } from './../../../../../../helpers/Date';
+import SelectUserModal from './select-user-modal/index';
+import WaitingBuyerConfirmation from './waiting-buyer-confirmation/index';
+import SoldAdvert from './sold/index';
 
 function ApprovedInfo({ advert }) {
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
 	const [loading, setIsLoading] = useState(false);
 	const isMounted = useRef(true);
+	const [isSelectingUser, setIsSelectingUser] = useState(false);
 
 	useEffect(() => {
 		return () => {
@@ -21,15 +24,18 @@ function ApprovedInfo({ advert }) {
 		};
 	}, []);
 
-	const formattedSellDate = useMemo(
-		() =>
-			advert.sold_at
-				? formatToLocale(advert.sold_at, 'HH:mm DD-MM-YYYY')
-				: false,
-		[advert],
-	);
+	if (advert.status_id === 5) {
+		return <WaitingBuyerConfirmation advert={advert} />;
+	} else if (advert.status_id === 4) {
+		return <SoldAdvert advert={advert} />;
+	}
 
-	async function markBookAsSold() {
+	function finishedSelectingUser({ userId = null }) {
+		setIsSelectingUser(false);
+		markBookAsSold(userId);
+	}
+
+	async function markBookAsSold(userId = null) {
 		if (loading) {
 			return false;
 		}
@@ -37,7 +43,7 @@ function ApprovedInfo({ advert }) {
 		setIsLoading(true);
 
 		try {
-			await markAdvertAsSold(advert.id);
+			await markAdvertAsSold(advert.id, userId);
 
 			dispatch(loadSingleAdvert(advert.id));
 			ToastAndroid.show(
@@ -56,8 +62,8 @@ function ApprovedInfo({ advert }) {
 		}
 	}
 
-	if (!formattedSellDate) {
-		return (
+	return (
+		<>
 			<View style={Styles.Container}>
 				<View style={Styles.InfoAlert}>
 					<Text style={Styles.InfoAlertText}>
@@ -70,7 +76,9 @@ function ApprovedInfo({ advert }) {
 						{t('advertDetails.approvedSection.help')}
 					</Text>
 				</View>
-				<RectButton onPress={markBookAsSold} style={Styles.Button}>
+				<RectButton
+					onPress={() => setIsSelectingUser(true)}
+					style={Styles.Button}>
 					{loading ? (
 						<ActivityIndicator color="#fff" />
 					) : (
@@ -80,27 +88,11 @@ function ApprovedInfo({ advert }) {
 					)}
 				</RectButton>
 			</View>
-		);
-	}
-
-	const splitDate = formattedSellDate.split(' ');
-	return (
-		<View style={Styles.Container}>
-			<Text style={Styles.TitleText}>
-				{t('advertDetails.soldSection.congrats')}
-			</Text>
-			<View style={Styles.InfoAlert}>
-				<Text style={Styles.InfoAlertText}>
-					<Trans
-						i18nKey="advertDetails.soldSection.info"
-						values={{
-							date: splitDate[1],
-							hours: splitDate[0],
-						}}
-					/>
-				</Text>
-			</View>
-		</View>
+			<SelectUserModal
+				isVisible={isSelectingUser}
+				onCloseModal={finishedSelectingUser}
+			/>
+		</>
 	);
 }
 

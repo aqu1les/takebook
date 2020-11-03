@@ -276,7 +276,7 @@ const AdvertDetails = ({ route }) => {
 										{t('advertDetails.aditionalInfo')}
 									</Text>
 								</View>
-								{advert.status_id === 2 ? (
+								{[2, 4, 5].includes(advert.status_id) ? (
 									<ApprovedInfo advert={advert} />
 								) : (
 									<NotApprovedInfo advert={advert} />

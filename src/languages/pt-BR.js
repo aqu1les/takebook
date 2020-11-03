@@ -138,6 +138,18 @@ export default {
 			},
 		},
 
+		markAsSold: {
+			selectUserModal: {
+				searchUser: 'Pesquisar usuário',
+				emptyUserList: 'Você ainda não conversou com nenhum usuário',
+				actionButtonText: 'Eu vendi para: {{username}}',
+				selectTheBuyer: 'Selecione o comprador',
+				secondaryButton: 'Não vendi pra ninguém do Takebook',
+			},
+			waitingBuyerConfirmation:
+				'Você marcou o seu livro como vendido, mas para completarmos o processo é necessário que o comprador confirme que realizou a compra!',
+		},
+
 		categories: {
 			highlights: 'Destaques',
 			horror: 'Terror',
@@ -157,6 +169,15 @@ export default {
 				textplanation:
 					'Será necessário a foto da capa e contracapa. Utilize suas melhores técnicas como fotógrafo para o seu anúncio ficar mais atraente :D',
 			},
+		},
+
+		saleConfirmationModal: {
+			title:
+				'Por favor, confirme se você realizou a compra dos seguintes livros:',
+			owner: 'Dono do livro',
+			bookTitle: 'Título do livro',
+			primaryAction: 'Sim, eu comprei',
+			secondaryAction: 'Não',
 		},
 
 		newBook: {

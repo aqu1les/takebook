@@ -134,6 +134,19 @@ export default {
 			},
 		},
 
+		markAsSold: {
+			selectUserModal: {
+				searchUser: 'Search user',
+				emptyUserList:
+					"You haven't sent a message to any Takebook user",
+				actionButtonText: 'I sold to: {{username}}',
+				selectTheBuyer: 'Select the buyer',
+				secondaryButton: "I didn't sell it to anyone on Takebook",
+			},
+			waitingBuyerConfirmation:
+				'You marked your book as sold, but in order to complete the process the buyer must confirm that he made the purchase!',
+		},
+
 		categories: {
 			highlights: 'Highlights',
 			horror: 'Horror',
@@ -153,6 +166,14 @@ export default {
 				textplanation:
 					'You will need a photo of the cover and back cover. Use your best techniques as a photographer to make your ad more attractive: D',
 			},
+		},
+
+		saleConfirmationModal: {
+			title: 'Please, confirm if you purchased the following books',
+			owner: 'Owner',
+			bookTitle: 'Book title',
+			primaryAction: 'Yes, i did',
+			secondaryAction: "No, i didn't",
 		},
 
 		newBook: {
