@@ -106,12 +106,15 @@ export default function Login(props) {
 			}
 			return;
 		}
+
 		if (remind) {
 			await setUserEmail(login);
 		}
+
 		try {
 			dispatch(loadAuthAction());
 			const response = await authenticateUser(login, password, remind);
+
 			switch (response) {
 				case '':
 					dispatch(loadAuthErrorAction());
@@ -125,17 +128,25 @@ export default function Login(props) {
 						t('error.wrongPassword'),
 						ToastAndroid.SHORT,
 					);
-					setPasswordError(true);
-					setPassword('');
-					return passwordInput.current.focus();
+
+					if (isMounted.current) {
+						setPasswordError(true);
+						setPassword('');
+						passwordInput.current.focus();
+					}
+
+					break;
 				case 'E-mail inválido!':
 					dispatch(loadAuthErrorAction());
 					ToastAndroid.show(
 						t('error.invalidEmail'),
 						ToastAndroid.SHORT,
 					);
-					setLoginError(true);
-					return loginInput.current.focus();
+					if (isMounted.current) {
+						setLoginError(true);
+						loginInput.current.focus();
+					}
+					break;
 				default: {
 					await storeToken(response.data.token);
 					await dispatch(
@@ -144,9 +155,12 @@ export default function Login(props) {
 							token: response.data.token,
 						}),
 					);
+
 					StatusBar.setHidden(false);
 					StatusBar.setBarStyle('light-content');
+
 					ToastAndroid.show(t('global.welcome'), ToastAndroid.SHORT);
+
 					await dispatch(loadAdvertsAction());
 					await dispatch(
 						setNotificationsAction(

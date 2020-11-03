@@ -28,17 +28,17 @@ export default function Loading() {
 				const token = await getToken();
 				if (response) {
 					if (response.status === 200) {
-						dispatch(
+						await dispatch(
 							setNotificationsAction(response.data.notifications),
 						);
-						dispatch(
+						await dispatch(
 							setUserAction({
 								...response.data,
 								token,
 							}),
 						);
-						dispatch(tokenValidated());
-						dispatch(loadFavoritesAction());
+						await dispatch(tokenValidated());
+						await dispatch(loadFavoritesAction());
 					} else {
 						dispatch(loadAuthErrorAction());
 					}
