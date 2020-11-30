@@ -107,6 +107,9 @@ export default {
 
 			declined: {
 				declined: 'Reprovado',
+				infoTitle: 'Infelizmente o seu anúncio foi reprovado...',
+				infoContent:
+					'Provavelmente teve alguma inconsistência no seu anúncio, sugerimos que verifique-o novamente e crie um novo anúncio para que possamos analisá-lo novamente!',
 			},
 
 			approved: {

@@ -19,6 +19,15 @@ function Declined() {
 					{t('advertDetails.declined.declined')}
 				</Chip>
 			</View>
+
+			<View style={Styles.InfoWrapper}>
+				<Text style={Styles.InfoTitle}>
+					{t('advertDetails.declined.infoTitle')}
+				</Text>
+				<Text style={Styles.InfoContent}>
+					{t('advertDetails.declined.infoContent')}
+				</Text>
+			</View>
 		</>
 	);
 }

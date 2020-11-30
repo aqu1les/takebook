@@ -105,6 +105,9 @@ export default {
 
 			declined: {
 				declined: 'Declined',
+				infoTitle: 'Unfortunately your ad was declined...',
+				infoContent:
+					'There was probably some inconsistency in your ad, we suggest you check it again and create a new one so that we can review it again!',
 			},
 
 			approved: {
