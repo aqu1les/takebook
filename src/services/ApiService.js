@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_URL } from 'react-native-dotenv';
 
 const ApiService = axios.create({
-	baseURL: API_URL || 'http://10.0.0.8:8000',
+	baseURL: API_URL || 'http://10.0.0.11:8000',
 });
 
 async function getToken() {

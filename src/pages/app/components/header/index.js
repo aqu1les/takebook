@@ -1,4 +1,4 @@
-import React, { useRef, useState, memo, useMemo } from 'react';
+import React, { useRef, useState, memo, useEffect } from 'react';
 import {
 	View,
 	TouchableOpacity,
@@ -17,7 +17,7 @@ function Header(props) {
 	const [widthValue] = useState(new Animated.Value(0.75));
 	const [searchFocused, setSearchFocused] = useState(false);
 
-	useMemo(() => {
+	useEffect(() => {
 		FilterService.filterByWord(searchName);
 	}, [searchName]);
 
