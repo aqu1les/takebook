@@ -18,11 +18,13 @@ import {
 	setUserEmail,
 	authenticateUser,
 	storeToken,
+	getUser,
 } from '../../../services/UserService';
 import {
 	loadAuthErrorAction,
 	loadAuthAction,
 	setUserAction,
+	tokenValidated,
 } from '../../../redux/actions/authentication';
 import { loadAdvertsAction } from '../../../redux/actions/advert';
 import { loadCategoriesAction } from '../../../redux/actions/category';
@@ -45,25 +47,38 @@ export default function Login(props) {
 	const invalid =
 		loginError || passwordError || login === '' || password === '';
 	const { t } = useTranslation();
+	const isMounted = useRef(true);
 
 	useEffect(() => {
-		let isMounted = true;
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
+	useEffect(() => {
+		if (passwordInput.current) {
+			passwordInput.current.setNativeProps({
+				secureTextEntry: true,
+				style: {
+					fontFamily: 'Roboto',
+				},
+			});
+		}
+	}, [passwordInput]);
+
+	useEffect(() => {
 		async function getUserInfo() {
 			const storedEmail = await getUserEmail();
-			if (isMounted) {
+			if (isMounted.current) {
 				setLogin(storedEmail || '');
 			}
 		}
+
 		if (redirectEmail) {
 			return setLogin(redirectEmail);
 		} else {
 			getUserInfo();
 		}
-
-		return () => {
-			isMounted = false;
-		};
 	}, [redirectEmail]);
 
 	useEffect(() => {
@@ -104,12 +119,15 @@ export default function Login(props) {
 			}
 			return;
 		}
+
 		if (remind) {
 			await setUserEmail(login);
 		}
+
 		try {
 			dispatch(loadAuthAction());
 			const response = await authenticateUser(login, password, remind);
+
 			switch (response) {
 				case '':
 					dispatch(loadAuthErrorAction());
@@ -123,36 +141,62 @@ export default function Login(props) {
 						t('error.wrongPassword'),
 						ToastAndroid.SHORT,
 					);
-					setPasswordError(true);
-					setPassword('');
-					return passwordInput.current.focus();
+
+					if (isMounted.current) {
+						setPasswordError(true);
+						setPassword('');
+						passwordInput.current.focus();
+					}
+
+					break;
 				case 'E-mail inválido!':
 					dispatch(loadAuthErrorAction());
 					ToastAndroid.show(
 						t('error.invalidEmail'),
 						ToastAndroid.SHORT,
 					);
-					setLoginError(true);
-					return loginInput.current.focus();
+					if (isMounted.current) {
+						setLoginError(true);
+						loginInput.current.focus();
+					}
+					break;
 				default: {
 					await storeToken(response.data.token);
-					await dispatch(
-						setUserAction({
-							...response.data.user,
-							token: response.data.token,
-						}),
-					);
-					StatusBar.setHidden(false);
-					StatusBar.setBarStyle('light-content');
-					ToastAndroid.show(t('global.welcome'), ToastAndroid.SHORT);
-					await dispatch(loadAdvertsAction());
-					await dispatch(
-						setNotificationsAction(
-							response.data.user.notifications,
-						),
-					);
-					await dispatch(loadCategoriesAction());
-					dispatch(loadFavoritesAction());
+
+					const userInfo = await getUser();
+
+					if (userInfo && userInfo.status === 200) {
+						await dispatch(
+							setNotificationsAction(userInfo.data.notifications),
+						);
+						await dispatch(
+							setUserAction({
+								...userInfo.data,
+								token: response.data.token,
+							}),
+						);
+						await dispatch(tokenValidated());
+						await dispatch(loadFavoritesAction());
+
+						StatusBar.setHidden(false);
+						StatusBar.setBarStyle('light-content');
+
+						ToastAndroid.show(
+							t('global.welcome'),
+							ToastAndroid.SHORT,
+						);
+
+						await dispatch(loadAdvertsAction());
+						await dispatch(
+							setNotificationsAction(
+								response.data.user.notifications,
+							),
+						);
+						await dispatch(loadCategoriesAction());
+						dispatch(loadFavoritesAction());
+					} else {
+						dispatch(loadAuthErrorAction());
+					}
 					break;
 				}
 			}

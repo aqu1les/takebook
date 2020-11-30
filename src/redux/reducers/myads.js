@@ -1,3 +1,11 @@
+import _ from 'lodash';
+
+import {
+	LOAD_ADVERT,
+	LOAD_ADVERT_SUCCESS,
+	LOAD_ADVERT_ERROR,
+} from './../actions/advert';
+
 import {
 	LOAD_MY_ADVERTS,
 	LOAD_MY_ADVERTS_SUCCESS,
@@ -40,6 +48,52 @@ export default function myAdvertsReducer(state = INITIAL_STATE, action) {
 				loadingMore: false,
 				data: [...state.data, ...action.adverts.data],
 				nextPage: action.adverts.nextPage,
+			};
+		}
+		case LOAD_ADVERT: {
+			const updatedAdverts = state.data.map((book) => {
+				if (book.id === action.advertId) {
+					book.loading = true;
+				}
+
+				return book;
+			});
+
+			return {
+				...state,
+				data: _.uniqBy(updatedAdverts, 'id'),
+			};
+		}
+		case LOAD_ADVERT_SUCCESS: {
+			const updatedAdverts = state.data.map((book) => {
+				if (book.id === action.advert.id) {
+					action.advert.loading = false;
+					return {
+						...book,
+						...action.advert,
+					};
+				}
+				return book;
+			});
+
+			return {
+				...state,
+				data: _.uniqBy(updatedAdverts, 'id'),
+			};
+		}
+		case LOAD_ADVERT_ERROR: {
+			const updatedAdverts = state.data.map((book) => {
+				if (book.id === action.advertId) {
+					book.loading = false;
+					book.error = true;
+				}
+
+				return book;
+			});
+
+			return {
+				...state,
+				data: _.uniqBy(updatedAdverts, 'id'),
 			};
 		}
 		default:

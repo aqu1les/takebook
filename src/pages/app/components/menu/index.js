@@ -17,6 +17,7 @@ import DefaultProfile from '../../../../assets/icons/defaultProfile.svg';
 import Book from '../../../../assets/open-book.png';
 import { logOutAction } from '../../../../redux/actions/authentication';
 import { useTranslation } from 'react-i18next';
+import { RectButton } from 'react-native-gesture-handler';
 
 function SideBar(props) {
 	const { t } = useTranslation();
@@ -59,7 +60,7 @@ function SideBar(props) {
 
 	function Item({ title, icon, active, route }) {
 		return (
-			<TouchableOpacity
+			<RectButton
 				style={[Styles.ListItem, active ? Styles.ListItemActive : {}]}
 				onPress={(e) => navigateByRoute(route)}>
 				<Icon
@@ -68,13 +69,10 @@ function SideBar(props) {
 					color={active ? '#f06922' : '#000000'}
 				/>
 				<Text
-					style={[
-						Styles.ItemText,
-						active ? { fontWeight: 'bold' } : {},
-					]}>
+					style={[Styles.ItemText, active && { fontWeight: 'bold' }]}>
 					{title}
 				</Text>
-			</TouchableOpacity>
+			</RectButton>
 		);
 	}
 	function navigateByRoute(route) {

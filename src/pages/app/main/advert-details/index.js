@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -18,6 +18,9 @@ import { deleteAdvert } from '../../../../services/AdvertsService';
 import SuccessFeedback from '../../../core/success-feedback';
 import { createRoom } from './../../../../services/ChatService';
 import { onNewChat } from '../../../../redux/actions/chat';
+import BottomSheet from 'reanimated-bottom-sheet';
+import ApprovedInfo from './info/approved/index';
+import NotApprovedInfo from './info/not-approved/index';
 
 const AdvertDetails = ({ route }) => {
 	const dispatch = useDispatch();
@@ -29,12 +32,15 @@ const AdvertDetails = ({ route }) => {
 		(state) =>
 			state.adverts.data.find((ad) => ad.id === advertId) ||
 			state.myads.data.find((ad) => ad.id === advertId),
-		(prev, n) => {
-			return false;
-		},
 	);
 	const loggedUser = useSelector((state) => state.auth);
 	const chats = useSelector((state) => state.chats.chats);
+	const sheetRef = useRef(null);
+
+	const belongsToViewer = useMemo(() => loggedUser.id === advert.owner.id, [
+		advert.owner.id,
+		loggedUser.id,
+	]);
 
 	async function contactSeller() {
 		const room = chats.find((chat) => chat.user.id === advert.owner.id);
@@ -66,8 +72,8 @@ const AdvertDetails = ({ route }) => {
 	}
 
 	async function handleDelete() {
-		setShowSuccessModal(true);
 		await deleteAdvert(advertId);
+		setShowSuccessModal(true);
 	}
 
 	function handleModalHide() {
@@ -79,6 +85,12 @@ const AdvertDetails = ({ route }) => {
 		dispatch(handleLikeAction(advert.id));
 	}
 
+	function openUpdateForm() {
+		if (belongsToViewer && sheetRef.current) {
+			sheetRef.current.snapTo(3);
+		}
+	}
+
 	return (
 		<>
 			<View style={Styles.Page}>
@@ -88,12 +100,23 @@ const AdvertDetails = ({ route }) => {
 						height={'90%'}
 						style={Styles.BackgroundSvg}
 					/>
-					{loggedUser.id === advert.owner.id ? (
-						<RectButton
-							onPress={handleDelete}
-							style={Styles.IconButton}>
-							<Icon size={28} name="trash" color="#666666" />
-						</RectButton>
+					{belongsToViewer ? (
+						<View style={Styles.ActionButtonsContainer}>
+							<RectButton
+								onPress={handleDelete}
+								style={Styles.IconButton}>
+								<Icon
+									size={24}
+									name="trash-o"
+									color="#ff6868"
+								/>
+							</RectButton>
+							<RectButton
+								onPress={openUpdateForm}
+								style={[Styles.IconButton, { marginLeft: 3 }]}>
+								<Icon size={24} name="edit" color="#3877ff" />
+							</RectButton>
+						</View>
 					) : (
 						<LikeButton
 							liked={advert.viewer_liked}
@@ -121,7 +144,10 @@ const AdvertDetails = ({ route }) => {
 					</View>
 					<View style={Styles.Row}>
 						{advert.categories.map((cat, index) => (
-							<Chip key={cat.id} textStyle={Styles.Chip}>
+							<Chip
+								key={cat.id}
+								style={Styles.Chip}
+								textStyle={Styles.ChipText}>
 								{cat.name}
 							</Chip>
 						))}
@@ -233,6 +259,33 @@ const AdvertDetails = ({ route }) => {
 					<Text style={Styles.ButtonTextModal}>{t('back')}</Text>
 				</TouchableOpacity>
 			</SuccessFeedback>
+			{belongsToViewer && (
+				<BottomSheet
+					enabledInnerScrolling={true}
+					ref={sheetRef}
+					initialSnap={0}
+					snapPoints={[0, 250, 350, 500, '90%']}
+					borderRadius={10}
+					onCloseEnd={() => {}}
+					renderContent={() => (
+						<View style={Styles.BottomSheet}>
+							<View style={Styles.BottomSheetTracker} />
+							<View style={Styles.SheetHeaderContainer}>
+								<View style={[Styles.Row, Styles.SheetHeading]}>
+									<Text style={Styles.SheetHeadText}>
+										{t('advertDetails.aditionalInfo')}
+									</Text>
+								</View>
+								{[2, 4, 5].includes(advert.status_id) ? (
+									<ApprovedInfo advert={advert} />
+								) : (
+									<NotApprovedInfo advert={advert} />
+								)}
+							</View>
+						</View>
+					)}
+				/>
+			)}
 		</>
 	);
 };

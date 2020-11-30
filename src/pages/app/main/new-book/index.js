@@ -12,7 +12,7 @@ import SuccessFeedback from '../../../core/success-feedback';
 import { createFormData } from '../../../../services/FormDataService';
 import { useTranslation } from 'react-i18next';
 
-export default function NewBook(props) {
+function NewBook() {
 	const { t } = useTranslation();
 	const [cover, setCover] = useState(null);
 	const [cover2, setCover2] = useState(null);
@@ -326,3 +326,5 @@ export default function NewBook(props) {
 		</>
 	);
 }
+
+export default NewBook;

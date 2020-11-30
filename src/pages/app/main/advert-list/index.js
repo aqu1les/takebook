@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, {
+	useState,
+	useRef,
+	useEffect,
+	useMemo,
+	useCallback,
+} from 'react';
 import {
 	View,
 	Text,
@@ -11,6 +17,8 @@ import Styles from './style';
 import Advert from './advert';
 import { useTranslation } from 'react-i18next';
 import FilterService from '../../../../services/FilterService';
+import { RectButton } from 'react-native-gesture-handler';
+import AntDesginIcon from 'react-native-vector-icons/AntDesign';
 
 export default function AdvertList({
 	navigation,
@@ -24,6 +32,7 @@ export default function AdvertList({
 	const loadingMore = useSelector((state) => state.adverts.loadingMore);
 	const [filterTerm, setFilterTerm] = useState('');
 	const [filterCat, setFilterCat] = useState(null);
+	const isMounted = useRef(true);
 
 	const filteredAdverts = useMemo(() => {
 		if (filterCat === 'b239-8956' && !filterTerm) {
@@ -51,19 +60,26 @@ export default function AdvertList({
 	}, [filterTerm, filterCat, adverts]);
 
 	useEffect(() => {
-		let isMounted = true;
 		const unsub = FilterService.subscribe(({ category, searchTerm }) => {
-			if (isMounted) {
+			if (isMounted.current) {
 				setFilterTerm(searchTerm);
 				setFilterCat(category);
 			}
 		});
 
 		return () => {
-			isMounted = false;
+			isMounted.current = false;
 			unsub();
 		};
 	}, []);
+
+	const _isAtTheEnd = useCallback(
+		(nativeEvent) =>
+			nativeEvent.layoutMeasurement.height +
+				nativeEvent.contentOffset.y >=
+			nativeEvent.contentSize.height - 1,
+		[],
+	);
 
 	async function refreshAds() {
 		setRefreshing(true);
@@ -77,14 +93,6 @@ export default function AdvertList({
 		}
 	}
 
-	function _isAtTheEnd(nativeEvent) {
-		return (
-			nativeEvent.layoutMeasurement.height +
-				nativeEvent.contentOffset.y >=
-			nativeEvent.contentSize.height - 1
-		);
-	}
-
 	return (
 		<View style={Styles.Content}>
 			<Text style={Styles.H1}>{t('advertList.recent')}</Text>
@@ -96,9 +104,7 @@ export default function AdvertList({
 						renderItem={({ item }) => (
 							<Advert item={item} navigation={navigation} />
 						)}
-						keyExtractor={(item) => {
-							return `filtered-${item.id}`;
-						}}
+						keyExtractor={(item) => `filtered-${item.id}`}
 						onScroll={handleOnEndReached}
 						refreshControl={
 							<RefreshControl
@@ -112,7 +118,20 @@ export default function AdvertList({
 					{loadingMore ? <ActivityIndicator color="#38C2FF" /> : null}
 				</>
 			) : (
-				<Text>{t('advertList.noBooks')}</Text>
+				<>
+					<Text>{t('advertList.noBooks')}</Text>
+					<View style={Styles.EmptyContainer}>
+						<RectButton
+							style={Styles.ReloadButton}
+							onPress={refreshAds}>
+							<AntDesginIcon
+								name="reload1"
+								color="#FFF"
+								size={32}
+							/>
+						</RectButton>
+					</View>
+				</>
 			)}
 		</View>
 	);

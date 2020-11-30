@@ -4,6 +4,9 @@ import {
 	LOAD_NEXT_PAGE_ADVERTS,
 	LOAD_NEXT_PAGE_ADVERTS_SUCCESS,
 	ADD_ADVERT,
+	LOAD_ADVERT,
+	LOAD_ADVERT_SUCCESS,
+	LOAD_ADVERT_ERROR,
 } from '../actions/advert';
 import { HANDLE_LIKE } from '../actions/fav';
 import _ from 'lodash';
@@ -17,6 +20,53 @@ const INITIAL_STATE = {
 
 export default function advertsReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
+		case LOAD_ADVERT: {
+			const updatedAdverts = state.data.map((book) => {
+				if (book.id === action.advertId) {
+					book.loading = true;
+				}
+
+				return book;
+			});
+
+			return {
+				...state,
+				data: _.uniqBy(updatedAdverts, 'id'),
+			};
+		}
+		case LOAD_ADVERT_SUCCESS: {
+			const updatedAdverts = state.data.map((book) => {
+				if (book.id === action.advert.id) {
+					action.advert.loading = false;
+
+					return {
+						...book,
+						...action.advert,
+					};
+				}
+				return book;
+			});
+
+			return {
+				...state,
+				data: _.uniqBy(updatedAdverts, 'id'),
+			};
+		}
+		case LOAD_ADVERT_ERROR: {
+			const updatedAdverts = state.data.map((book) => {
+				if (book.id === action.advertId) {
+					book.loading = false;
+					book.error = true;
+				}
+
+				return book;
+			});
+
+			return {
+				...state,
+				data: _.uniqBy(updatedAdverts, 'id'),
+			};
+		}
 		case LOAD_ADVERTS: {
 			return {
 				...state,

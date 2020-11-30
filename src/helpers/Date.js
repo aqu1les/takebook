@@ -6,7 +6,7 @@ import * as RNLocalize from 'react-native-localize';
 
 const DEVICE_TZ = RNLocalize.getTimeZone();
 
-export const formatToLocale = (date, dateFormat = 'YYYY-mm-dd HH:mm:ss') => {
+export const formatToLocale = (date, dateFormat = 'YYYY-MM-DD HH:mm:ss') => {
 	return formatToTimeZone(new Date(date), dateFormat, {
 		timeZone: DEVICE_TZ,
 	});

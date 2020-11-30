@@ -24,21 +24,24 @@ export default function Loading() {
 	useEffect(() => {
 		async function checkUser() {
 			try {
-				const response = await getUser();
 				const token = await getToken();
+				if (!token) {
+					return dispatch(loadAuthErrorAction());
+				}
+				const response = await getUser();
 				if (response) {
 					if (response.status === 200) {
-						dispatch(
+						await dispatch(
 							setNotificationsAction(response.data.notifications),
 						);
-						dispatch(
+						await dispatch(
 							setUserAction({
 								...response.data,
 								token,
 							}),
 						);
-						dispatch(tokenValidated());
-						dispatch(loadFavoritesAction());
+						await dispatch(tokenValidated());
+						await dispatch(loadFavoritesAction());
 					} else {
 						dispatch(loadAuthErrorAction());
 					}

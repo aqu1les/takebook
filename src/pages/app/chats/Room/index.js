@@ -50,14 +50,31 @@ export default function Room({ navigation, route }) {
 		userMessage,
 		sendingMsg,
 	]);
+	const isMounted = useRef(true);
+	const timeout$ = useRef(null);
 
 	const loadMessages = useCallback(() => {
 		dispatch(loadMessagesAction(roomId));
 	}, [dispatch, roomId]);
 
 	useEffect(() => {
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
+
+	useEffect(() => {
 		loadMessages();
 	}, [loadMessages]);
+
+	useEffect(() => {
+		const timeout = timeout$.current;
+		return () => {
+			if (timeout) {
+				clearTimeout(timeout);
+			}
+		};
+	}, []);
 
 	useEffect(() => {
 		if (user) {
@@ -69,8 +86,11 @@ export default function Room({ navigation, route }) {
 
 	useEffect(() => {
 		function scrollToBottom() {
-			setTimeout(() => {
-				messagesList.current.scrollToEnd({ animated: true });
+			timeout$.current = setTimeout(() => {
+				if (isMounted.current) {
+					messagesList.current.scrollToEnd({ animated: true });
+					clearTimeout(timeout$.current);
+				}
 			}, 500);
 		}
 
@@ -80,18 +100,21 @@ export default function Room({ navigation, route }) {
 	}, [messages.length, messagesList]);
 
 	function handleSubmit() {
-		setSendingMsg(true);
-
 		if (!sendingMsg) {
+			setSendingMsg(true);
 			sendNewMessage(roomId, userMessage)
 				.then(() => {
-					setUserMessage('');
+					if (isMounted.current) {
+						setUserMessage('');
+					}
 				})
 				.catch(() => {
 					console.log('err');
 				})
 				.finally(() => {
-					setSendingMsg(false);
+					if (isMounted.current) {
+						setSendingMsg(false);
+					}
 				});
 		}
 	}

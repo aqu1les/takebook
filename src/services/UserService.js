@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ApiService from './ApiService';
 
 export function getUser() {
@@ -10,7 +10,9 @@ export async function getToken() {
 }
 
 export async function storeToken(token) {
-	await AsyncStorage.setItem('userToken:TB', token);
+	if (token) {
+		await AsyncStorage.setItem('userToken:TB', token);
+	}
 }
 
 export async function removeToken() {
@@ -36,8 +38,14 @@ export function registerUser(body) {
 	return ApiService.post('users', body);
 }
 
-export function registerUserDevice(token) {
-	return ApiService.post('/users/mobile-token', { token });
+export async function registerUserDevice(token) {
+	const userToken = await getToken();
+
+	if (userToken) {
+		return ApiService.post('/users/mobile-token', { token });
+	}
+
+	return null;
 }
 
 export async function storeLanguage(value) {
@@ -59,4 +67,10 @@ export function updateUserAvatar(formData, uploadProgress = null) {
 		config.onUploadProgress = uploadProgress;
 	}
 	return ApiService.post('/users/me/avatar', formData, config);
+}
+
+export function confirmBookPurchase(bookId, answer = true) {
+	return ApiService.put(`/users/me/sale-confirmation/${bookId}`, {
+		answer,
+	});
 }

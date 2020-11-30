@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo, useCallback } from 'react';
 import { TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,6 +26,9 @@ import {
 } from './../../../redux/actions/chat';
 import { addNotificationAction } from '../../../redux/actions/notification';
 import { loadCategoriesAction } from '../../../redux/actions/category';
+import SaleConfirmationModal from './sale-confirmation-modal/index';
+import { getUser } from './../../../services/UserService';
+import { setUserAction } from '../../../redux/actions/authentication';
 
 function Main(props) {
 	const dispatch = useDispatch();
@@ -35,6 +38,29 @@ function Main(props) {
 	const [showSecondModal, setShowSecondModal] = useState(false);
 	const user = useSelector((state) => state.auth);
 	const hasMore = useSelector((state) => state.adverts.nextPage);
+	const [isConfirmingSale, setIsConfirmingSale] = useState(false);
+
+	const loadUserInfo = useCallback(async () => {
+		try {
+			const response = await getUser();
+			dispatch(
+				setUserAction({
+					...response.data,
+				}),
+			);
+		} catch (error) {
+			console.log(error);
+		}
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (!user.sales_to_confirmed || user.sales_to_confirmed.length === 0) {
+			setIsConfirmingSale(false);
+			return;
+		} else {
+			setIsConfirmingSale(true);
+		}
+	}, [user.sales_to_confirmed]);
 
 	/* LOAD USER INFOS */
 	useEffect(() => {
@@ -45,6 +71,10 @@ function Main(props) {
 
 	/* SUBSCRIBE TO WS  */
 	useEffect(() => {
+		if (!user.id) {
+			return false;
+		}
+
 		const globalWS = 'all-clients';
 		const userWS = `userID${user.id}`;
 		const globalChannel = subscribeToChannel(globalWS);
@@ -71,7 +101,7 @@ function Main(props) {
 
 		registerAppWithFCM();
 
-		return function cleanup() {
+		return () => {
 			unsubscribeChannel(globalWS);
 			unsubscribeChannel(userWS);
 		};
@@ -100,6 +130,7 @@ function Main(props) {
 		dispatch(loadCategoriesAction());
 		dispatch(loadAdvertsAction());
 		dispatch(loadChatsAction());
+		loadUserInfo();
 	}
 
 	function handleEndReached() {
@@ -132,6 +163,14 @@ function Main(props) {
 						isVisible={showSecondModal}
 						handleHideModal={handleHideModal}
 						navigateToForm={navigateToForm}
+					/>
+					<SaleConfirmationModal
+						isVisible={isConfirmingSale}
+						onCloseModal={() => {
+							setIsConfirmingSale(false);
+							loadUserInfo();
+						}}
+						books={user.sales_to_confirmed}
 					/>
 				</>
 			) : (

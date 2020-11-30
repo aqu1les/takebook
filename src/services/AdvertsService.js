@@ -19,6 +19,10 @@ export function fetchAdverts() {
 	return promise;
 }
 
+export function getAdvert(advertId) {
+	return ApiService.get(`/books/${advertId}`);
+}
+
 export function fetchNextPage(page) {
 	const promise = new Promise((resolve, reject) => {
 		ApiService.get(`/books/approved?page=${page}`)
@@ -82,4 +86,13 @@ export function deleteAdvert(bookId) {
 
 export function createAdvert(body) {
 	return ApiService.post('books', body);
+}
+
+export function updateAdvert(bookId, data) {
+	return ApiService.put(`books/${bookId}`, data);
+}
+
+export function markAdvertAsSold(bookId, userId = null) {
+	const data = userId ? { user_id: userId } : {};
+	return ApiService.put(`books/${bookId}/owner/status`, data);
 }

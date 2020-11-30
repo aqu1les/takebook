@@ -8,6 +8,7 @@ export default {
 			bookmarks: 'Bookmarks',
 			myads: 'My books',
 			cancel: 'Cancel',
+			update: 'Update',
 		},
 
 		imagePicker: {
@@ -83,6 +84,7 @@ export default {
 		},
 
 		advertDetails: {
+			status: 'Status',
 			tabs: {
 				description: 'Description',
 				localization: 'Localization',
@@ -92,6 +94,60 @@ export default {
 				button: 'See Profile',
 				talk: 'Get in touch',
 			},
+			aditionalInfo: 'Aditional info',
+
+			pending: {
+				warning: "Once the book is approved, it can't be edited!",
+				reviewing: 'In review',
+				reviewHelp:
+					'Your book is under review, please wait for feedback from the Administrators team :)',
+			},
+
+			declined: {
+				declined: 'Declined',
+				infoTitle: 'Unfortunately your ad was declined...',
+				infoContent:
+					'There was probably some inconsistency in your ad, we suggest you check it again and create a new one so that we can review it again!',
+			},
+
+			approved: {
+				approved: 'Approved',
+			},
+
+			title: 'Title',
+			author: 'Author',
+			description: 'Description',
+			price: 'Price',
+
+			update: {
+				successFeedback: 'Updated book successfully!',
+				errorFeedback:
+					'Something went wrong editing yout book :( Try again later',
+			},
+
+			approvedSection: {
+				info: 'Your book was approved by our administrators',
+				help: 'You can press the button below to set your book as sold',
+				markAsSold: 'Mark as sold',
+			},
+
+			soldSection: {
+				congrats: 'Congratulations! You sold your book',
+				info: 'You set your book as sold on {{date}} at {{hours}}',
+			},
+		},
+
+		markAsSold: {
+			selectUserModal: {
+				searchUser: 'Search user',
+				emptyUserList:
+					"You haven't sent a message to any Takebook user",
+				actionButtonText: 'I sold to: {{username}}',
+				selectTheBuyer: 'Select the buyer',
+				secondaryButton: "I didn't sell it to anyone on Takebook",
+			},
+			waitingBuyerConfirmation:
+				'You marked your book as sold, but in order to complete the process the buyer must confirm that he made the purchase!',
 		},
 
 		categories: {
@@ -113,6 +169,14 @@ export default {
 				textplanation:
 					'You will need a photo of the cover and back cover. Use your best techniques as a photographer to make your ad more attractive: D',
 			},
+		},
+
+		saleConfirmationModal: {
+			title: 'Please, confirm if you purchased the following books',
+			owner: 'Owner',
+			bookTitle: 'Book title',
+			primaryAction: 'Yes, i did',
+			secondaryAction: "No, i didn't",
 		},
 
 		newBook: {
