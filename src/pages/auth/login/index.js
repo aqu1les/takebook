@@ -56,6 +56,17 @@ export default function Login(props) {
 	}, []);
 
 	useEffect(() => {
+		if (passwordInput.current) {
+			passwordInput.current.setNativeProps({
+				secureTextEntry: true,
+				style: {
+					fontFamily: 'Roboto',
+				},
+			});
+		}
+	}, [passwordInput]);
+
+	useEffect(() => {
 		async function getUserInfo() {
 			const storedEmail = await getUserEmail();
 			if (isMounted.current) {

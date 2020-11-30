@@ -26,7 +26,7 @@ export default function Loading() {
 			try {
 				const token = await getToken();
 				if (!token) {
-					return;
+					return dispatch(loadAuthErrorAction());
 				}
 				const response = await getUser();
 				if (response) {

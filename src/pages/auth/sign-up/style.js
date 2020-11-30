@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
 	Input: {
 		marginLeft: 5,
-		padding: 5,
+		padding: 6,
 		flexGrow: 100,
-		fontSize: 18,
+		fontSize: 15,
 		fontFamily: 'Roboto',
 	},
 	FormGroup: {
@@ -16,7 +16,7 @@ export default StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: '#EAEAEA',
 		height: 54,
-		padding: 5,
+		padding: 6,
 		paddingBottom: -6,
 		marginTop: 8,
 		marginBottom: 8,
@@ -112,9 +112,6 @@ export default StyleSheet.create({
 	FAEdit: {
 		position: 'absolute',
 		alignSelf: 'center',
-	},
-	PasswordField: {
-		paddingLeft: 14,
 	},
 	LocationButton: {
 		position: 'absolute',

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -40,6 +40,28 @@ export default function SignUp(props) {
 	const sheetRef = useRef(null);
 	const [isAddressFormOpen, setAddFormOpen] = useState(false);
 	const [addressInfo, setAddressInfo] = useState({});
+
+	useEffect(() => {
+		if (passwordField.current) {
+			passwordField.current.setNativeProps({
+				secureTextEntry: true,
+				style: {
+					fontFamily: 'Roboto',
+				},
+			});
+		}
+	}, [passwordField]);
+
+	useEffect(() => {
+		if (passwordConfirmationField.current) {
+			passwordConfirmationField.current.setNativeProps({
+				secureTextEntry: true,
+				style: {
+					fontFamily: 'Roboto',
+				},
+			});
+		}
+	}, [passwordConfirmationField]);
 
 	const avatarPreview = useMemo(() => (avatar ? avatar.path : null), [
 		avatar,
@@ -311,7 +333,6 @@ export default function SignUp(props) {
 					<TouchableOpacity
 						style={[
 							Styles.FormGroup,
-							Styles.PasswordField,
 							passwordConfError && Styles.InputError,
 						]}
 						onPress={() =>
