@@ -18,10 +18,10 @@ function SaleConfirmationModal({ isVisible, onCloseModal, books }) {
 	const isMounted = useRef(true);
 
 	useEffect(() => {
-		if (!booksToConfirm || booksToConfirm.length === 0) {
+		if (isVisible && (!booksToConfirm || booksToConfirm.length === 0)) {
 			onCloseModal();
 		}
-	}, [booksToConfirm, onCloseModal]);
+	}, [booksToConfirm, onCloseModal, isVisible]);
 
 	useEffect(() => {
 		return () => {

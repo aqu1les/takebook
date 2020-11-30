@@ -24,8 +24,11 @@ export default function Loading() {
 	useEffect(() => {
 		async function checkUser() {
 			try {
-				const response = await getUser();
 				const token = await getToken();
+				if (!token) {
+					return;
+				}
+				const response = await getUser();
 				if (response) {
 					if (response.status === 200) {
 						await dispatch(

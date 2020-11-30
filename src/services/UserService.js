@@ -10,7 +10,9 @@ export async function getToken() {
 }
 
 export async function storeToken(token) {
-	await AsyncStorage.setItem('userToken:TB', token);
+	if (token) {
+		await AsyncStorage.setItem('userToken:TB', token);
+	}
 }
 
 export async function removeToken() {
@@ -36,8 +38,14 @@ export function registerUser(body) {
 	return ApiService.post('users', body);
 }
 
-export function registerUserDevice(token) {
-	return ApiService.post('/users/mobile-token', { token });
+export async function registerUserDevice(token) {
+	const userToken = await getToken();
+
+	if (userToken) {
+		return ApiService.post('/users/mobile-token', { token });
+	}
+
+	return null;
 }
 
 export async function storeLanguage(value) {

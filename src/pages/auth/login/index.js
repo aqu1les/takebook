@@ -18,11 +18,13 @@ import {
 	setUserEmail,
 	authenticateUser,
 	storeToken,
+	getUser,
 } from '../../../services/UserService';
 import {
 	loadAuthErrorAction,
 	loadAuthAction,
 	setUserAction,
+	tokenValidated,
 } from '../../../redux/actions/authentication';
 import { loadAdvertsAction } from '../../../redux/actions/advert';
 import { loadCategoriesAction } from '../../../redux/actions/category';
@@ -149,26 +151,41 @@ export default function Login(props) {
 					break;
 				default: {
 					await storeToken(response.data.token);
-					await dispatch(
-						setUserAction({
-							...response.data.user,
-							token: response.data.token,
-						}),
-					);
 
-					StatusBar.setHidden(false);
-					StatusBar.setBarStyle('light-content');
+					const userInfo = await getUser();
 
-					ToastAndroid.show(t('global.welcome'), ToastAndroid.SHORT);
+					if (userInfo && userInfo.status === 200) {
+						await dispatch(
+							setNotificationsAction(userInfo.data.notifications),
+						);
+						await dispatch(
+							setUserAction({
+								...userInfo.data,
+								token: response.data.token,
+							}),
+						);
+						await dispatch(tokenValidated());
+						await dispatch(loadFavoritesAction());
 
-					await dispatch(loadAdvertsAction());
-					await dispatch(
-						setNotificationsAction(
-							response.data.user.notifications,
-						),
-					);
-					await dispatch(loadCategoriesAction());
-					dispatch(loadFavoritesAction());
+						StatusBar.setHidden(false);
+						StatusBar.setBarStyle('light-content');
+
+						ToastAndroid.show(
+							t('global.welcome'),
+							ToastAndroid.SHORT,
+						);
+
+						await dispatch(loadAdvertsAction());
+						await dispatch(
+							setNotificationsAction(
+								response.data.user.notifications,
+							),
+						);
+						await dispatch(loadCategoriesAction());
+						dispatch(loadFavoritesAction());
+					} else {
+						dispatch(loadAuthErrorAction());
+					}
 					break;
 				}
 			}
