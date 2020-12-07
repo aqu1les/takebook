@@ -279,6 +279,17 @@ export default {
 			updatePic: 'Editar foto',
 			deletePic: 'Apagar foto',
 			selectNewPicture: 'Selecionar nova foto',
+
+			deleteAccountModal: {
+				content: 'Tem certeza de que deseja deletar sua conta?',
+			},
+		},
+
+		confirmationModal: {
+			title: 'Tem certeza?',
+			content: 'Tem certeza de que deseja executar a ação?',
+			reject: 'Não',
+			confirm: 'Sim',
 		},
 	},
 };

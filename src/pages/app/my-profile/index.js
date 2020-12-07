@@ -24,6 +24,7 @@ import ImagePicker from 'react-native-image-picker';
 import { createFormData } from './../../../services/FormDataService';
 import BottomSheet from 'reanimated-bottom-sheet';
 import AddressForm from './../../auth/sign-up/address-form/index';
+import ConfirmationModal from '../../core/confirmation-modal';
 
 function MyProfile() {
 	const { t, i18n } = useTranslation();
@@ -35,10 +36,10 @@ function MyProfile() {
 	const [isUpdatingAvatar, setIsUpdatingAvatar] = useState(false);
 	const sheetRef = useRef(null);
 	const [isAddressFormOpen, setAddFormOpen] = useState(false);
+	const [isConfirmingDel, setIsConfirmingDel] = useState(false);
 
 	function deleteAccount() {
-		console.log('tem ctz?');
-		console.log('delete account');
+		setIsConfirmingDel(true);
 	}
 
 	function onLanguageUpdate(value) {
@@ -192,6 +193,10 @@ function MyProfile() {
 	function closeAddressForm() {
 		sheetRef.current.snapTo(0);
 		setAddFormOpen(false);
+	}
+
+	function confirmAccountDeletion() {
+		setIsConfirmingDel(false);
 	}
 
 	return (
@@ -362,6 +367,7 @@ function MyProfile() {
 				borderRadius={10}
 				onCloseEnd={() => {
 					setAddFormOpen(false);
+					sheetRef.current.snapTo(0);
 				}}
 				renderContent={() => (
 					<View style={Styles.BottomSheet}>
@@ -385,6 +391,7 @@ function MyProfile() {
 									currentLongitude={user.address.longitude}
 									onDismiss={() => {
 										setAddFormOpen(false);
+										sheetRef.current.snapTo(0);
 									}}
 									onSubmit={updateUserAddress}
 								/>
@@ -392,6 +399,14 @@ function MyProfile() {
 						)}
 					</View>
 				)}
+			/>
+
+			<ConfirmationModal
+				isVisible={isConfirmingDel}
+				handleModalHide={() => setIsConfirmingDel(false)}
+				confirmationText={t('profile.deleteAccountModal.content')}
+				onReject={() => setIsConfirmingDel(false)}
+				onConfirm={confirmAccountDeletion}
 			/>
 		</>
 	);

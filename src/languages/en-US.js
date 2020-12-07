@@ -272,6 +272,17 @@ export default {
 			updatePic: 'Edit picture',
 			deletePic: 'Delete picture',
 			selectNewPicture: 'Select new picture',
+
+			deleteAccountModal: {
+				content: 'Are you sure you want to delete your account?',
+			},
+		},
+
+		confirmationModal: {
+			title: 'Are you sure?',
+			content: 'Are you sure you want to perform this action?',
+			reject: 'No',
+			confirm: 'Yes',
 		},
 	},
 };
