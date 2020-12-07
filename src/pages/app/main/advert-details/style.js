@@ -25,6 +25,11 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 		borderRadius: 100,
 	},
+	LikeButton: {
+		position: 'absolute',
+		right: 0,
+		top: 5,
+	},
 	ImgCoverContainer: {
 		width: '45%',
 		height: '80%',
