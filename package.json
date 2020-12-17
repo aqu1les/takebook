@@ -12,7 +12,8 @@
 		"start": "react-native start",
 		"test": "jest",
 		"lint": "eslint src",
-		"build": "npx react-native run-android --variant=release"
+		"build": "npx react-native run-android --variant=release",
+		"update-version": "npx react-native-version --never-amend"
 	},
 	"husky": {
 		"hooks": {
