@@ -361,7 +361,7 @@ function MyProfile() {
 				snapPoints={[0, 250, 350, 500]}
 				borderRadius={10}
 				onCloseEnd={() => {
-					setAddFormOpen(false);
+					closeAddressForm();
 				}}
 				renderContent={() => (
 					<View style={Styles.BottomSheet}>
@@ -384,7 +384,7 @@ function MyProfile() {
 									currentLatitude={user.address.latitude}
 									currentLongitude={user.address.longitude}
 									onDismiss={() => {
-										setAddFormOpen(false);
+										closeAddressForm();
 									}}
 									onSubmit={updateUserAddress}
 								/>
